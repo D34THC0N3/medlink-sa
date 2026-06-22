@@ -1,0 +1,781 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-display);
+  --font-mono: var(--font-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-medical: var(--medical);
+  --color-medical-foreground: var(--medical-foreground);
+  --color-platinum: var(--platinum);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 10px);
+}
+
+/* ===================== LIGHT MODE ===================== */
+:root {
+  --radius: 0.875rem;
+
+  /* Page surfaces */
+  --background: #f3f5f9;
+  --background-elev: #ffffff;
+  --foreground: #0b1220;
+  --foreground-muted: #475569;
+  --foreground-subtle: #94a3b8;
+
+  /* Cards */
+  --card: #ffffff;
+  --card-foreground: #0b1220;
+  --popover: #ffffff;
+  --popover-foreground: #0b1220;
+
+  /* Brand — Medical Blue (explicitly requested) */
+  --primary: #2563eb;
+  --primary-foreground: #ffffff;
+  --medical: #2563eb;
+  --medical-foreground: #ffffff;
+  --platinum: #94a3b8;
+
+  --secondary: #eef2f7;
+  --secondary-foreground: #0b1220;
+  --muted: #eef2f7;
+  --muted-foreground: #64748b;
+  --accent: #e0e7ff;
+  --accent-foreground: #1e293b;
+  --destructive: #e11d48;
+
+  --border: #e6e9ef;
+  --input: #e6e9ef;
+  --ring: #2563eb;
+
+  --chart-1: #2563eb;
+  --chart-2: #06b6d4;
+  --chart-3: #8b5cf6;
+  --chart-4: #f59e0b;
+  --chart-5: #10b981;
+
+  /* Sidebar */
+  --sidebar: #ffffff;
+  --sidebar-foreground: #0b1220;
+  --sidebar-primary: #2563eb;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #eef2f7;
+  --sidebar-accent-foreground: #0b1220;
+  --sidebar-border: #e6e9ef;
+  --sidebar-ring: #2563eb;
+
+  /* Glass tokens */
+  --glass-bg: rgba(255, 255, 255, 0.65);
+  --glass-border: rgba(15, 23, 42, 0.06);
+  --glass-shadow: 0 8px 32px rgba(15, 23, 42, 0.08);
+  --glass-blur: 20px;
+
+  --glass-strong-bg: rgba(255, 255, 255, 0.72);
+  --glass-strong-border: rgba(15, 23, 42, 0.07);
+  --glass-strong-shadow: 0 16px 48px rgba(15, 23, 42, 0.12);
+
+  /* Ambient glow */
+  --glow-1: rgba(37, 99, 235, 0.18);
+  --glow-2: rgba(6, 182, 212, 0.14);
+
+  /* Grain / noise opacity */
+  --grain-opacity: 0.035;
+}
+
+/* ===================== DARK MODE ===================== */
+.dark {
+  --background: #05070d;
+  --background-elev: #0a0e18;
+  --foreground: #f1f5f9;
+  --foreground-muted: #94a3b8;
+  --foreground-subtle: #64748b;
+
+  --card: #0b1020;
+  --card-foreground: #f1f5f9;
+  --popover: #0b1020;
+  --popover-foreground: #f1f5f9;
+
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
+  --medical: #3b82f6;
+  --medical-foreground: #ffffff;
+  --platinum: #e2e8f0;
+
+  --secondary: #121829;
+  --secondary-foreground: #f1f5f9;
+  --muted: #121829;
+  --muted-foreground: #94a3b8;
+  --accent: #1e293b;
+  --accent-foreground: #f1f5f9;
+  --destructive: #fb7185;
+
+  --border: rgba(255, 255, 255, 0.08);
+  --input: rgba(255, 255, 255, 0.1);
+  --ring: #3b82f6;
+
+  --chart-1: #3b82f6;
+  --chart-2: #22d3ee;
+  --chart-3: #a78bfa;
+  --chart-4: #fbbf24;
+  --chart-5: #34d399;
+
+  --sidebar: #0a0e18;
+  --sidebar-foreground: #f1f5f9;
+  --sidebar-primary: #3b82f6;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #121829;
+  --sidebar-accent-foreground: #f1f5f9;
+  --sidebar-border: rgba(255, 255, 255, 0.08);
+  --sidebar-ring: #3b82f6;
+
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --glass-blur: 20px;
+
+  --glass-strong-bg: rgba(15, 23, 42, 0.55);
+  --glass-strong-border: rgba(255, 255, 255, 0.1);
+  --glass-strong-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+
+  --glow-1: rgba(59, 130, 246, 0.22);
+  --glow-2: rgba(34, 211, 238, 0.16);
+
+  --grain-opacity: 0.05;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11", "ss01";
+    overflow-x: hidden;
+  }
+
+  /* Selection */
+  ::selection {
+    background: color-mix(in oklab, var(--medical) 30%, transparent);
+    color: var(--foreground);
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: color-mix(in oklab, var(--muted-foreground) 35%, transparent);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in oklab, var(--muted-foreground) 55%, transparent);
+    background-clip: padding-box;
+  }
+
+  /* Hide native cursor on desktop where custom cursor is active */
+  @media (hover: hover) and (pointer: fine) {
+    body.custom-cursor-active,
+    body.custom-cursor-active * {
+      cursor: none !important;
+    }
+  }
+}
+
+/* ===================== GLASSMORPHISM ===================== */
+@layer components {
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+  }
+
+  .glass-darker {
+    background: color-mix(in oklab, var(--glass-bg) 60%, var(--background));
+    backdrop-filter: blur(calc(var(--glass-blur) + 8px)) saturate(160%);
+    -webkit-backdrop-filter: blur(calc(var(--glass-blur) + 8px)) saturate(160%);
+    border: 1px solid var(--glass-border);
+  }
+
+  /* Premium strong glass — for dashboards, modals, sidebar, topbar */
+  .glass-strong {
+    background: var(--glass-strong-bg);
+    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    border: 1px solid var(--glass-strong-border);
+    box-shadow: var(--glass-strong-shadow);
+  }
+
+  .glass-panel {
+    background: var(--glass-strong-bg);
+    backdrop-filter: blur(24px) saturate(170%);
+    -webkit-backdrop-filter: blur(24px) saturate(170%);
+    border: 1px solid var(--glass-strong-border);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--glass-strong-shadow);
+  }
+
+  /* Sidebar glass — slightly darker, frosted */
+  .glass-sidebar {
+    background: color-mix(in oklab, var(--glass-strong-bg) 92%, var(--background));
+    backdrop-filter: blur(32px) saturate(160%);
+    -webkit-backdrop-filter: blur(32px) saturate(160%);
+    border-right: 1px solid var(--glass-strong-border);
+  }
+
+  .glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--glass-shadow);
+  }
+
+  /* Premium iOS-style frosted panel — heavier blur, inset top highlight */
+  .glass-iphone {
+    background: var(--glass-strong-bg);
+    backdrop-filter: blur(40px) saturate(180%);
+    -webkit-backdrop-filter: blur(40px) saturate(180%);
+    border: 1px solid var(--glass-strong-border);
+    border-radius: var(--radius-2xl);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.18) inset,
+      var(--glass-strong-shadow);
+  }
+
+  .nav-glass {
+    background: color-mix(in oklab, var(--glass-bg) 85%, transparent);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  }
+
+  /* Buttons */
+  .btn-primary {
+    background: linear-gradient(135deg, var(--medical), color-mix(in oklab, var(--medical) 70%, #06b6d4));
+    color: var(--medical-foreground);
+    border: 1px solid color-mix(in oklab, var(--medical) 60%, transparent);
+    box-shadow: 0 6px 24px color-mix(in oklab, var(--medical) 35%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s,
+      filter 0.25s;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px color-mix(in oklab, var(--medical) 45%, transparent),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    filter: brightness(1.05);
+  }
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+
+  .btn-secondary {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px) saturate(160%);
+    -webkit-backdrop-filter: blur(12px) saturate(160%);
+    color: var(--foreground);
+    border: 1px solid var(--glass-border);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background 0.25s,
+      border-color 0.25s;
+  }
+  .btn-secondary:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in oklab, var(--medical) 40%, var(--glass-border));
+  }
+
+  .btn-ghost {
+    color: var(--foreground-muted);
+    transition: color 0.2s, background 0.2s;
+  }
+  .btn-ghost:hover {
+    color: var(--foreground);
+    background: color-mix(in oklab, var(--muted-foreground) 12%, transparent);
+  }
+
+  .btn-outline {
+    border: 1px solid var(--border);
+    color: var(--foreground);
+    background: transparent;
+    transition: transform 0.25s, border-color 0.25s, background 0.25s;
+  }
+  .btn-outline:hover {
+    transform: translateY(-2px);
+    border-color: var(--medical);
+    background: color-mix(in oklab, var(--medical) 8%, transparent);
+  }
+
+  /* Cards */
+  .card-premium {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-2xl);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset,
+      0 8px 30px rgba(2, 6, 23, 0.06);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s,
+      border-color 0.4s;
+  }
+  .card-premium:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in oklab, var(--medical) 35%, var(--border));
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06) inset,
+      0 20px 50px rgba(2, 6, 23, 0.12);
+  }
+
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: 1.25rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s;
+  }
+  .stat-card:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in oklab, var(--medical) 30%, var(--border));
+  }
+
+  /* Inputs */
+  .input-premium {
+    background: color-mix(in oklab, var(--background) 70%, transparent);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--foreground);
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  }
+  .input-premium:focus {
+    outline: none;
+    border-color: var(--medical);
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--medical) 18%, transparent);
+    background: var(--card);
+  }
+  .input-premium::placeholder {
+    color: var(--foreground-subtle);
+  }
+
+  /* Emergency FAB — red/white plus, calls ambulance */
+  .emergency-fab {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: #fff;
+    border: 2px solid rgba(255, 255, 255, 0.85);
+    box-shadow: 0 8px 30px rgba(239, 68, 68, 0.5),
+      0 0 0 0 rgba(239, 68, 68, 0.5);
+    animation: emergency-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    transition: transform 0.2s;
+  }
+  .emergency-fab:hover {
+    transform: scale(1.08);
+  }
+
+  /* Sidebar nav item */
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 0.75rem;
+    border-radius: var(--radius);
+    color: var(--foreground-muted);
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .nav-item:hover {
+    color: var(--foreground);
+    background: color-mix(in oklab, var(--medical) 10%, transparent);
+  }
+  .nav-item.active {
+    color: var(--medical);
+    background: color-mix(in oklab, var(--medical) 14%, transparent);
+  }
+  .nav-item.active::before {
+    content: "";
+    position: absolute;
+    left: -1px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 60%;
+    background: var(--medical);
+    border-radius: 999px;
+  }
+
+  /* Status badges */
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    display: inline-block;
+    position: relative;
+  }
+  .status-dot::after {
+    content: "";
+    position: absolute;
+    inset: -3px;
+    border-radius: 999px;
+    background: inherit;
+    opacity: 0.4;
+    animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  /* Gradient text */
+  .text-gradient {
+    background: linear-gradient(
+      120deg,
+      var(--foreground) 0%,
+      color-mix(in oklab, var(--medical) 80%, var(--foreground)) 60%,
+      color-mix(in oklab, #06b6d4 70%, var(--foreground)) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  .text-gradient-medical {
+    background: linear-gradient(120deg, var(--medical), #06b6d4);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  /* Hairline divider */
+  .hairline {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--border) 20%,
+      var(--border) 80%,
+      transparent
+    );
+  }
+
+  /* Chip */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: var(--foreground-muted);
+  }
+
+  /* Custom cursor elements */
+  .cursor-dot,
+  .cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    border-radius: 50%;
+    mix-blend-mode: difference;
+  }
+  .cursor-dot {
+    width: 6px;
+    height: 6px;
+    background: #fff;
+    transition: transform 0.08s linear, opacity 0.2s;
+  }
+  .cursor-ring {
+    width: 38px;
+    height: 38px;
+    border: 1.5px solid rgba(255, 255, 255, 0.6);
+    transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), width 0.2s,
+      height 0.2s, border-color 0.2s, opacity 0.2s;
+  }
+  .cursor-ring.hovering {
+    width: 56px;
+    height: 56px;
+    border-color: var(--medical);
+    background: color-mix(in oklab, var(--medical) 12%, transparent);
+  }
+
+  /* Splash ripple */
+  .ripple {
+    position: fixed;
+    pointer-events: none;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      color-mix(in oklab, var(--medical) 50%, transparent),
+      transparent 70%
+    );
+    transform: translate(-50%, -50%) scale(0);
+    animation: ripple-out 0.7s ease-out forwards;
+    z-index: 9998;
+  }
+
+  /* Shimmer skeleton */
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+    background: var(--muted);
+  }
+  .shimmer::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in oklab, var(--foreground) 8%, transparent),
+      transparent
+    );
+    animation: shimmer-slide 1.6s infinite;
+  }
+
+  /* Glow orb background */
+  .glow-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+    opacity: 0.6;
+  }
+}
+
+/* ===================== KEYFRAMES ===================== */
+@layer utilities {
+  @keyframes pulse-ring {
+    0% {
+      transform: scale(1);
+      opacity: 0.4;
+    }
+    70% {
+      transform: scale(2.2);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(2.2);
+      opacity: 0;
+    }
+  }
+
+  @keyframes shimmer-slide {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  @keyframes ripple-out {
+    to {
+      transform: translate(-50%, -50%) scale(12);
+      opacity: 0;
+    }
+  }
+
+  @keyframes float-soft {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-12px);
+    }
+  }
+  .animate-float-soft {
+    animation: float-soft 6s ease-in-out infinite;
+  }
+
+  @keyframes emergency-pulse {
+    0% {
+      box-shadow: 0 8px 30px rgba(239, 68, 68, 0.5),
+        0 0 0 0 rgba(239, 68, 68, 0.6);
+    }
+    70% {
+      box-shadow: 0 8px 30px rgba(239, 68, 68, 0.5),
+        0 0 0 22px rgba(239, 68, 68, 0);
+    }
+    100% {
+      box-shadow: 0 8px 30px rgba(239, 68, 68, 0.5),
+        0 0 0 0 rgba(239, 68, 68, 0);
+    }
+  }
+
+  @keyframes float-slow {
+    0%,
+    100% {
+      transform: translateY(0) translateX(0);
+    }
+    33% {
+      transform: translateY(-18px) translateX(10px);
+    }
+    66% {
+      transform: translateY(10px) translateX(-12px);
+    }
+  }
+  .animate-float-slow {
+    animation: float-slow 14s ease-in-out infinite;
+  }
+
+  @keyframes heartbeat {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    15% {
+      transform: scale(1.08);
+    }
+    30% {
+      transform: scale(1);
+    }
+    45% {
+      transform: scale(1.05);
+    }
+    60% {
+      transform: scale(1);
+    }
+  }
+  .animate-heartbeat {
+    animation: heartbeat 1.4s ease-in-out infinite;
+  }
+
+  @keyframes spin-slow {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  .animate-spin-slow {
+    animation: spin-slow 24s linear infinite;
+  }
+
+  @keyframes drift-grid {
+    to {
+      background-position: 60px 60px;
+    }
+  }
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  .animate-marquee {
+    animation: marquee 38s linear infinite;
+  }
+
+  /* Reveal on scroll (fallback if JS fails) */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .mask-fade-b {
+    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  }
+
+  .bg-grid {
+    background-image: linear-gradient(
+        to right,
+        var(--border) 1px,
+        transparent 1px
+      ),
+      linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .bg-dots {
+    background-image: radial-gradient(
+      var(--border) 1px,
+      transparent 1px
+    );
+    background-size: 22px 22px;
+  }
+
+  /* perspective helpers */
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  body.custom-cursor-active,
+  body.custom-cursor-active * {
+    cursor: auto !important;
+  }
+  .cursor-dot,
+  .cursor-ring {
+    display: none !important;
+  }
+}
