@@ -2,6 +2,7 @@ import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { findMockUserByEmail, type MockUser } from "@/lib/mock-users";
+import type { UserRole } from "@/lib/auth-context";
 
 /**
  * Auth config that works with or without a database.
@@ -69,14 +70,14 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        token.role = (user as unknown as { role: string }).role;
+        token.role = (user as unknown as { role: UserRole }).role;
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
         (session.user as { id: string }).id = token.id as string;
-        (session.user as { role: string }).role = token.role as string;
+        (session.user as { role: UserRole }).role = token.role as UserRole;
       }
       return session;
     },

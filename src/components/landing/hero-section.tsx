@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
-import { motion, useScroll, useTransform, type Variants } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowDown, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useAuth, ROLE_DASHBOARDS } from "@/lib/auth-context";
@@ -16,7 +16,7 @@ const HeartModel = dynamic(() => import("@/components/three/heart-model"), {
 
 const ease = [0.16, 1, 0.3, 1] as [number, number, number, number];
 
-const wordVariants: Variants = {
+const wordVariants = {
   hidden: { yPercent: 120, opacity: 0, filter: "blur(10px)" },
   visible: (i: number) => ({
     yPercent: 0,
@@ -26,7 +26,7 @@ const wordVariants: Variants = {
   }),
 };
 
-const fadeVariants: Variants = {
+const fadeVariants = {
   hidden: { y: 24, opacity: 0 },
   visible: (i: number) => ({
     y: 0,
