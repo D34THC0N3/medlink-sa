@@ -1,24 +1,30 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import dynamic from "next/dynamic";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowDown, Sparkles } from "lucide-react";
 import Link from "next/link";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useAuth, ROLE_DASHBOARDS } from "@/lib/auth-context";
 import { useLang } from "@/lib/lang-context";
 
-const HeartModel = dynamic(() => import("@/components/three/heart-model"), {
-  ssr: false,
-});
+const wordVariants = {
+  hidden: { yPercent: 120, opacity: 0, filter: "blur(10px)" },
+  visible: (i: number) => ({
+    yPercent: 0,
+    opacity: 1,
+    filter: "blur(0px)",
+    transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.5 + i * 0.1 },
+  }),
+};
 
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
-
-const EASE = [0.16, 1, 0.3, 1] as const;
+const fadeVariants = {
+  hidden: { y: 24, opacity: 0 },
+  visible: (i: number) => ({
+    y: 0,
+    opacity: 1,
+    transition: { duration: 1, ease: [0.16, 1, 0.3, 1], delay: 1.1 + i * 0.15 },
+  }),
+};
 
 export default function HeroSection() {
   const ref = useRef<HTMLDivElement | null>(null);
@@ -42,33 +48,9 @@ export default function HeroSection() {
     setMounted(true);
   }, []);
 
-  // GSAP cinematic intro
+  const [reduceMotion, setReduceMotion] = useState(false);
   useEffect(() => {
-    if (!sectionRef.current) return;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) return;
-
-    const ctx = gsap.context(() => {
-      gsap.from(".hero-word", {
-        yPercent: 120,
-        opacity: 0,
-        filter: "blur(10px)",
-        duration: 1.2,
-        ease: "expo.out",
-        stagger: 0.1,
-        delay: 0.5,
-      });
-      gsap.from(".hero-fade", {
-        y: 24,
-        opacity: 0,
-        duration: 1,
-        ease: "power3.out",
-        stagger: 0.15,
-        delay: 1.1,
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
+    setReduceMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
   }, []);
 
   // Scroll transforms — minimal, clean
@@ -91,12 +73,7 @@ export default function HeroSection() {
           }}
         />
 
-        {/* === 3D heart — CENTER STAGE, the main focus === */}
-        <div className="absolute inset-0 z-10">
-          <HeartModel scrollProgress={progress} baseX={0.8} />
-        </div>
-
-        {/* === Minimal text overlay — bottom-left, doesn't cover the heart === */}
+        {/* === Minimal text overlay — bottom-left === */}
         <motion.div
           style={{ opacity: textOpacity, y: textY }}
           className="pointer-events-none absolute inset-0 z-20 flex items-end justify-start px-6 pb-24 sm:px-10 sm:pb-16 lg:px-16"
@@ -104,10 +81,11 @@ export default function HeroSection() {
           <div className="max-w-lg">
             {/* Kicker */}
             <motion.span
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.3 }}
-              className="hero-fade chip pointer-events-auto mb-4"
+              custom={0}
+              initial={reduceMotion ? "visible" : "hidden"}
+              animate="visible"
+              variants={fadeVariants}
+              className="chip pointer-events-auto mb-4"
             >
               <span className="status-dot bg-emerald-500" />
               {t("hero.kicker")}
@@ -119,33 +97,39 @@ export default function HeroSection() {
             >
               {titleWords.map((word, wi) => (
                 <span key={wi} className="block overflow-hidden">
-                  <span
-                    className={`hero-word inline-block ${
+                  <motion.span
+                    custom={wi}
+                    initial={reduceMotion ? "visible" : "hidden"}
+                    animate="visible"
+                    variants={wordVariants}
+                    className={`inline-block ${
                       wi === 1 ? "text-gradient-medical" : "text-foreground"
                     }`}
                   >
                     {word}
-                  </span>
+                  </motion.span>
                 </span>
               ))}
             </motion.h1>
 
             {/* Subheading */}
             <motion.p
-              initial={{ y: 12 }}
-              animate={{ y: 0 }}
-              transition={{ duration: 0.7, delay: 0.8 }}
-              className="hero-fade mt-3 max-w-md text-xs leading-relaxed text-muted-foreground sm:text-sm lg:text-base"
+              custom={1}
+              initial={reduceMotion ? "visible" : "hidden"}
+              animate="visible"
+              variants={fadeVariants}
+              className="mt-3 max-w-md text-xs leading-relaxed text-muted-foreground sm:text-sm lg:text-base"
             >
               {t("hero.sub")}
             </motion.p>
 
             {/* CTA — minimal */}
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 1.3 }}
-              className="hero-fade pointer-events-auto mt-5"
+              custom={2}
+              initial={reduceMotion ? "visible" : "hidden"}
+              animate="visible"
+              variants={fadeVariants}
+              className="pointer-events-auto mt-5"
             >
               {mounted && user ? (
                 <Link href={ROLE_DASHBOARDS[user.role]} className="btn-primary inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-xs font-semibold sm:px-6 sm:py-3 sm:text-sm">
@@ -168,7 +152,7 @@ export default function HeroSection() {
         {/* === Scroll cue — bottom-center, minimal === */}
         <motion.div
           style={{ opacity: hintOpacity }}
-          className="hero-fade absolute inset-x-0 bottom-6 z-30 flex flex-col items-center gap-2"
+          className="absolute inset-x-0 bottom-6 z-30 flex flex-col items-center gap-2"
         >
           <motion.div
             initial={{ opacity: 0 }}
