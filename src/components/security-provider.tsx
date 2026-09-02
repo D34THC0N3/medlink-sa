@@ -3,6 +3,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ShieldAlert } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { initSecurityLog, logSecurityEvent } from "@/lib/security";
 
 /**
@@ -109,16 +110,23 @@ export function SecurityProvider({ children }: { children: ReactNode }) {
                 For your security, MedLink SA cannot be loaded inside a frame on
                 another site. Please open it directly in a new tab.
               </p>
-              <a
-                href={
-                  typeof window !== "undefined" ? window.location.href : "/"
-                }
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-primary mt-6 inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold"
+              <Button
+                variant="default"
+                asChild
+                className="mt-6 inline-flex items-center gap-2 rounded-xl px-5 py-2.5 font-semibold"
               >
-                Open MedLink SA
-              </a>
+                <a
+                  href={
+                    typeof window !== "undefined"
+                      ? window.location.href
+                      : "/"
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Open MedLink SA
+                </a>
+              </Button>
             </div>
           </motion.div>
         )}

@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import { useAuth, ROLE_LABELS, type UserRole } from "@/lib/auth-context";
 import { useLang, LANGUAGES, type LangCode } from "@/lib/lang-context";
 
@@ -229,16 +230,18 @@ export default function DashboardLayout({
                 {user.email}
               </div>
             </div>
-            <button
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={() => {
                 signOut();
                 router.push("/");
               }}
-              className="btn-ghost grid h-7 w-7 place-items-center rounded-md"
+              className="h-7 w-7 rounded-md"
               aria-label="Sign out"
             >
               <LogOut className="h-3.5 w-3.5" />
-            </button>
+            </Button>
           </div>
         </div>
       </aside>
@@ -270,13 +273,15 @@ export default function DashboardLayout({
                     MedLink<span className="text-medical"> SA</span>
                   </span>
                 </Link>
-                <button
+                <Button
+                  variant="ghost"
+                  size="icon"
                   onClick={() => setMobileNav(false)}
-                  className="btn-ghost grid h-8 w-8 place-items-center rounded-md"
+                  className="h-8 w-8 rounded-md"
                   aria-label="Close menu"
                 >
                   <X className="h-4 w-4" />
-                </button>
+                </Button>
               </div>
               <nav className="flex-1 space-y-0.5 overflow-y-auto p-3">
                 {items.map((item) => (
@@ -320,13 +325,15 @@ export default function DashboardLayout({
       <div className="lg:pl-64">
         {/* Topbar */}
         <header className="glass-strong sticky top-0 z-30 flex h-16 items-center gap-3 border-b border-border/50 px-4 sm:px-6">
-          <button
+          <Button
+            variant="ghost"
+            size="icon"
             onClick={() => setMobileNav(true)}
-            className="btn-ghost grid h-9 w-9 place-items-center rounded-lg lg:hidden"
+            className="rounded-lg lg:hidden"
             aria-label="Open menu"
           >
             <Menu className="h-4 w-4" />
-          </button>
+          </Button>
 
           <button
             onClick={() => setCmdOpen(true)}
@@ -349,15 +356,16 @@ export default function DashboardLayout({
             </Link>
             {/* Language switcher */}
             <div className="relative">
-              <button
+              <Button
+                variant="ghost"
                 onClick={() => setLangOpen((v) => !v)}
-                className="btn-ghost flex h-9 items-center gap-1 rounded-lg px-2"
+                className="flex items-center gap-1 rounded-lg px-2"
                 aria-label="Change language"
                 aria-expanded={langOpen}
               >
                 <Languages className="h-4 w-4" />
                 <span className="hidden text-[0.65rem] font-bold uppercase sm:inline">{lang}</span>
-              </button>
+              </Button>
               <AnimatePresence>
                 {langOpen && (
                   <>
@@ -389,9 +397,11 @@ export default function DashboardLayout({
             </div>
 
             {/* Theme toggle */}
-            <button
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="btn-ghost grid h-9 w-9 place-items-center rounded-lg"
+              className="rounded-lg"
               aria-label="Toggle theme"
             >
               {mounted && theme === "dark" ? (
@@ -399,14 +409,16 @@ export default function DashboardLayout({
               ) : (
                 <Moon className="h-4 w-4" />
               )}
-            </button>
-            <button
-              className="btn-ghost relative grid h-9 w-9 place-items-center rounded-lg"
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="relative rounded-lg"
               aria-label="Notifications"
             >
               <Bell className="h-4 w-4" />
               <span className="absolute right-1.5 top-1.5 h-1.5 w-1.5 rounded-full bg-rose-500" />
-            </button>
+            </Button>
             <div className="flex items-center gap-2 rounded-lg px-2 py-1">
               <span className="grid h-7 w-7 place-items-center rounded-full bg-gradient-to-br from-medical to-cyan-400 text-[0.6rem] font-bold text-white">
                 {user.name

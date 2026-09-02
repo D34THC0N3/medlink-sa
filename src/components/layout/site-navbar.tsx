@@ -20,6 +20,7 @@ import {
   Plus,
 } from "lucide-react";
 import { useTheme } from "next-themes";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useAuth, ROLE_DASHBOARDS } from "@/lib/auth-context";
 import { useLang, LANGUAGES, type LangCode } from "@/lib/lang-context";
@@ -122,15 +123,16 @@ export default function SiteNavbar() {
         <div className="flex shrink-0 items-center gap-1.5">
           {/* Language switcher */}
           <div className="relative">
-            <button
+            <Button
+              variant="ghost"
               onClick={() => setLangOpen((v) => !v)}
-              className="btn-ghost flex h-9 items-center gap-1 rounded-lg px-2"
+              className="flex h-9 items-center gap-1 rounded-lg px-2"
               aria-label="Change language"
               aria-expanded={langOpen}
             >
               <Languages className="h-4 w-4" />
               <span className="hidden text-[0.65rem] font-bold uppercase sm:inline">{lang}</span>
-            </button>
+            </Button>
             <AnimatePresence>
               {langOpen && (
                 <>
@@ -162,42 +164,46 @@ export default function SiteNavbar() {
           </div>
 
           {/* Theme toggle */}
-          <button
+          <Button
+            variant="ghost"
+            size="icon"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="btn-ghost grid h-9 w-9 place-items-center rounded-lg"
             aria-label="Toggle theme"
           >
             {mounted && theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-          </button>
+          </Button>
 
           {/* Auth CTA — gated on mounted to avoid hydration mismatch */}
           {!mounted ? (
             <span className="hidden h-9 w-24 rounded-lg md:inline-block" />
           ) : user ? (
-            <button
+            <Button
+              variant="outline"
               onClick={() => router.push(ROLE_DASHBOARDS[user.role])}
-              className="btn-glass hidden items-center gap-2 rounded-lg px-3 py-1.5 text-sm font-semibold md:flex"
+              className="btn-glass hidden items-center gap-2 rounded-lg px-3 py-1.5 font-semibold md:flex"
             >
               <span className="grid h-6 w-6 place-items-center rounded-full bg-gradient-to-br from-medical to-cyan-400 text-[0.6rem] font-bold text-white">
                 {user.name.split(" ").map((n) => n[0]).slice(0, 2).join("")}
               </span>
               {t("nav.dashboard")}
-            </button>
+            </Button>
           ) : (
-            <Link href="/sign-in" className="btn-glass hidden rounded-lg px-4 py-2 text-sm font-semibold md:inline-flex">
-              {t("nav.signin")}
-            </Link>
+            <Button variant="outline" asChild className="btn-glass hidden rounded-lg px-4 py-2 font-semibold md:inline-flex">
+              <Link href="/sign-in">{t("nav.signin")}</Link>
+            </Button>
           )}
 
           {/* Hamburger */}
-          <button
+          <Button
+            variant="outline"
+            size="icon"
             onClick={() => setMobileOpen((v) => !v)}
-            className="btn-glass grid h-9 w-9 place-items-center rounded-lg"
+            className="btn-glass"
             aria-label="Open menu"
             aria-expanded={mobileOpen}
           >
             {mobileOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-          </button>
+          </Button>
         </div>
       </nav>
 
@@ -263,12 +269,16 @@ export default function SiteNavbar() {
                 </div>
               ) : (
                 <div className="grid gap-2">
-                  <Link href="/sign-in" onClick={() => setMobileOpen(false)} className="btn-glass flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold">
-                    {t("nav.signin")}
-                  </Link>
-                  <Link href="/sign-up" onClick={() => setMobileOpen(false)} className="btn-primary flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold">
-                    {t("nav.getstarted")}
-                  </Link>
+                  <Button variant="outline" asChild className="btn-glass flex items-center justify-center gap-2 rounded-xl px-4 py-3 font-semibold">
+                    <Link href="/sign-in" onClick={() => setMobileOpen(false)}>
+                      {t("nav.signin")}
+                    </Link>
+                  </Button>
+                  <Button variant="default" asChild className="flex items-center justify-center gap-2 rounded-xl px-4 py-3 font-semibold">
+                    <Link href="/sign-up" onClick={() => setMobileOpen(false)}>
+                      {t("nav.getstarted")}
+                    </Link>
+                  </Button>
                 </div>
               )}
             </motion.div>
