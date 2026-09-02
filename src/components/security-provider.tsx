@@ -83,53 +83,47 @@ export function SecurityProvider({ children }: { children: ReactNode }) {
   return (
     <>
       {children}
-      <AnimatePresence>
-        {framedBlocked && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-[10000] flex items-center justify-center bg-background/95 p-6 backdrop-blur-xl"
-            role="alertdialog"
-            aria-modal="true"
-            aria-labelledby="medlink-framed-title"
-          >
-            <div className="glass-strong max-w-md rounded-3xl p-8 text-center">
-              <span className="mx-auto mb-5 grid h-14 w-14 place-items-center rounded-2xl bg-rose-500/15 text-rose-500">
-                <ShieldAlert className="h-7 w-7" />
-              </span>
-              <h2
-                id="medlink-framed-title"
-                className="font-display text-xl font-semibold tracking-tight"
+      {framedBlocked && (
+        <div
+          className="fixed inset-0 z-[10000] flex items-center justify-center bg-background/95 p-6 backdrop-blur-xl animate-in fade-in duration-200"
+          role="alertdialog"
+          aria-modal="true"
+          aria-labelledby="medlink-framed-title"
+        >
+          <div className="glass-strong max-w-md rounded-3xl p-8 text-center">
+            <span className="mx-auto mb-5 grid h-14 w-14 place-items-center rounded-2xl bg-rose-500/15 text-rose-500">
+              <ShieldAlert className="h-7 w-7" />
+            </span>
+            <h2
+              id="medlink-framed-title"
+              className="font-display text-xl font-semibold tracking-tight"
+            >
+              This page can&apos;t be embedded
+            </h2>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              For your security, MedLink SA cannot be loaded inside a frame on
+              another site. Please open it directly in a new tab.
+            </p>
+            <Button
+              variant="default"
+              asChild
+              className="mt-6 inline-flex items-center gap-2 rounded-xl px-5 py-2.5 font-semibold"
+            >
+              <a
+                href={
+                  typeof window !== "undefined"
+                    ? window.location.href
+                    : "/"
+                }
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                This page can&apos;t be embedded
-              </h2>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                For your security, MedLink SA cannot be loaded inside a frame on
-                another site. Please open it directly in a new tab.
-              </p>
-              <Button
-                variant="default"
-                asChild
-                className="mt-6 inline-flex items-center gap-2 rounded-xl px-5 py-2.5 font-semibold"
-              >
-                <a
-                  href={
-                    typeof window !== "undefined"
-                      ? window.location.href
-                      : "/"
-                  }
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Open MedLink SA
-                </a>
-              </Button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                Open MedLink SA
+              </a>
+            </Button>
+          </div>
+        </div>
+      )}
     </>
   );
 }

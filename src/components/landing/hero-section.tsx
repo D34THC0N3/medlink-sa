@@ -1,12 +1,18 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowDown, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useAuth, ROLE_DASHBOARDS } from "@/lib/auth-context";
 import { useLang } from "@/lib/lang-context";
 import { Button } from "@/components/ui/button";
+
+const HeartModel = dynamic(() => import("@/components/three/heart-model"), {
+  ssr: false,
+  loading: () => null,
+});
 
 const ease = [0.16, 1, 0.3, 1] as [number, number, number, number];
 
@@ -75,6 +81,14 @@ export default function HeroSection() {
               "radial-gradient(ellipse at 65% 50%, color-mix(in oklab, var(--medical) 12%, transparent) 0%, transparent 60%)",
           }}
         />
+
+        {/* === 3D Heart Model — right side === */}
+        <div className="pointer-events-none absolute inset-0 z-10">
+          <HeartModel
+            scrollProgress={progress}
+            className="absolute right-0 top-0 h-full w-full"
+          />
+        </div>
 
         {/* === Minimal text overlay — bottom-left === */}
         <motion.div

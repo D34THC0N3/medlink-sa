@@ -18,7 +18,7 @@ async function authorize(
 
   if (HAS_DB) {
     try {
-      const { PrismaClient, UserRole } = await import("@prisma/client");
+      const { PrismaClient } = await import("@prisma/client");
       const prisma = new PrismaClient();
       const user = await prisma.user.findUnique({
         where: { email: credentials.email.toLowerCase().trim() },
@@ -30,7 +30,7 @@ async function authorize(
         id: user.id,
         name: user.name ?? "",
         email: user.email,
-        role: user.role as UserRole,
+        role: user.role as "patient" | "doctor" | "hospital" | "pharmacy" | "admin",
         avatar: user.avatar ?? undefined,
       };
     } catch {

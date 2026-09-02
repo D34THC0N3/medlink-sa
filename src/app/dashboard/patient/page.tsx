@@ -2,23 +2,25 @@
 
 import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
 import { Toaster as SonnerToaster } from "sonner";
 
 import DashboardLayout from "@/components/layout/dashboard-layout";
 import { useAuth } from "@/lib/auth-context";
 
-import { AppointmentsView } from "./_components/appointments-view";
-import { MedicineView } from "./_components/medicine-view";
-import { MessagesView } from "./_components/messages-view";
 import { OverviewView } from "./_components/overview-view";
-import { PrescriptionsView } from "./_components/prescriptions-view";
-import { QueueView } from "./_components/queue-view";
-import { RecordsView } from "./_components/records-view";
-import { SettingsView } from "./_components/settings-view";
-import { VerifyView } from "./_components/verify-view";
-import { VideoView } from "./_components/video-view";
-import { VideoCallModal } from "./_components/video-call-modal";
+
+const AppointmentsView = dynamic(() => import("./_components/appointments-view").then(m => m.AppointmentsView), { ssr: false });
+const MedicineView = dynamic(() => import("./_components/medicine-view").then(m => m.MedicineView), { ssr: false });
+const MessagesView = dynamic(() => import("./_components/messages-view").then(m => m.MessagesView), { ssr: false });
+const PrescriptionsView = dynamic(() => import("./_components/prescriptions-view").then(m => m.PrescriptionsView), { ssr: false });
+const QueueView = dynamic(() => import("./_components/queue-view").then(m => m.QueueView), { ssr: false });
+const RecordsView = dynamic(() => import("./_components/records-view").then(m => m.RecordsView), { ssr: false });
+const SettingsView = dynamic(() => import("./_components/settings-view").then(m => m.SettingsView), { ssr: false });
+const VerifyView = dynamic(() => import("./_components/verify-view").then(m => m.VerifyView), { ssr: false });
+const VideoView = dynamic(() => import("./_components/video-view").then(m => m.VideoView), { ssr: false });
+const VideoCallModal = dynamic(() => import("./_components/video-call-modal").then(m => m.VideoCallModal), { ssr: false });
 
 function PatientDashboardInner() {
   const { user, signOut, updateUser } = useAuth();
