@@ -1,13 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AuthProvider } from "@/lib/auth-context";
 import { LanguageProvider } from "@/lib/lang-context";
 import { SecurityProvider } from "@/components/security-provider";
-import CustomCursor from "@/components/custom-cursor";
-import PageTransition from "@/components/page-transition";
 import ChunkErrorHandler from "@/components/chunk-error-handler";
 
 const inter = Inter({
@@ -80,10 +77,8 @@ export default function RootLayout({
           <AuthProvider>
             <LanguageProvider>
               <SecurityProvider>
-                <CustomCursor />
                 <ChunkErrorHandler />
-                <PageTransition>{children}</PageTransition>
-                <Toaster />
+                {children}
               </SecurityProvider>
             </LanguageProvider>
           </AuthProvider>
