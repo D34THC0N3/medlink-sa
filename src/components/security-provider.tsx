@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState, type ReactNode } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import { ShieldAlert } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { initSecurityLog, logSecurityEvent } from "@/lib/security";
