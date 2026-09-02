@@ -8,13 +8,15 @@ import { useAuth, ROLE_DASHBOARDS } from "@/lib/auth-context";
 import { useLang } from "@/lib/lang-context";
 import { Button } from "@/components/ui/button";
 
+const ease = [0.16, 1, 0.3, 1] as [number, number, number, number];
+
 const wordVariants = {
   hidden: { yPercent: 120, opacity: 0, filter: "blur(10px)" },
   visible: (i: number) => ({
     yPercent: 0,
     opacity: 1,
     filter: "blur(0px)",
-    transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.5 + i * 0.1 },
+    transition: { duration: 1.2, ease, delay: 0.5 + i * 0.1 },
   }),
 };
 
@@ -23,7 +25,7 @@ const fadeVariants = {
   visible: (i: number) => ({
     y: 0,
     opacity: 1,
-    transition: { duration: 1, ease: [0.16, 1, 0.3, 1], delay: 1.1 + i * 0.15 },
+    transition: { duration: 1, ease, delay: 1.1 + i * 0.15 },
   }),
 };
 
