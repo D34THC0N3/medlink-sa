@@ -94,6 +94,7 @@ import { Toaster as SonnerToaster } from "@/components/ui/sonner";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 import { Label } from "@/components/ui/label";
 import {
@@ -510,13 +511,14 @@ function TabBar({ tab, setTab }: { tab: TabId; setTab: (t: TabId) => void }) {
         const active = tab === t.id;
         const Icon = t.icon;
         return (
-          <button
+          <Button
             key={t.id}
             onClick={() => setTab(t.id)}
+            variant="ghost"
             aria-pressed={active}
             aria-current={active ? "page" : undefined}
             className={cn(
-              "relative flex shrink-0 items-center gap-2 rounded-xl px-3.5 py-2 text-sm font-medium transition-colors sm:px-4",
+              "relative shrink-0 gap-2 rounded-xl px-3.5 py-2 text-sm font-medium sm:px-4",
               active ? "text-medical-foreground" : "text-muted-foreground hover:text-foreground"
             )}
           >
@@ -529,7 +531,7 @@ function TabBar({ tab, setTab }: { tab: TabId; setTab: (t: TabId) => void }) {
             )}
             <Icon className="relative h-4 w-4" />
             <span className="relative hidden sm:inline">{t.label}</span>
-          </button>
+          </Button>
         );
       })}
     </div>
@@ -809,13 +811,14 @@ function OverviewView({
             <HealthRow label="DHIS2 sync" value="In sync" tone="emerald" hint="12 min ago · queue 0" />
             <HealthRow label="Active sessions" value="4,283" tone="medical" hint="Across 9 provinces" />
           </div>
-          <button
+          <Button
             onClick={() => setTab("health")}
-            className="btn-secondary mt-4 flex w-full items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-medium"
+            variant="secondary"
+            className="mt-4 w-full gap-2 rounded-lg px-3 py-2 text-sm font-medium"
           >
             Open monitoring
             <ArrowUpRight className="h-3.5 w-3.5" />
-          </button>
+          </Button>
         </motion.div>
 
         <motion.div
@@ -830,12 +833,13 @@ function OverviewView({
               <h3 className="font-display text-base font-semibold">Recent audit</h3>
               <p className="text-xs text-muted-foreground">Latest activity on the network</p>
             </div>
-            <button
+            <Button
               onClick={() => setTab("audit")}
-              className="btn-ghost rounded-lg px-2.5 py-1 text-xs font-medium text-medical"
+              variant="ghost"
+              className="rounded-lg px-2.5 py-1 text-xs font-medium text-medical"
             >
               View all
-            </button>
+            </Button>
           </div>
           <ol className="space-y-3">
             {AUDIT_EXTENDED.slice(0, 5).map((e) => {
@@ -1046,31 +1050,33 @@ function UsersView({
                       <td className="px-4 py-3 text-muted-foreground">{u.joined}</td>
                       <td className="px-4 py-3">
                         <div className="flex items-center justify-end gap-1.5">
-                          <button
+                          <Button
                             onClick={() => setSelected(u)}
-                            className="btn-ghost grid h-8 w-8 place-items-center rounded-lg"
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8 rounded-lg"
                             aria-label={`View ${u.name}`}
                           >
                             <Eye className="h-3.5 w-3.5" />
-                          </button>
+                          </Button>
                           {u.verified === "pending" && (
-                            <button
+                            <Button
                               onClick={() => verifyUser(u)}
-                              className="btn-secondary inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-medium"
+                              variant="secondary"
+                              className="gap-1 rounded-lg px-2.5 py-1.5 text-xs font-medium"
                               aria-label={`Verify ${u.name}`}
                             >
                               <ShieldCheck className="h-3.5 w-3.5" />
                               <span className="hidden sm:inline">Verify</span>
-                            </button>
+                            </Button>
                           )}
                           {u.verified !== "pending" && u.verified !== "rejected" && (
-                            <button
+                            <Button
                               onClick={() => toggleSuspend(u)}
+                              variant={u.verified === "suspended" ? "secondary" : "outline"}
                               className={cn(
-                                "inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-medium",
-                                u.verified === "suspended"
-                                  ? "btn-secondary"
-                                  : "bg-amber-500/10 text-amber-600 dark:text-amber-400 hover:bg-amber-500/15"
+                                "gap-1 rounded-lg px-2.5 py-1.5 text-xs font-medium",
+                                u.verified !== "suspended" && "bg-amber-500/10 text-amber-600 dark:text-amber-400 hover:bg-amber-500/15"
                               )}
                               aria-label={u.verified === "suspended" ? `Activate ${u.name}` : `Suspend ${u.name}`}
                             >
@@ -1084,18 +1090,20 @@ function UsersView({
                                   <UserX className="h-3.5 w-3.5" />
                                   <span className="hidden sm:inline">Suspend</span>
                                 </>
-                              )}
-                            </button>
+                               )}
+                            </Button>
                           )}
                           {u.verified !== "rejected" && (
                             <AlertDialog>
                               <AlertDialogTrigger asChild>
-                                <button
-                                  className="grid h-8 w-8 place-items-center rounded-lg bg-rose-500/10 text-rose-600 hover:bg-rose-500/15 dark:text-rose-400"
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  className="h-8 w-8 rounded-lg bg-rose-500/10 text-rose-600 hover:bg-rose-500/15 dark:text-rose-400"
                                   aria-label={`Block ${u.name}`}
                                 >
                                   <Ban className="h-3.5 w-3.5" />
-                                </button>
+                                </Button>
                               </AlertDialogTrigger>
                               <AlertDialogContent className="glass-strong">
                                 <AlertDialogHeader>
@@ -1205,24 +1213,25 @@ function UsersView({
                 {/* Actions */}
                 <div className="space-y-2">
                   {selected.verified === "pending" && (
-                    <button
+                    <Button
                       onClick={() => {
                         verifyUser(selected);
                         setSelected(null);
                       }}
-                      className="btn-primary flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium"
+                      className="w-full gap-2 rounded-lg px-4 py-2.5 text-sm font-medium"
                     >
                       <ShieldCheck className="h-4 w-4" />
                       Verify account
-                    </button>
+                    </Button>
                   )}
-                  <button
-                    onClick={() => {
-                      toggleSuspend(selected);
-                      setSelected(null);
-                    }}
-                    className="btn-secondary flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium"
-                  >
+                    <Button
+                      onClick={() => {
+                        toggleSuspend(selected);
+                        setSelected(null);
+                      }}
+                      variant="secondary"
+                      className="w-full gap-2 rounded-lg px-4 py-2.5 text-sm font-medium"
+                    >
                     {selected.verified === "suspended" ? (
                       <>
                         <UserCheck className="h-4 w-4" />
@@ -1234,13 +1243,16 @@ function UsersView({
                         Suspend account
                       </>
                     )}
-                  </button>
+                  </Button>
                   <AlertDialog>
                     <AlertDialogTrigger asChild>
-                      <button className="flex w-full items-center justify-center gap-2 rounded-lg bg-rose-500/10 px-4 py-2.5 text-sm font-medium text-rose-600 hover:bg-rose-500/15 dark:text-rose-400">
+                      <Button
+                        variant="ghost"
+                        className="w-full gap-2 rounded-lg bg-rose-500/10 px-4 py-2.5 text-sm font-medium text-rose-600 hover:bg-rose-500/15 dark:text-rose-400"
+                      >
                         <Ban className="h-4 w-4" />
                         Block user permanently
-                      </button>
+                      </Button>
                     </AlertDialogTrigger>
                     <AlertDialogContent className="glass-strong">
                       <AlertDialogHeader>
@@ -1381,28 +1393,33 @@ function HospitalsView({
                 </div>
 
                 <div className="mt-3 flex flex-wrap items-center gap-2">
-                  <button
+                  <Button
                     onClick={() => setSelected(h)}
-                    className="btn-secondary inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium"
+                    variant="secondary"
+                    className="gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium"
                   >
                     <Eye className="h-3.5 w-3.5" />
                     View details
-                  </button>
+                  </Button>
                   {!h.verified ? (
-                    <button
+                    <Button
                       onClick={() => verifyHospital(h.id)}
-                      className="btn-primary inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium"
+                      variant="default"
+                      className="gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium"
                     >
                       <ShieldCheck className="h-3.5 w-3.5" />
                       Verify
-                    </button>
+                    </Button>
                   ) : (
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
-                        <button className="inline-flex items-center gap-1.5 rounded-lg bg-rose-500/10 px-3 py-1.5 text-xs font-medium text-rose-600 hover:bg-rose-500/15 dark:text-rose-400">
+                        <Button
+                          variant="ghost"
+                          className="gap-1.5 rounded-lg bg-rose-500/10 px-3 py-1.5 text-xs font-medium text-rose-600 hover:bg-rose-500/15 dark:text-rose-400"
+                        >
                           <RotateCcw className="h-3.5 w-3.5" />
                           Revoke
-                        </button>
+                        </Button>
                       </AlertDialogTrigger>
                       <AlertDialogContent className="glass-strong">
                         <AlertDialogHeader>
@@ -1490,16 +1507,16 @@ function HospitalsView({
                 </div>
 
                 {!selected.verified && (
-                  <button
+                  <Button
                     onClick={() => {
                       verifyHospital(selected.id);
                       setSelected(null);
                     }}
-                    className="btn-primary flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium"
+                    className="w-full gap-2 rounded-lg px-4 py-2.5 text-sm font-medium"
                   >
                     <ShieldCheck className="h-4 w-4" />
                     Verify hospital
-                  </button>
+                  </Button>
                 )}
               </div>
             </>
@@ -1573,12 +1590,13 @@ function VerificationsView({
           const active = sub === s.id;
           const Icon = s.icon;
           return (
-            <button
+            <Button
               key={s.id}
+              variant="ghost"
               onClick={() => setSub(s.id)}
               aria-pressed={active}
               className={cn(
-                "relative flex flex-1 items-center justify-center gap-2 rounded-xl px-3 py-2 text-sm font-medium transition-colors",
+                "relative flex-1 gap-2 rounded-xl px-3 py-2 text-sm font-medium",
                 active ? "text-medical-foreground" : "text-muted-foreground hover:text-foreground"
               )}
             >
@@ -1597,7 +1615,7 @@ function VerificationsView({
               )}>
                 {s.count}
               </span>
-            </button>
+            </Button>
           );
         })}
       </div>
@@ -1762,15 +1780,16 @@ function VerificationItem({
           </div>
 
           {/* Review documents */}
-          <button
+          <Button
+            variant="ghost"
             onClick={() => setExpanded((v) => !v)}
             aria-expanded={expanded}
-            className="mt-2 inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-xs font-medium text-medical hover:bg-medical/10"
+            className="mt-2 gap-1.5 rounded-lg px-2 py-1 text-xs font-medium text-medical hover:bg-medical/10"
           >
             <FileText className="h-3.5 w-3.5" />
             {expanded ? "Hide documents" : "Review documents"}
             <ChevronDown className={cn("h-3 w-3 transition-transform", expanded && "rotate-180")} />
-          </button>
+          </Button>
 
           <AnimatePresence initial={false}>
             {expanded && (
@@ -1795,20 +1814,21 @@ function VerificationItem({
 
           {/* Actions */}
           <div className="mt-3 flex flex-wrap gap-2">
-            <button
+            <Button
               onClick={onApprove}
-              className="btn-primary inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium"
+              className="gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium"
             >
               <Check className="h-3.5 w-3.5" />
               Approve
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={onReject}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-rose-500/10 px-3 py-1.5 text-xs font-medium text-rose-600 hover:bg-rose-500/15 dark:text-rose-400"
+              variant="ghost"
+              className="gap-1.5 rounded-lg bg-rose-500/10 px-3 py-1.5 text-xs font-medium text-rose-600 hover:bg-rose-500/15 dark:text-rose-400"
             >
               <X className="h-3.5 w-3.5" />
               Reject
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -1878,12 +1898,13 @@ function AuditView() {
             const meta = k === "all" ? null : AUDIT_KIND_META[k as AuditKind];
             const Icon = meta?.icon || CircleDashed;
             return (
-              <button
+              <Button
                 key={k}
+                variant="ghost"
                 onClick={() => setKindFilter(k)}
                 aria-pressed={active}
                 className={cn(
-                  "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium transition-colors",
+                  "gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium",
                   active
                     ? "border-medical/30 bg-medical/15 text-medical"
                     : "border-border/60 bg-background/30 text-muted-foreground hover:text-foreground"
@@ -1891,18 +1912,19 @@ function AuditView() {
               >
                 {meta ? <Icon className={cn("h-3 w-3", meta.color)} /> : <Icon className="h-3 w-3" />}
                 {k === "all" ? "All" : meta!.label}
-              </button>
+              </Button>
             );
           })}
         </div>
-        <button
+        <Button
           onClick={exportMock}
-          className="btn-secondary inline-flex items-center justify-center gap-1.5 rounded-lg px-3 py-2 text-xs font-medium"
+          variant="secondary"
+          className="gap-1.5 rounded-lg px-3 py-2 text-xs font-medium"
           aria-label="Export audit log"
         >
           <Download className="h-3.5 w-3.5" />
           Export CSV
-        </button>
+        </Button>
       </div>
 
       {/* Timeline */}
@@ -1926,10 +1948,11 @@ function AuditView() {
                     exit={{ opacity: 0, y: -8 }}
                     transition={{ delay: i * 0.03, duration: 0.22 }}
                   >
-                    <button
+                    <Button
+                      variant="ghost"
                       onClick={() => toggle(e.id)}
                       aria-expanded={isOpen}
-                      className="group relative flex w-full items-start gap-4 rounded-xl p-2.5 text-left transition-colors hover:bg-medical/5"
+                      className="group relative w-full items-start gap-4 rounded-xl p-2.5 text-left"
                     >
                       {/* Icon node */}
                       <span className={cn("relative z-10 grid h-8 w-8 shrink-0 place-items-center rounded-full ring-4 ring-background", meta.bg, meta.color)}>
@@ -1975,7 +1998,7 @@ function AuditView() {
                           )}
                         </AnimatePresence>
                       </div>
-                    </button>
+                    </Button>
                   </motion.li>
                 );
               })}
@@ -2164,14 +2187,14 @@ function SystemHealthView() {
               <span className="font-medium">in 14 min</span>
             </div>
           </div>
-          <button
+          <Button
             onClick={forceSync}
             disabled={metrics.dhis2Status === "syncing"}
-            className="btn-primary mt-3 flex w-full items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-medium disabled:opacity-50"
+            className="mt-3 w-full gap-2 rounded-lg px-3 py-2 text-sm font-medium disabled:opacity-50"
           >
             <RefreshCw className={cn("h-3.5 w-3.5", metrics.dhis2Status === "syncing" && "animate-spin")} />
             Force DHIS2 sync
-          </button>
+          </Button>
         </motion.div>
       </div>
 
@@ -2272,13 +2295,14 @@ function SystemHealthView() {
           </div>
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <button
+              <Button
+                variant="ghost"
                 disabled={restarting}
-                className="inline-flex items-center gap-2 rounded-lg bg-rose-500/10 px-4 py-2.5 text-sm font-medium text-rose-600 hover:bg-rose-500/15 disabled:opacity-50 dark:text-rose-400"
+                className="gap-2 rounded-lg bg-rose-500/10 px-4 py-2.5 text-sm font-medium text-rose-600 hover:bg-rose-500/15 disabled:opacity-50 dark:text-rose-400"
               >
                 {restarting ? <RefreshCw className="h-4 w-4 animate-spin" /> : <Power className="h-4 w-4" />}
                 {restarting ? "Restarting…" : "Restart service"}
-              </button>
+              </Button>
             </AlertDialogTrigger>
             <AlertDialogContent className="glass-strong">
               <AlertDialogHeader>
@@ -2499,25 +2523,26 @@ function SettingsView() {
           Changes are cryptographically signed and added to the audit log.
         </div>
         <div className="flex items-center gap-2">
-          <button
-            onClick={() => {
-              setName(user?.name || "System Administrator");
-              setMaintenance(false);
-              setSignups(true);
-              setLanguage("en");
-              toast.info("Changes reverted");
-            }}
-            className="btn-secondary rounded-lg px-4 py-2 text-sm font-medium"
-          >
-            Revert
-          </button>
-          <button
+            <Button
+              variant="secondary"
+              onClick={() => {
+                setName(user?.name || "System Administrator");
+                setMaintenance(false);
+                setSignups(true);
+                setLanguage("en");
+                toast.info("Changes reverted");
+              }}
+              className="rounded-lg px-4 py-2 text-sm font-medium"
+            >
+              Revert
+            </Button>
+          <Button
             onClick={save}
-            className="btn-primary inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium"
+            className="gap-2 rounded-lg px-4 py-2 text-sm font-medium"
           >
             <Save className="h-3.5 w-3.5" />
             Save changes
-          </button>
+          </Button>
         </div>
       </motion.div>
     </div>

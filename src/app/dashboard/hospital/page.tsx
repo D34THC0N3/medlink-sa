@@ -447,11 +447,12 @@ function TabBar({ tab, setTab }: { tab: TabId; setTab: (t: TabId) => void }) {
         const Icon = t.icon;
         const active = tab === t.id;
         return (
-          <button
+          <Button
             key={t.id}
             onClick={() => setTab(t.id)}
+            variant="ghost"
             className={cn(
-              "relative flex shrink-0 items-center gap-2 rounded-xl px-3.5 py-2 text-sm font-medium transition-colors",
+              "relative shrink-0 gap-2 rounded-xl px-3.5 py-2 text-sm font-medium",
               active
                 ? "text-white"
                 : "text-muted-foreground hover:text-foreground hover:bg-foreground/5"
@@ -468,7 +469,7 @@ function TabBar({ tab, setTab }: { tab: TabId; setTab: (t: TabId) => void }) {
             )}
             <Icon className="relative z-10 h-4 w-4" />
             <span className="relative z-10 whitespace-nowrap">{t.label}</span>
-          </button>
+          </Button>
         );
       })}
     </div>
@@ -787,14 +788,16 @@ function OverviewTab({ setTab }: { setTab: (t: TabId) => void }) {
               </h3>
               <p className="text-xs text-muted-foreground">Live, all wards</p>
             </div>
-            <button
+            <Button
               onClick={() => setTab("beds")}
-              className="btn-ghost flex items-center gap-1 rounded-lg px-2 py-1 text-xs"
+              variant="ghost"
+              size="sm"
+              className="gap-1 rounded-lg px-2 py-1"
               aria-label="Open beds & wards tab"
             >
               View grid
               <ArrowRight className="h-3 w-3" />
-            </button>
+            </Button>
           </div>
           <div className="relative h-[220px]">
             <ResponsiveContainer width="100%" height="100%">
@@ -945,14 +948,16 @@ function OverviewTab({ setTab }: { setTab: (t: TabId) => void }) {
                 Real-time triage counter
               </p>
             </div>
-            <button
+            <Button
               onClick={() => setTab("queue")}
-              className="btn-ghost flex items-center gap-1 rounded-lg px-2 py-1 text-xs"
+              variant="ghost"
+              size="sm"
+              className="gap-1 rounded-lg px-2 py-1"
               aria-label="Open queue tab"
             >
               Manage queue
               <ArrowRight className="h-3 w-3" />
-            </button>
+            </Button>
           </div>
           <div className="flex flex-wrap items-end gap-4">
             <div>
@@ -1024,8 +1029,9 @@ function OverviewTab({ setTab }: { setTab: (t: TabId) => void }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.05 }}
         >
-          <button
+          <Button
             onClick={() => setTab("approvals")}
+            variant="ghost"
             className="glass-panel card-premium group h-full w-full p-5 text-left"
             aria-label="Pending approvals — open approvals tab"
           >
@@ -1072,7 +1078,7 @@ function OverviewTab({ setTab }: { setTab: (t: TabId) => void }) {
                 </span>
               </div>
             </div>
-          </button>
+          </Button>
         </motion.div>
       </div>
     </div>
@@ -1170,27 +1176,31 @@ function BedsTab() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-1.5">
           <Filter className="h-3.5 w-3.5 text-muted-foreground" />
-          <button
+          <Button
             onClick={() => setWardFilter("all")}
+            variant="outline"
+            size="sm"
             className={cn(
-              "rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors",
+              "rounded-lg px-3 py-1.5",
               wardFilter === "all"
                 ? "border-medical bg-medical/10 text-medical"
-                : "border-border text-muted-foreground hover:bg-foreground/5"
+                : "text-muted-foreground hover:bg-foreground/5"
             )}
             aria-pressed={wardFilter === "all"}
           >
             All wards
-          </button>
+          </Button>
           {WARDS.map((w) => (
-            <button
+            <Button
               key={w}
               onClick={() => setWardFilter(w)}
+              variant="outline"
+              size="sm"
               className={cn(
-                "rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors",
+                "rounded-lg px-3 py-1.5",
                 wardFilter === w
                   ? "border-medical bg-medical/10 text-medical"
-                  : "border-border text-muted-foreground hover:bg-foreground/5"
+                  : "text-muted-foreground hover:bg-foreground/5"
               )}
               aria-pressed={wardFilter === w}
             >
@@ -1198,7 +1208,7 @@ function BedsTab() {
               <span className="ml-1.5 text-[0.65rem] text-muted-foreground">
                 ({allBeds.filter((b) => b.ward === w).length})
               </span>
-            </button>
+            </Button>
           ))}
         </div>
         {/* Legend */}
@@ -1462,32 +1472,35 @@ function BedDetailSheet({
                   </div>
 
                   <div className="flex gap-2 pt-2">
-                    <button
-                      className="btn-primary flex flex-1 items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold"
+                    <Button
+                      variant="default"
+                      className="flex-1 gap-2 rounded-lg px-3 py-2"
                       onClick={() => toast.success("Patient record opened")}
                     >
                       <FileText className="h-4 w-4" />
                       Open record
-                    </button>
-                    <button
-                      className="btn-secondary flex flex-1 items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold"
+                    </Button>
+                    <Button
+                      variant="secondary"
+                      className="flex-1 gap-2 rounded-lg px-3 py-2"
                       onClick={() => toast.success("Discharge planner notified")}
                     >
                       <DoorOpen className="h-4 w-4" />
                       Plan discharge
-                    </button>
+                    </Button>
                   </div>
                 </>
               )}
 
               {bed.status === "available" && (
-                <button
-                  className="btn-primary flex w-full items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold"
+                <Button
+                  variant="default"
+                  className="w-full gap-2 rounded-lg px-3 py-2"
                   onClick={() => toast.success(`Bed #${bed.bedNumber} reserved for next admission`)}
                 >
                   <Plus className="h-4 w-4" />
                   Reserve for admission
-                </button>
+                </Button>
               )}
             </div>
           </div>
@@ -1630,14 +1643,15 @@ function QueueTab() {
         subtitle="Live triage board · Chris Hani Baragwanath · OPD"
         icon={ListOrdered}
         action={
-          <button
+          <Button
             onClick={callNext}
-            className="btn-primary flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold"
+            variant="default"
+            className="gap-2 rounded-lg px-4 py-2"
             aria-label="Call next patient"
           >
             <ArrowRight className="h-4 w-4" />
             Call next
-          </button>
+          </Button>
         }
       />
 
@@ -1683,14 +1697,16 @@ function QueueTab() {
           entries={serving}
           emptyText="No active consultation — call next to begin."
           renderActions={(e) => (
-            <button
+            <Button
               onClick={() => completeServing()}
-              className="btn-primary flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-semibold"
+              variant="default"
+              size="sm"
+              className="gap-1.5 rounded-md px-2.5"
               aria-label={`Mark #${e.number} as completed`}
             >
               <Check className="h-3.5 w-3.5" />
               Complete
-            </button>
+            </Button>
           )}
         />
 
@@ -1702,22 +1718,26 @@ function QueueTab() {
           emptyText="No patients called yet."
           renderActions={(e) => (
             <div className="flex gap-1.5">
-              <button
+              <Button
                 onClick={() => startServing(e.number)}
-                className="btn-primary flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-semibold"
+                variant="default"
+                size="sm"
+                className="gap-1.5 rounded-md px-2.5"
                 aria-label={`Start serving #${e.number}`}
               >
                 <ArrowRight className="h-3.5 w-3.5" />
                 Start
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={() => skipMissed(e.number)}
-                className="btn-secondary flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-semibold"
+                variant="secondary"
+                size="sm"
+                className="gap-1.5 rounded-md px-2.5"
                 aria-label={`Skip #${e.number} — patient missed`}
               >
                 <X className="h-3.5 w-3.5" />
                 Skip
-              </button>
+              </Button>
             </div>
           )}
         />
@@ -1732,13 +1752,15 @@ function QueueTab() {
             <div className="flex items-center gap-1.5 text-xs">
               <Clock className="h-3.5 w-3.5 text-muted-foreground" />
               <span className="font-semibold">{e.waitMin}m</span>
-              <button
+              <Button
                 onClick={() => skipMissed(e.number)}
-                className="btn-ghost ml-1 rounded p-1"
+                variant="ghost"
+                size="icon"
+                className="ml-1"
                 aria-label={`Mark #${e.number} as missed`}
               >
                 <X className="h-3 w-3" />
-              </button>
+              </Button>
             </div>
           )}
         />
@@ -1885,14 +1907,15 @@ function StaffTab({ setTab }: { setTab: (t: TabId) => void }) {
         subtitle={`${staff.length} clinicians on the roster`}
         icon={Users}
         action={
-          <button
+          <Button
             onClick={() => setAddOpen(true)}
-            className="btn-primary flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold"
+            variant="default"
+            className="gap-2 rounded-lg px-4 py-2"
             aria-label="Add staff member"
           >
             <Plus className="h-4 w-4" />
             Add staff
-          </button>
+          </Button>
         }
       />
 
@@ -1910,19 +1933,21 @@ function StaffTab({ setTab }: { setTab: (t: TabId) => void }) {
         </div>
         <div className="flex flex-wrap items-center gap-1.5">
           {(["all", "on-duty", "off-duty", "pending"] as const).map((f) => (
-            <button
+            <Button
               key={f}
               onClick={() => setFilter(f)}
+              variant="outline"
+              size="sm"
               className={cn(
-                "rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors capitalize",
+                "rounded-lg px-3 py-1.5 capitalize",
                 filter === f
                   ? "border-medical bg-medical/10 text-medical"
-                  : "border-border text-muted-foreground hover:bg-foreground/5"
+                  : "text-muted-foreground hover:bg-foreground/5"
               )}
               aria-pressed={filter === f}
             >
               {f === "all" ? "All staff" : f.replace("-", " ")}
-            </button>
+            </Button>
           ))}
         </div>
       </div>
@@ -1973,14 +1998,15 @@ function StaffTab({ setTab }: { setTab: (t: TabId) => void }) {
                     <StatusPill tone="slate">Off-duty</StatusPill>
                   )}
                   {s.status === "pending" && (
-                    <button
+                    <Button
                       onClick={() => setTab("approvals")}
-                      className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 px-2.5 py-0.5 text-[0.7rem] font-semibold text-amber-500 transition-colors hover:bg-amber-500/20"
+                      variant="outline"
+                      className="inline-flex gap-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 px-2.5 py-0.5 text-[0.7rem] font-semibold text-amber-500 hover:bg-amber-500/20"
                       aria-label="Pending verification — open approvals tab"
                     >
                       Pending · verify
                       <ArrowRight className="h-3 w-3" />
-                    </button>
+                    </Button>
                   )}
                 </TableCell>
                 <TableCell className="text-center text-sm font-semibold">
@@ -2007,13 +2033,15 @@ function StaffTab({ setTab }: { setTab: (t: TabId) => void }) {
                   </div>
                 </TableCell>
                 <TableCell className="pr-5 text-right">
-                  <button
-                    className="btn-ghost rounded-md p-1.5"
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="rounded-md"
                     aria-label={`More actions for ${s.name}`}
                     onClick={() => toast.info(`${s.name} · ${s.role}`)}
                   >
                     <ChevronRight className="h-4 w-4" />
-                  </button>
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
@@ -2126,14 +2154,14 @@ function InviteStaffDialog({
           <Button
             variant="ghost"
             onClick={() => onOpenChange(false)}
-            className="btn-ghost"
           >
             Cancel
           </Button>
           <Button
+            variant="default"
             onClick={send}
             disabled={sending}
-            className="btn-primary gap-2"
+            className="gap-2"
           >
             {sending ? (
               <>
@@ -2389,22 +2417,24 @@ function ApprovalsTab() {
 
                 {/* Actions */}
                 <div className="mt-4 flex gap-2">
-                  <button
+                  <Button
                     onClick={() => approve(a)}
-                    className="btn-primary flex flex-1 items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold"
+                    variant="default"
+                    className="flex-1 gap-2 rounded-lg px-3 py-2"
                     aria-label={`Approve ${a.name}`}
                   >
                     <Check className="h-4 w-4" />
                     Approve
-                  </button>
-                  <button
+                  </Button>
+                  <Button
                     onClick={() => reject(a)}
-                    className="btn-secondary flex flex-1 items-center justify-center gap-2 rounded-lg border-rose-500/30 px-3 py-2 text-sm font-semibold text-rose-500 hover:bg-rose-500/10"
+                    variant="secondary"
+                    className="flex-1 gap-2 rounded-lg border-rose-500/30 px-3 py-2 text-rose-500 hover:bg-rose-500/10"
                     aria-label={`Reject ${a.name}`}
                   >
                     <X className="h-4 w-4" />
                     Reject
-                  </button>
+                  </Button>
                 </div>
               </motion.div>
             );
@@ -2429,14 +2459,15 @@ function DepartmentsTab() {
         subtitle={`${DEPARTMENTS.length} clinical departments · last updated 2m ago`}
         icon={Building2}
         action={
-          <button
+          <Button
             onClick={() => setAddOpen(true)}
-            className="btn-primary flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold"
+            variant="default"
+            className="gap-2 rounded-lg px-4 py-2"
             aria-label="Add department"
           >
             <Plus className="h-4 w-4" />
             Add department
-          </button>
+          </Button>
         }
       />
 
@@ -2507,13 +2538,14 @@ function DepartmentsTab() {
                 </div>
               </div>
 
-              <button
+              <Button
                 onClick={() => toast.info(`Opening ${d.name} department view`)}
-                className="btn-secondary mt-4 flex w-full items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold"
+                variant="secondary"
+                className="mt-4 w-full gap-2 rounded-lg px-3 py-2"
               >
                 View department
                 <ArrowRight className="h-3.5 w-3.5" />
-              </button>
+              </Button>
             </motion.div>
           );
         })}
@@ -2590,11 +2622,10 @@ function AddDepartmentDialog({
           <Button
             variant="ghost"
             onClick={() => onOpenChange(false)}
-            className="btn-ghost"
           >
             Cancel
           </Button>
-          <Button onClick={submit} className="btn-primary gap-2">
+          <Button variant="default" onClick={submit} className="gap-2">
             <Plus className="h-4 w-4" />
             Create department
           </Button>
@@ -2641,10 +2672,11 @@ function SettingsTab() {
         subtitle="Profile, contact & operating hours"
         icon={Settings}
         action={
-          <button
+          <Button
             onClick={save}
             disabled={saving}
-            className="btn-primary flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold"
+            variant="default"
+            className="gap-2 rounded-lg px-4 py-2"
             aria-label="Save settings"
           >
             {saving ? (
@@ -2658,7 +2690,7 @@ function SettingsTab() {
                 Save changes
               </>
             )}
-          </button>
+          </Button>
         }
       />
 

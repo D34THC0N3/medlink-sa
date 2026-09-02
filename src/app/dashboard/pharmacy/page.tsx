@@ -422,11 +422,12 @@ function TabBar({ tab, setTab }: { tab: TabId; setTab: (t: TabId) => void }) {
         const Icon = t.icon;
         const active = tab === t.id;
         return (
-          <button
+          <Button
             key={t.id}
+            variant="ghost"
             onClick={() => setTab(t.id)}
             className={cn(
-              "relative flex shrink-0 items-center gap-2 rounded-xl px-3.5 py-2 text-sm font-medium transition-colors",
+              "relative shrink-0 gap-2 rounded-xl px-3.5 py-2 text-sm font-medium",
               active
                 ? "text-medical-foreground"
                 : "text-muted-foreground hover:text-foreground hover:bg-foreground/5"
@@ -443,7 +444,7 @@ function TabBar({ tab, setTab }: { tab: TabId; setTab: (t: TabId) => void }) {
             )}
             <Icon className="relative z-10 h-4 w-4" />
             <span className="relative z-10 whitespace-nowrap">{t.label}</span>
-          </button>
+          </Button>
         );
       })}
     </div>
@@ -850,10 +851,11 @@ function OverviewTab({ setTab }: { setTab: (t: TabId) => void }) {
           {orders.slice(0, 5).map((o) => {
             const meta = STATUS_META[o.status];
             return (
-              <button
+              <Button
                 key={o.id}
+                variant="ghost"
                 onClick={() => setTab("orders")}
-                className="card-premium group rounded-xl border border-border/60 p-4 text-left"
+                className="w-full justify-start rounded-xl border border-border/60 p-4 text-left card-premium group"
                 aria-label={`Order ${o.id} for ${o.patient}`}
               >
                 <div className="flex items-center justify-between">
@@ -877,7 +879,7 @@ function OverviewTab({ setTab }: { setTab: (t: TabId) => void }) {
                     </span>
                   )}
                 </div>
-              </button>
+              </Button>
             );
           })}
         </div>
@@ -954,28 +956,32 @@ function OrdersTab() {
         action={
           <div className="flex items-center gap-2">
             <div className="glass-card flex items-center gap-1 rounded-lg p-1">
-              <button
+              <Button
+                variant="ghost"
+                size="icon"
                 onClick={() => setView("board")}
                 className={cn(
-                  "grid h-8 w-8 place-items-center rounded-md transition-colors",
+                  "h-8 w-8 rounded-md",
                   view === "board" ? "bg-medical text-medical-foreground" : "text-muted-foreground hover:text-foreground"
                 )}
                 aria-label="Board view"
                 aria-pressed={view === "board"}
               >
                 <LayoutGrid className="h-4 w-4" />
-              </button>
-              <button
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
                 onClick={() => setView("list")}
                 className={cn(
-                  "grid h-8 w-8 place-items-center rounded-md transition-colors",
+                  "h-8 w-8 rounded-md",
                   view === "list" ? "bg-medical text-medical-foreground" : "text-muted-foreground hover:text-foreground"
                 )}
                 aria-label="List view"
                 aria-pressed={view === "list"}
               >
                 <ListIcon className="h-4 w-4" />
-              </button>
+              </Button>
             </div>
           </div>
         }
@@ -1003,12 +1009,14 @@ function OrdersTab() {
                         {items.length}
                       </span>
                     </div>
-                    <button
-                      className="grid h-6 w-6 place-items-center rounded-md text-muted-foreground hover:bg-foreground/5"
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-6 w-6 text-muted-foreground hover:bg-foreground/5"
                       aria-label={`Filter ${col.label} column`}
                     >
                       <Filter className="h-3 w-3" />
-                    </button>
+                    </Button>
                   </div>
                   <div className="flex-1 space-y-2.5">
                     <AnimatePresence mode="popLayout">
@@ -1455,11 +1463,12 @@ function InventoryTab() {
             { id: "critical", label: `Critical (${counts.critical})` },
           ] as { id: typeof filter; label: string }[]
         ).map((f) => (
-          <button
+          <Button
             key={f.id}
+            variant="outline"
             onClick={() => setFilter(f.id)}
             className={cn(
-              "rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors",
+              "rounded-lg px-3 py-1.5 text-xs font-medium",
               filter === f.id
                 ? "border-medical bg-medical/10 text-medical"
                 : "border-border/60 bg-background/50 text-muted-foreground hover:text-foreground"
@@ -1467,7 +1476,7 @@ function InventoryTab() {
             aria-pressed={filter === f.id}
           >
             {f.label}
-          </button>
+          </Button>
         ))}
         <div className="ml-auto flex items-center gap-2">
           <div className="input-premium flex h-9 w-56 items-center gap-2 px-3 text-sm">
@@ -1565,13 +1574,15 @@ function InventoryTab() {
                           Restock
                         </Button>
                       ) : (
-                        <button
-                          className="text-xs text-muted-foreground hover:text-foreground"
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-auto w-auto p-0 text-xs text-muted-foreground hover:text-foreground"
                           aria-label={`Edit ${i.name}`}
                           onClick={() => toast.info(`Editing ${i.name}`)}
                         >
                           <Pencil className="h-3 w-3" />
-                        </button>
+                        </Button>
                       )}
                     </td>
                   </tr>

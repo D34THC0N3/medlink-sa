@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   output: "standalone",
   webpack(config) {
     config.resolve.alias["framer-motion"] = path.resolve(
-      __dirname,
+      process.cwd(),
       "node_modules/framer-motion/dist/cjs/index.js"
     );
     return config;
@@ -13,7 +13,7 @@ const nextConfig: NextConfig = {
   turbopack: {
     resolveAlias: {
       "framer-motion": path.resolve(
-        __dirname,
+        process.cwd(),
         "node_modules/framer-motion/dist/cjs/index.js"
       ),
     },
