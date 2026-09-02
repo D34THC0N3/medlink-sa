@@ -627,7 +627,7 @@ function OverviewTab({ setTab }: { setTab: (t: TabId) => void }) {
             </div>
             <Button
               onClick={() => setTab("orders")}
-              className="btn-primary gap-2"
+              className="gap-2"
               aria-label="View orders"
             >
               <ShoppingCart className="h-4 w-4" />
@@ -1117,7 +1117,7 @@ function OrdersTab() {
                           {next && nextTo ? (
                             <Button
                               size="sm"
-                              className="btn-primary gap-1 text-xs"
+                              className="gap-1 text-xs"
                               onClick={(e) => {
                                 e.stopPropagation();
                                 advance(o.id, nextTo);
@@ -1217,7 +1217,7 @@ function OrderCard({
         {nextLabel && nextTo ? (
           <Button
             size="sm"
-            className="btn-primary gap-1 px-2.5 py-1 text-[0.7rem]"
+            className="gap-1 px-2.5 py-1 text-[0.7rem]"
             onClick={(e) => {
               e.stopPropagation();
               onAdvance(order.id, nextTo);
@@ -1385,7 +1385,7 @@ function OrderDetailDrawer({
               {/* Action */}
               {nextLabel && nextTo && (
                 <Button
-                  className="btn-primary w-full gap-2"
+                  className="w-full gap-2"
                   onClick={() => {
                     onAdvance(order.id, nextTo);
                     onOpenChange(false);
@@ -1446,7 +1446,7 @@ function InventoryTab() {
         title="Inventory"
         subtitle="Live stock levels with reorder thresholds and restock actions."
         action={
-          <Button className="btn-primary gap-2" onClick={() => setAddOpen(true)} aria-label="Add inventory item">
+          <Button className="gap-2" onClick={() => setAddOpen(true)} aria-label="Add inventory item">
             <Plus className="h-4 w-4" />
             Add inventory
           </Button>
@@ -1709,7 +1709,7 @@ function AddInventoryDialog({
           <Button variant="ghost" onClick={() => onOpenChange(false)} aria-label="Cancel">
             Cancel
           </Button>
-          <Button className="btn-primary gap-2" onClick={submit} aria-label="Add item">
+          <Button className="gap-2" onClick={submit} aria-label="Add item">
             <Plus className="h-4 w-4" />
             Add item
           </Button>
@@ -1752,7 +1752,7 @@ function PricingTab() {
         title="Medicine & pricing"
         subtitle="Set the prices patients see in the explore / medicine search. Competitor prices are shown as reference."
         action={
-          <Button className="btn-primary gap-2" onClick={() => setAddOpen(true)} aria-label="Add medicine to catalogue">
+          <Button className="gap-2" onClick={() => setAddOpen(true)} aria-label="Add medicine to catalogue">
             <Plus className="h-4 w-4" />
             Add medicine to catalogue
           </Button>
@@ -1879,7 +1879,7 @@ function PricingTab() {
                     <td className="px-4 py-3 text-right">
                       <Button
                         size="sm"
-                        className="btn-primary gap-1 text-xs"
+                        className="gap-1 text-xs"
                         onClick={() => updatePrice(m)}
                         aria-label={`Update price for ${m.name}`}
                       >
@@ -2030,7 +2030,7 @@ function AddMedicineDialog({
           <Button variant="ghost" onClick={() => onOpenChange(false)} aria-label="Cancel">
             Cancel
           </Button>
-          <Button className="btn-primary gap-2" onClick={submit} aria-label="Publish medicine">
+          <Button className="gap-2" onClick={submit} aria-label="Publish medicine">
             <Plus className="h-4 w-4" />
             Publish medicine
           </Button>
@@ -2360,7 +2360,7 @@ function DeliveryTab() {
                             </Button>
                             <Button
                               size="sm"
-                              className="btn-primary gap-1 text-xs"
+                              className="gap-1 text-xs"
                               onClick={() => markDelivered(o.id)}
                               aria-label={`Mark ${o.id} delivered`}
                             >
@@ -2517,7 +2517,7 @@ function SettingsTab() {
             <Button variant="ghost" aria-label="Discard changes">
               Discard
             </Button>
-            <Button className="btn-primary gap-2" onClick={save} aria-label="Save pharmacy profile">
+            <Button className="gap-2" onClick={save} aria-label="Save pharmacy profile">
               <Save className="h-4 w-4" />
               Save changes
             </Button>

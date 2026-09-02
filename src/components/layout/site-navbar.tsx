@@ -180,7 +180,7 @@ export default function SiteNavbar() {
             <Button
               variant="outline"
               onClick={() => router.push(ROLE_DASHBOARDS[user.role])}
-              className="btn-glass hidden items-center gap-2 rounded-lg px-3 py-1.5 font-semibold md:flex"
+              className="hidden items-center gap-2 rounded-lg px-3 py-1.5 font-semibold md:flex"
             >
               <span className="grid h-6 w-6 place-items-center rounded-full bg-gradient-to-br from-medical to-cyan-400 text-[0.6rem] font-bold text-white">
                 {user.name.split(" ").map((n) => n[0]).slice(0, 2).join("")}
@@ -188,7 +188,7 @@ export default function SiteNavbar() {
               {t("nav.dashboard")}
             </Button>
           ) : (
-            <Button variant="outline" asChild className="btn-glass hidden rounded-lg px-4 py-2 font-semibold md:inline-flex">
+            <Button variant="outline" asChild className="hidden rounded-lg px-4 py-2 font-semibold md:inline-flex">
               <Link href="/sign-in">{t("nav.signin")}</Link>
             </Button>
           )}
@@ -198,7 +198,6 @@ export default function SiteNavbar() {
             variant="outline"
             size="icon"
             onClick={() => setMobileOpen((v) => !v)}
-            className="btn-glass"
             aria-label="Open menu"
             aria-expanded={mobileOpen}
           >
@@ -269,7 +268,7 @@ export default function SiteNavbar() {
                 </div>
               ) : (
                 <div className="grid gap-2">
-                  <Button variant="outline" asChild className="btn-glass flex items-center justify-center gap-2 rounded-xl px-4 py-3 font-semibold">
+                  <Button variant="outline" asChild className="flex items-center justify-center gap-2 rounded-xl px-4 py-3 font-semibold">
                     <Link href="/sign-in" onClick={() => setMobileOpen(false)}>
                       {t("nav.signin")}
                     </Link>

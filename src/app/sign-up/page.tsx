@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { useAuth, ROLE_DASHBOARDS, type UserRole } from "@/lib/auth-context";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 const ROLES: Array<{
   id: UserRole;
@@ -253,14 +254,15 @@ function SignUpForm() {
               </div>
             </div>
 
-            <button
+            <Button
               type="submit"
               disabled={loading}
-              className="btn-primary flex h-11 w-full items-center justify-center gap-2 rounded-xl text-sm font-semibold disabled:opacity-60"
+              variant="default"
+              className="flex h-11 w-full items-center justify-center gap-2 rounded-xl font-semibold disabled:opacity-60"
             >
               {loading ? "Creating account…" : "Create account"}
               {!loading && <ArrowRight className="h-4 w-4" />}
-            </button>
+            </Button>
           </form>
 
           <p className="mt-8 text-center text-sm text-muted-foreground">

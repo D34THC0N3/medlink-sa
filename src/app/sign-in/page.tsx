@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { signIn as nextAuthSignIn } from "next-auth/react";
 import { ROLE_DASHBOARDS, type UserRole } from "@/lib/auth-context";
+import { Button } from "@/components/ui/button";
 
 const TEST_ACCOUNTS = [
   { email: "admin@gmail.com", label: "Admin" },
@@ -156,14 +157,15 @@ function SignInForm() {
               </div>
             </div>
 
-            <button
+            <Button
               type="submit"
               disabled={loading}
-              className="btn-primary flex h-11 w-full items-center justify-center gap-2 rounded-xl text-sm font-semibold disabled:opacity-60"
+              variant="default"
+              className="flex h-11 w-full items-center justify-center gap-2 rounded-xl font-semibold disabled:opacity-60"
             >
               {loading ? "Signing in…" : "Sign in"}
               {!loading && <ArrowRight className="h-4 w-4" />}
-            </button>
+            </Button>
           </form>
 
           {/* Quick test accounts */}

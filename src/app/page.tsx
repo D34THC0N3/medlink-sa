@@ -22,6 +22,7 @@ import {
   MapPin,
 } from "lucide-react";
 import { useAuth, ROLE_DASHBOARDS } from "@/lib/auth-context";
+import { Button } from "@/components/ui/button";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -254,19 +255,17 @@ export default function Page() {
                   the network. Free to join.
                 </p>
                 <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
-                  <Link
-                    href="/sign-up"
-                    className="btn-primary inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold"
-                  >
-                    Create your account
-                    <ArrowRight className="h-4 w-4" />
-                  </Link>
-                  <Link
-                    href="/explore"
-                    className="btn-secondary inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold"
-                  >
-                    Explore the network
-                  </Link>
+                  <Button variant="default" asChild className="inline-flex items-center gap-2 rounded-xl px-6 py-3 font-semibold">
+                    <Link href="/sign-up">
+                      Create your account
+                      <ArrowRight className="h-4 w-4" />
+                    </Link>
+                  </Button>
+                  <Button variant="secondary" asChild className="inline-flex items-center gap-2 rounded-xl px-6 py-3 font-semibold">
+                    <Link href="/explore">
+                      Explore the network
+                    </Link>
+                  </Button>
                 </div>
               </motion.div>
             </div>

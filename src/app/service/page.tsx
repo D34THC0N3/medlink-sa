@@ -28,6 +28,7 @@ import { useAuth } from "@/lib/auth-context";
 import { FACILITIES, CURRENT_TICKET, QUEUE_STATE } from "@/lib/data";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -145,31 +146,28 @@ function ServiceContent() {
         {/* Mode switcher */}
         <div className="mb-8 flex justify-center">
           <div className="glass-strong inline-flex gap-1 rounded-2xl p-1.5">
-            <button
+            <Button
+              variant={view === "home" ? "default" : "ghost"}
               onClick={() => setView("home")}
-              className={cn(
-                "flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold transition-all",
-                view === "home" ? "btn-primary" : "btn-ghost"
-              )}
+              className="rounded-xl px-4 py-2 font-semibold"
             >
               <QrCode className="h-4 w-4" />
               Queue ticket
-            </button>
-            <button
+            </Button>
+            <Button
+              variant={view === "emergency" ? "default" : "ghost"}
               onClick={() => {
                 setView("emergency");
                 setEmergencyStep("confirm");
               }}
               className={cn(
-                "flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold transition-all",
-                view === "emergency"
-                  ? "bg-gradient-to-r from-rose-500 to-red-600 text-white"
-                  : "btn-ghost"
+                "rounded-xl px-4 py-2 font-semibold",
+                view === "emergency" && "bg-gradient-to-r from-rose-500 to-red-600 text-white hover:bg-gradient-to-r hover:from-rose-500 hover:to-red-600"
               )}
             >
               <Plus className="h-4 w-4" strokeWidth={3} />
               Emergency
-            </button>
+            </Button>
           </div>
         </div>
 
@@ -250,13 +248,14 @@ function ServiceContent() {
                     </div>
                   </div>
 
-                  <button
+                  <Button
+                    variant="default"
                     onClick={issueTicket}
-                    className="btn-primary flex h-12 w-full items-center justify-center gap-2 rounded-xl text-sm font-semibold"
+                    className="flex h-12 w-full items-center justify-center gap-2 rounded-xl font-semibold"
                   >
                     <QrCode className="h-5 w-5" />
                     Issue my queue ticket
-                  </button>
+                  </Button>
                   {!user && (
                     <p className="text-center text-xs text-muted-foreground">
                       You&apos;ll need to sign in first.{" "}
@@ -435,20 +434,24 @@ function ServiceContent() {
                 </div>
 
                 <div className="mt-6 flex gap-3">
-                  <button
+                  <Button
+                    variant="secondary"
                     onClick={() => setView("home")}
-                    className="btn-secondary flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold"
+                    className="flex items-center gap-2 rounded-xl px-4 py-2.5 font-semibold"
                   >
                     <ArrowLeft className="h-4 w-4" />
                     New ticket
-                  </button>
-                  <Link
-                    href="/dashboard/patient"
-                    className="btn-primary flex flex-1 items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold"
+                  </Button>
+                  <Button
+                    variant="default"
+                    asChild
+                    className="flex flex-1 items-center justify-center gap-2 rounded-xl px-4 py-2.5 font-semibold"
                   >
-                    Back to dashboard
-                    <ArrowRight className="h-4 w-4" />
-                  </Link>
+                    <Link href="/dashboard/patient">
+                      Back to dashboard
+                      <ArrowRight className="h-4 w-4" />
+                    </Link>
+                  </Button>
                 </div>
               </div>
             </motion.div>
@@ -569,15 +572,16 @@ function ServiceContent() {
                         </div>
                       </div>
 
-                      <button
+                      <Button
+                        variant="secondary"
                         onClick={() => {
                           toast.success("Stay calm. Help is on the way.");
                         }}
-                        className="btn-secondary mt-6 flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold"
+                        className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 font-semibold"
                       >
                         <Phone className="h-4 w-4" />
                         Call the driver
-                      </button>
+                      </Button>
                     </>
                   )}
                 </div>

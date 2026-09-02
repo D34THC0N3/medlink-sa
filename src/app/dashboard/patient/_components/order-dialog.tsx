@@ -114,7 +114,7 @@ export function OrderDialog({
             </span>
           </div>
 
-          <Button onClick={place} className="btn-primary w-full rounded-xl">
+          <Button onClick={place} className="w-full rounded-xl">
             Place order
           </Button>
         </div>

@@ -14,7 +14,7 @@ export function VideoView({ onStart }: { onStart: () => void }) {
   return (
     <div>
       <ViewHeader title="Video Consultations" subtitle="Connect with your doctors via secure video calls."
-        action={<Button onClick={onStart} className="btn-primary gap-2 rounded-xl"><Video className="h-4 w-4" /> Start video call</Button>}
+        action={<Button onClick={onStart} className="gap-2 rounded-xl"><Video className="h-4 w-4" /> Start video call</Button>}
       />
 
       <div className="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -53,7 +53,7 @@ export function VideoView({ onStart }: { onStart: () => void }) {
                 <Clock className="h-3 w-3 ml-2" /> {a.time}
               </div>
             </div>
-            <Button onClick={onStart} size="sm" className="btn-primary gap-1 rounded-lg">
+            <Button onClick={onStart} size="sm" className="gap-1 rounded-lg">
               <Video className="h-3.5 w-3.5" /> Join
             </Button>
           </div>

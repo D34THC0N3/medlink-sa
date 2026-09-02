@@ -168,7 +168,7 @@ export function SettingsView({ user, updateUser, signOut }: SettingsProps) {
         </motion.div>
 
         <div className="flex items-center gap-3">
-          <Button onClick={save} className="btn-primary gap-2 rounded-xl">
+          <Button onClick={save} className="gap-2 rounded-xl">
             <Save className="h-4 w-4" /> Save settings
           </Button>
           <Button onClick={signOut} variant="outline" className="gap-2 rounded-xl">

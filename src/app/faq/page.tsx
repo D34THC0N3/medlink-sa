@@ -16,6 +16,7 @@ import {
 import SiteNavbar from "@/components/layout/site-navbar";
 import SiteFooter from "@/components/layout/site-footer";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -237,13 +238,14 @@ export default function FaqPage() {
                 aria-label="Search FAQs"
               />
               {query && (
-                <button
+                <Button
+                  variant="ghost"
                   onClick={() => setQuery("")}
-                  className="btn-ghost rounded-md px-2 py-1 text-xs"
+                  className="rounded-md px-2 py-1 text-xs"
                   aria-label="Clear search"
                 >
                   Clear
-                </button>
+                </Button>
               )}
             </div>
           </motion.div>
@@ -374,27 +376,24 @@ export default function FaqPage() {
               — prescriptions, queue issues, emergencies — use the phone line.
             </p>
             <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
-              <a
-                href="mailto:care@medlink.sa"
-                className="btn-primary inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold"
-              >
-                <Mail className="h-4 w-4" />
-                care@medlink.sa
-              </a>
-              <Link
-                href="/service"
-                className="btn-secondary inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold"
-              >
-                <MessageCircle className="h-4 w-4" />
-                Open service hub
-              </Link>
-              <a
-                href="tel:0800633546"
-                className="btn-ghost inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold"
-              >
-                <Phone className="h-4 w-4 text-medical" />
-                0800 MEDLINK
-              </a>
+              <Button variant="default" asChild className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 font-semibold">
+                <a href="mailto:care@medlink.sa">
+                  <Mail className="h-4 w-4" />
+                  care@medlink.sa
+                </a>
+              </Button>
+              <Button variant="secondary" asChild className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 font-semibold">
+                <Link href="/service">
+                  <MessageCircle className="h-4 w-4" />
+                  Open service hub
+                </Link>
+              </Button>
+              <Button variant="ghost" asChild className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 font-semibold">
+                <a href="tel:0800633546">
+                  <Phone className="h-4 w-4 text-medical" />
+                  0800 MEDLINK
+                </a>
+              </Button>
             </div>
           </motion.div>
         </div>

@@ -6,6 +6,7 @@ import { ArrowDown, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useAuth, ROLE_DASHBOARDS } from "@/lib/auth-context";
 import { useLang } from "@/lib/lang-context";
+import { Button } from "@/components/ui/button";
 
 const wordVariants = {
   hidden: { yPercent: 120, opacity: 0, filter: "blur(10px)" },
@@ -132,17 +133,23 @@ export default function HeroSection() {
               className="pointer-events-auto mt-5"
             >
               {mounted && user ? (
-                <Link href={ROLE_DASHBOARDS[user.role]} className="btn-primary inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-xs font-semibold sm:px-6 sm:py-3 sm:text-sm">
-                  {t("hero.cta3")}
-                </Link>
+                <Button variant="default" asChild className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-xs font-semibold sm:px-6 sm:py-3 sm:text-sm">
+                  <Link href={ROLE_DASHBOARDS[user.role]}>
+                    {t("hero.cta3")}
+                  </Link>
+                </Button>
               ) : (
                 <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-                  <Link href="/sign-up" className="btn-primary inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-xs font-semibold sm:px-6 sm:py-3 sm:text-sm">
-                    {t("hero.cta1")}
-                  </Link>
-                  <Link href="/sign-in" className="btn-glass inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-xs font-semibold sm:px-6 sm:py-3 sm:text-sm">
-                    {t("hero.cta2")}
-                  </Link>
+                  <Button variant="default" asChild className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-xs font-semibold sm:px-6 sm:py-3 sm:text-sm">
+                    <Link href="/sign-up">
+                      {t("hero.cta1")}
+                    </Link>
+                  </Button>
+                  <Button variant="outline" asChild className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-xs font-semibold sm:px-6 sm:py-3 sm:text-sm">
+                    <Link href="/sign-in">
+                      {t("hero.cta2")}
+                    </Link>
+                  </Button>
                 </div>
               )}
             </motion.div>

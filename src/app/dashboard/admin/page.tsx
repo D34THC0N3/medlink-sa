@@ -1113,7 +1113,7 @@ function UsersView({
                                   </AlertDialogDescription>
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
-                                  <AlertDialogCancel className="btn-secondary">Cancel</AlertDialogCancel>
+                                  <AlertDialogCancel >Cancel</AlertDialogCancel>
                                   <AlertDialogAction
                                     onClick={() => blockUser(u)}
                                     className="bg-rose-500 text-white hover:bg-rose-600"
@@ -1262,7 +1262,7 @@ function UsersView({
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
-                        <AlertDialogCancel className="btn-secondary">Cancel</AlertDialogCancel>
+                        <AlertDialogCancel >Cancel</AlertDialogCancel>
                         <AlertDialogAction
                           onClick={() => {
                             blockUser(selected);
@@ -1429,7 +1429,7 @@ function HospitalsView({
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                          <AlertDialogCancel className="btn-secondary">Cancel</AlertDialogCancel>
+                          <AlertDialogCancel >Cancel</AlertDialogCancel>
                           <AlertDialogAction
                             onClick={() => revokeHospital(h.id)}
                             className="bg-rose-500 text-white hover:bg-rose-600"
@@ -2312,7 +2312,7 @@ function SystemHealthView() {
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel className="btn-secondary">Cancel</AlertDialogCancel>
+                <AlertDialogCancel >Cancel</AlertDialogCancel>
                 <AlertDialogAction
                   onClick={restartService}
                   className="bg-rose-500 text-white hover:bg-rose-600"

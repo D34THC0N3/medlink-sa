@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, ArrowRight, HelpCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -168,13 +169,12 @@ export default function FaqSection() {
             })}
 
             <div className="pt-2">
-              <Link
-                href="/faq"
-                className="btn-secondary inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold"
-              >
-                Learn more
-                <ArrowRight className="h-4 w-4" />
-              </Link>
+              <Button variant="secondary" asChild className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 font-semibold">
+                <Link href="/faq">
+                  Learn more
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </Button>
             </div>
           </div>
 
@@ -200,13 +200,12 @@ export default function FaqSection() {
                 for South African patients, clinicians and pharmacists.
               </p>
             </div>
-            <Link
-              href="/faq"
-              className="btn-primary inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold"
-            >
-              Browse all FAQs
-              <ArrowRight className="h-4 w-4" />
-            </Link>
+            <Button variant="default" asChild className="inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 font-semibold">
+              <Link href="/faq">
+                Browse all FAQs
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
           </motion.aside>
         </div>
       </div>

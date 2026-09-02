@@ -70,7 +70,7 @@ export function VerifyView({ user, updateUser }: { user: VerifyUser | null; upda
 
         <label className="block">
           <input type="file" accept="image/*,.pdf" className="hidden" onChange={handleFile} />
-          <Button asChild className="btn-primary w-full rounded-xl">
+          <Button asChild className="w-full rounded-xl">
             <span className="cursor-pointer">
               <FileText className="mr-2 inline h-4 w-4" /> Select document
             </span>

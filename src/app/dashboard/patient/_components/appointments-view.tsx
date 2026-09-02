@@ -37,7 +37,7 @@ export function AppointmentsView({ onJoinVideo }: { onJoinVideo: (a: (typeof PAT
   return (
     <div>
       <ViewHeader title="Appointments" subtitle="Book, manage and join your healthcare visits."
-        action={<Button onClick={() => setBookOpen(!bookOpen)} className="btn-primary gap-2 rounded-xl"><Plus className="h-4 w-4" /> {bookOpen ? "Cancel" : "Book appointment"}</Button>}
+        action={<Button onClick={() => setBookOpen(!bookOpen)} className="gap-2 rounded-xl"><Plus className="h-4 w-4" /> {bookOpen ? "Cancel" : "Book appointment"}</Button>}
       />
 
       <div className="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
@@ -91,7 +91,7 @@ export function AppointmentsView({ onJoinVideo }: { onJoinVideo: (a: (typeof PAT
             </div>
           </div>
           <div className="mt-4 flex justify-end">
-            <Button onClick={book} className="btn-primary rounded-xl">Confirm booking</Button>
+            <Button onClick={book} className="rounded-xl">Confirm booking</Button>
           </div>
         </motion.div>
       )}
@@ -116,7 +116,7 @@ export function AppointmentsView({ onJoinVideo }: { onJoinVideo: (a: (typeof PAT
                 <Video className="h-3.5 w-3.5" /> Join
               </Button>
             )}
-            <Link href={`/dashboard/patient?tab=queue`} className="btn-primary hidden h-9 items-center gap-1 rounded-lg px-3 text-xs font-semibold sm:flex">
+            <Link href={`/dashboard/patient?tab=queue`} className="hidden h-9 items-center gap-1 rounded-lg px-3 text-xs font-semibold sm:flex">
               View queue
             </Link>
           </motion.div>

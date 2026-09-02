@@ -118,7 +118,7 @@ export function MedicineView({ preselectId }: { preselectId?: string }) {
               <button
                 onClick={() => setOrderMed(m)}
                 disabled={m.stock === 0}
-                className="btn-primary flex h-8 items-center gap-1 rounded-lg px-3 text-xs font-semibold disabled:opacity-40"
+                className="flex h-8 items-center gap-1 rounded-lg px-3 text-xs font-semibold disabled:opacity-40"
               >
                 <ShoppingCart className="h-3.5 w-3.5" /> Order
               </button>
