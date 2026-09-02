@@ -23,7 +23,6 @@ import {
   CheckCircle2,
   X,
   MapPin,
-  Navigation,
   Bike,
   Car,
   TrendingUp,
@@ -42,15 +41,10 @@ import {
   Search,
   Filter,
   ChevronRight,
-  MoreVertical,
   Sparkles,
   ShieldCheck,
-  Box,
-  Boxes,
   Save,
-  Circle,
   CircleDot,
-  Dot,
   FileText,
   Banknote,
   Route,
@@ -217,7 +211,6 @@ const ORDERS_INITIAL: Order[] = PHARMACY_ORDERS.map((o, i) => {
     qty: [60, 14, 1, 20, 24][i] ?? 1,
     createdAt: ["08:14", "08:42", "07:55", "09:21", "Yesterday 17:30"][i] ?? "Today",
     updatedAt: ["08:14", "08:50", "09:10", "09:21", "Yesterday 17:48"][i] ?? "Today",
-    driver: o.delivery && o.status === "preparing" ? undefined : undefined,
     timeline:
       o.status === "new"
         ? [{ label: "Order received", time: "08:14", done: true }]
@@ -792,6 +785,11 @@ function OverviewTab({ setTab }: { setTab: (t: TabId) => void }) {
             }
           />
           <div className="mt-4 max-h-[300px] space-y-2 overflow-y-auto pr-1">
+            {inventory.filter((i) => i.status !== "ok").length === 0 && (
+              <p className="py-6 text-center text-sm text-muted-foreground">
+                All items are well-stocked.
+              </p>
+            )}
             {inventory
               .filter((i) => i.status !== "ok")
               .map((i) => {
@@ -2253,6 +2251,13 @@ function DeliveryTab() {
               </tr>
             </thead>
             <tbody>
+              {deliveryOrders.length === 0 && (
+                <tr>
+                  <td colSpan={6} className="px-4 py-10 text-center text-sm text-muted-foreground">
+                    No delivery orders queued.
+                  </td>
+                </tr>
+              )}
               {deliveryOrders.map((o) => {
                 const meta = STATUS_META[o.status];
                 const assignedDriver = DRIVERS.find((d) => d.name === o.driver);

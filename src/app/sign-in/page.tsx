@@ -14,7 +14,8 @@ import {
   AlertCircle,
   ShieldCheck,
 } from "lucide-react";
-import { useAuth, ROLE_DASHBOARDS, type UserRole } from "@/lib/auth-context";
+import { signIn as nextAuthSignIn } from "next-auth/react";
+import { ROLE_DASHBOARDS, type UserRole } from "@/lib/auth-context";
 
 const TEST_ACCOUNTS = [
   { email: "admin@gmail.com", label: "Admin" },
@@ -27,7 +28,6 @@ const TEST_ACCOUNTS = [
 function SignInForm() {
   const router = useRouter();
   const params = useSearchParams();
-  const { signIn } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPwd, setShowPwd] = useState(false);
@@ -36,21 +36,30 @@ function SignInForm() {
 
   const redirect = params.get("redirect");
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
-    setTimeout(() => {
-      const res = signIn(email, password);
-      setLoading(false);
-      if (!res.ok || !res.user) {
-        setError(res.error ?? "Sign in failed.");
-        return;
-      }
-      // Use hard navigation for reliability + redirect by ACTUAL role (not guessed)
-      const dest = redirect ?? ROLE_DASHBOARDS[res.user.role];
-      window.location.href = dest;
-    }, 350);
+
+    const res = await nextAuthSignIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+
+    setLoading(false);
+
+    if (!res?.ok) {
+      setError("Invalid email or password.");
+      return;
+    }
+
+    // After successful sign-in, fetch session to get role, then redirect
+    const sessionRes = await fetch("/api/auth/session");
+    const session = await sessionRes.json();
+    const role = session?.user?.role as UserRole | undefined;
+    const dest = redirect ?? (role ? ROLE_DASHBOARDS[role] : "/dashboard/patient");
+    window.location.href = dest;
   };
 
   const quickFill = (em: string) => {
@@ -242,14 +251,6 @@ function SignInForm() {
       </div>
     </div>
   );
-}
-
-function guessRole(email: string): UserRole {
-  if (email.includes("doctor")) return "doctor";
-  if (email.includes("hospital")) return "hospital";
-  if (email.includes("pharmacy")) return "pharmacy";
-  if (email.includes("admin")) return "admin";
-  return "patient";
 }
 
 export default function SignInPage() {

@@ -86,7 +86,7 @@ import {
   NETWORK_ACTIVITY,
   MEDICINES,
 } from "@/lib/data";
-import { cn } from "@/lib/utils";
+import { cn, getInitials } from "@/lib/utils";
 import { Toaster as SonnerToaster } from "@/components/ui/sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -517,10 +517,6 @@ const STATUS_STYLE: Record<ApptStatus, { label: string; dot: string; badge: stri
   "no-show": { label: "No-show", dot: "bg-rose-500", badge: "bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20" },
 };
 
-function initialsOf(name: string) {
-  return name.split(" ").map((n) => n[0]).slice(0, 2).join("");
-}
-
 const fadeUp = {
   hidden: { opacity: 0, y: 16 },
   show: (i: number = 0) => ({
@@ -702,18 +698,22 @@ function OverviewTab({ setTab }: { setTab: (t: TabId) => void }) {
             </motion.p>
           </div>
           <motion.div variants={fadeUp} custom={3} className="flex flex-wrap gap-2">
-            <button
+            <Button
               onClick={() => setTab("schedule")}
-              className="btn-secondary flex h-10 items-center gap-2 rounded-xl px-4 text-sm font-medium"
+              variant="secondary"
+              size="lg"
+              className="gap-2 rounded-xl px-4 text-sm font-medium"
             >
               <Calendar className="h-4 w-4" /> View schedule
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => setTab("prescriptions")}
-              className="btn-primary flex h-10 items-center gap-2 rounded-xl px-4 text-sm font-semibold"
+              variant="default"
+              size="lg"
+              className="gap-2 rounded-xl px-4 text-sm font-semibold"
             >
               <Plus className="h-4 w-4" /> New prescription
-            </button>
+            </Button>
           </motion.div>
         </div>
       </motion.div>
@@ -773,9 +773,9 @@ function OverviewTab({ setTab }: { setTab: (t: TabId) => void }) {
               </h2>
               <p className="text-xs text-muted-foreground">Top 5 appointments · {new Date().toLocaleDateString("en-ZA", { weekday: "long" })}</p>
             </div>
-            <button onClick={() => setTab("schedule")} className="btn-ghost flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-medium text-medical">
+            <Button onClick={() => setTab("schedule")} variant="ghost" size="sm" className="gap-1 rounded-lg px-2 py-1 text-xs font-medium text-medical">
               View all <ArrowUpRight className="h-3.5 w-3.5" />
-            </button>
+            </Button>
           </div>
           <ol className="relative space-y-3 border-l border-border/60 pl-4">
             {top5.map((s, i) => (
@@ -822,9 +822,9 @@ function OverviewTab({ setTab }: { setTab: (t: TabId) => void }) {
               </h2>
               <p className="text-xs text-muted-foreground">Flagged in the last 24h</p>
             </div>
-            <button onClick={() => setTab("patients")} className="btn-ghost flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-medium text-medical">
+            <Button onClick={() => setTab("patients")} variant="ghost" size="sm" className="gap-1 rounded-lg px-2 py-1 text-xs font-medium text-medical">
               All <ArrowUpRight className="h-3.5 w-3.5" />
-            </button>
+            </Button>
           </div>
           <ul className="space-y-3">
             {DOCTOR_HIGH_RISK.map((p) => (
@@ -926,9 +926,9 @@ function ScheduleTab() {
               <LayoutGrid className="h-3.5 w-3.5" /> Board
             </button>
           </div>
-          <button className="btn-secondary flex h-9 items-center gap-2 rounded-lg px-3 text-sm">
+          <Button variant="secondary" className="h-9 items-center gap-2 rounded-lg px-3 text-sm">
             <Calendar className="h-4 w-4" /> Jump to
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -951,7 +951,7 @@ function ScheduleTab() {
       />
 
       {/* Video consult modal (full-screen) */}
-      <VideoCallModal consult={videoFor ? { id: videoFor.id, patient: videoFor.patient, initials: initialsOf(videoFor.patient), reason: videoFor.reason, scheduled: videoFor.time, duration: `${videoFor.duration} min`, status: "upcoming" } : null} onClose={() => setVideoFor(null)} />
+      <VideoCallModal consult={videoFor ? { id: videoFor.id, patient: videoFor.patient, initials: getInitials(videoFor.patient), reason: videoFor.reason, scheduled: videoFor.time, duration: `${videoFor.duration} min`, status: "upcoming" } : null} onClose={() => setVideoFor(null)} />
     </div>
   );
 }
@@ -973,7 +973,7 @@ function ScheduleRow({ s, index, onStart, onJoin, onNoShow }: { s: ScheduleItem;
         <span className="absolute -left-1 top-1 h-2 w-2 rounded-full" style={{ background: STATUS_STYLE[s.status].dot }} />
         <Avatar className="h-10 w-10 border border-border">
           <AvatarFallback className="bg-gradient-to-br from-medical/80 to-cyan-400/80 text-[0.7rem] font-bold text-white">
-            {initialsOf(s.patient)}
+            {getInitials(s.patient)}
           </AvatarFallback>
         </Avatar>
       </div>
@@ -992,28 +992,32 @@ function ScheduleRow({ s, index, onStart, onJoin, onNoShow }: { s: ScheduleItem;
           <Icon className="h-3 w-3" />
           <span className="hidden sm:inline">{s.type === "video" ? "Video" : "In-person"}</span>
         </span>
-        <button
+        <Button
           onClick={onStart}
-          className="btn-primary flex h-8 items-center gap-1.5 rounded-lg px-2.5 text-xs font-semibold"
+          variant="default"
+          className="h-8 px-2.5 text-xs font-semibold"
         >
           <Stethoscope className="h-3.5 w-3.5" /> Start consult
-        </button>
+        </Button>
         {s.type === "video" && (
-          <button
+          <Button
             onClick={onJoin}
-            className="btn-secondary flex h-8 items-center gap-1.5 rounded-lg px-2.5 text-xs font-medium"
+            variant="secondary"
+            className="h-8 px-2.5 text-xs font-medium"
             aria-label={`Join video call with ${s.patient}`}
           >
             <Video className="h-3.5 w-3.5" /> Join
-          </button>
+          </Button>
         )}
-        <button
+        <Button
           onClick={onNoShow}
-          className="btn-ghost grid h-8 w-8 place-items-center rounded-lg text-muted-foreground hover:text-rose-500"
+          variant="ghost"
+          size="icon"
+          className="h-8 w-8 rounded-lg text-muted-foreground hover:text-rose-500"
           aria-label={`Mark ${s.patient} as no-show`}
         >
           <UserX2 className="h-3.5 w-3.5" />
-        </button>
+        </Button>
       </div>
     </motion.div>
   );
@@ -1064,7 +1068,7 @@ function KanbanBoard({ items, onStart, onJoin }: { items: ScheduleItem[]; onStar
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex items-center gap-2">
                         <span className="grid h-7 w-7 place-items-center rounded-full bg-gradient-to-br from-medical/80 to-cyan-400/80 text-[0.6rem] font-bold text-white">
-                          {initialsOf(s.patient)}
+                          {getInitials(s.patient)}
                         </span>
                         <div>
                           <div className="text-xs font-semibold leading-tight">{s.patient}</div>
@@ -1077,13 +1081,13 @@ function KanbanBoard({ items, onStart, onJoin }: { items: ScheduleItem[]; onStar
                     </div>
                     <div className="mt-2 text-[0.7rem] text-muted-foreground">{s.reason}</div>
                     <div className="mt-2.5 flex gap-1.5">
-                      <button onClick={() => onStart(s)} className="btn-outline flex h-7 flex-1 items-center justify-center gap-1 rounded-md text-[0.7rem] font-medium">
+                      <Button onClick={() => onStart(s)} variant="outline" className="h-7 flex-1 justify-center gap-1 rounded-md text-[0.7rem] font-medium">
                         <Stethoscope className="h-3 w-3" /> Start
-                      </button>
+                      </Button>
                       {s.type === "video" && (
-                        <button onClick={() => onJoin(s)} className="btn-outline grid h-7 w-7 place-items-center rounded-md text-cyan-600 dark:text-cyan-400" aria-label={`Join video with ${s.patient}`}>
+                        <Button onClick={() => onJoin(s)} variant="outline" size="icon" className="h-7 w-7 rounded-md text-cyan-600 dark:text-cyan-400" aria-label={`Join video with ${s.patient}`}>
                           <Video className="h-3 w-3" />
-                        </button>
+                        </Button>
                       )}
                     </div>
                   </motion.div>
@@ -1179,9 +1183,9 @@ function ClinicalNoteComposer({
           <Field label="ICD-10 code">
             <div className="flex items-center gap-2">
               <Input value={icd10} onChange={(e) => setIcd10(e.target.value)} placeholder="e.g. I10, E11.9" className="font-mono" />
-              <button className="btn-secondary grid h-9 w-9 place-items-center rounded-md" aria-label="Search ICD-10">
+              <Button variant="secondary" size="icon" className="h-9 w-9 rounded-md" aria-label="Search ICD-10">
                 <Search className="h-4 w-4" />
-              </button>
+              </Button>
             </div>
           </Field>
         </div>
@@ -1211,10 +1215,10 @@ function ClinicalNoteComposer({
             <Lock className="mr-1 inline h-3 w-3" /> Encrypted at rest · audit-logged
           </div>
           <div className="flex gap-2">
-            <button onClick={onClose} className="btn-outline h-9 rounded-lg px-4 text-sm">Cancel</button>
-            <button onClick={handleSave} className="btn-primary flex h-9 items-center gap-2 rounded-lg px-4 text-sm font-semibold">
+            <Button onClick={onClose} variant="outline" className="h-9 rounded-lg px-4 text-sm">Cancel</Button>
+            <Button onClick={handleSave} variant="default" className="h-9 items-center gap-2 rounded-lg px-4 text-sm font-semibold">
               <Check className="h-4 w-4" /> Sign &amp; save
-            </button>
+            </Button>
           </div>
         </div>
       </DialogContent>
@@ -1471,12 +1475,14 @@ function PatientDrawer({ patient, onClose }: { patient: Patient | null; onClose:
                 </div>
               </div>
 
-              <button
+              <Button
                 onClick={() => setComposerOpen(true)}
-                className="btn-primary flex h-10 w-full items-center justify-center gap-2 rounded-xl text-sm font-semibold"
+                variant="default"
+                size="lg"
+                className="w-full justify-center gap-2 rounded-xl text-sm font-semibold"
               >
                 <Stethoscope className="h-4 w-4" /> Start consult
-              </button>
+              </Button>
             </div>
           )}
         </SheetContent>
@@ -1615,7 +1621,7 @@ function PrescriptionsTab() {
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-1.5">
                       <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-gradient-to-br from-medical/80 to-cyan-400/80 text-[0.6rem] font-bold text-white">
-                        {initialsOf(p.patient)}
+                        {getInitials(p.patient)}
                       </span>
                       <span className="truncate text-sm font-medium">{p.patient}</span>
                     </div>
@@ -1645,9 +1651,9 @@ function PrescriptionsTab() {
             <h2 className="flex items-center gap-2 text-sm font-semibold">
               <FileSignature className="h-4 w-4 text-medical" /> New prescription
             </h2>
-            <button onClick={resetForm} className="btn-ghost flex items-center gap-1 rounded-md px-2 py-1 text-xs">
+            <Button onClick={resetForm} variant="ghost" size="sm" className="gap-1">
               <X className="h-3 w-3" /> Clear
-            </button>
+            </Button>
           </div>
 
           <div className="space-y-4">
@@ -1783,9 +1789,9 @@ function PrescriptionsTab() {
               <div className="flex items-center gap-2 text-[0.7rem] text-muted-foreground">
                 <Lock className="h-3 w-3" /> Encrypted · audit-logged · e-Rx compliant
               </div>
-              <button onClick={handleSign} className="btn-primary flex h-10 items-center justify-center gap-2 rounded-xl px-5 text-sm font-semibold">
+              <Button onClick={handleSign} variant="default" size="lg" className="justify-center gap-2 rounded-xl px-5 text-sm font-semibold">
                 <Check className="h-4 w-4" /> Sign &amp; send
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -1808,12 +1814,14 @@ function VideoTab() {
           <h1 className="text-xl font-semibold tracking-tight">Video consults</h1>
           <p className="text-sm text-muted-foreground">Secure telemedicine · end-to-end encrypted</p>
         </div>
-        <button
+        <Button
           onClick={() => setActive(VIDEO_CONSULTS.find((v) => v.status === "upcoming") || VIDEO_CONSULTS[0])}
-          className="btn-primary flex h-10 items-center gap-2 rounded-xl px-4 text-sm font-semibold"
+          variant="default"
+          size="lg"
+          className="gap-2 rounded-xl px-4 text-sm font-semibold"
         >
           <Video className="h-4 w-4" /> Start video consult
-        </button>
+        </Button>
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2">
@@ -1822,6 +1830,9 @@ function VideoTab() {
             <CalendarClock className="h-4 w-4 text-medical" /> Upcoming
           </h2>
           <div className="space-y-2.5">
+            {VIDEO_CONSULTS.filter((v) => v.status === "upcoming").length === 0 && (
+              <p className="py-6 text-center text-xs text-muted-foreground">No upcoming consultations.</p>
+            )}
             {VIDEO_CONSULTS.filter((v) => v.status === "upcoming").map((v, i) => (
               <motion.button
                 key={v.id}
@@ -1854,6 +1865,9 @@ function VideoTab() {
             <History className="h-4 w-4 text-muted-foreground" /> History
           </h2>
           <div className="space-y-2.5">
+            {VIDEO_CONSULTS.filter((v) => v.status !== "upcoming").length === 0 && (
+              <p className="py-6 text-center text-xs text-muted-foreground">No past consultations.</p>
+            )}
             {VIDEO_CONSULTS.filter((v) => v.status !== "upcoming").map((v, i) => (
               <motion.div
                 key={v.id}
@@ -1944,13 +1958,15 @@ function VideoCallModal({ consult, onClose }: { consult: VideoConsult | null; on
             <span className="font-mono text-sm tabular-nums">{mm}:{ss}</span>
             <span className="hidden text-xs text-white/60 sm:inline">· End-to-end encrypted · MedLink Telehealth</span>
           </div>
-          <button
+          <Button
             onClick={onClose}
-            className="btn-ghost grid h-9 w-9 place-items-center rounded-lg text-white/70 hover:text-white"
+            variant="ghost"
+            size="icon"
+            className="h-9 w-9 rounded-lg text-white/70 hover:text-white"
             aria-label="End call"
           >
             <PhoneOff className="h-4 w-4" />
-          </button>
+          </Button>
         </div>
 
         {/* Main body */}
@@ -2039,12 +2055,14 @@ function VideoCallModal({ consult, onClose }: { consult: VideoConsult | null; on
             <div className="flex-1 overflow-y-auto p-4">
               <div className="mb-2 flex items-center justify-between">
                 <div className="text-xs uppercase tracking-wider text-white/40">Notes</div>
-                <button
+                <Button
                   onClick={() => setPrescribeOpen(true)}
-                  className="inline-flex items-center gap-1.5 rounded-md bg-medical/20 px-2.5 py-1 text-xs font-medium text-medical hover:bg-medical/30"
+                  variant="ghost"
+                  size="sm"
+                  className="gap-1.5 rounded-md bg-medical/20 px-2.5 py-1 text-xs font-medium text-medical hover:bg-medical/30"
                 >
                   <Pill className="h-3 w-3" /> Prescribe
-                </button>
+                </Button>
               </div>
               <Textarea
                 value={note}
@@ -2066,13 +2084,14 @@ function VideoCallModal({ consult, onClose }: { consult: VideoConsult | null; on
               <ControlBtn active={!sharing} onClick={() => setSharing((v) => !v)} label="Share screen" aria="Toggle screen share">
                 <ScreenShare className="h-5 w-5" />
               </ControlBtn>
-              <button
+              <Button
                 onClick={onClose}
-                className="ml-2 inline-flex h-12 items-center gap-2 rounded-full bg-rose-500 px-5 text-sm font-semibold text-white transition-colors hover:bg-rose-600"
+                variant="destructive"
+                className="ml-2 h-12 gap-2 rounded-full px-5 text-sm font-semibold"
                 aria-label="End call"
               >
                 <PhoneOff className="h-4 w-4" /> End
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -2094,17 +2113,19 @@ function VideoCallModal({ consult, onClose }: { consult: VideoConsult | null; on
 
 function ControlBtn({ children, active, onClick, label, aria }: { children: React.ReactNode; active: boolean; onClick: () => void; label: string; aria: string }) {
   return (
-    <button
+    <Button
       onClick={onClick}
       aria-label={aria}
       title={label}
+      variant="ghost"
+      size="icon"
       className={cn(
-        "grid h-12 w-12 place-items-center rounded-full border transition-colors",
+        "h-12 w-12 rounded-full border transition-colors",
         active ? "border-white/15 bg-white/10 text-white hover:bg-white/15" : "border-rose-500/30 bg-rose-500/20 text-rose-300 hover:bg-rose-500/30"
       )}
     >
       {children}
-    </button>
+    </Button>
   );
 }
 
@@ -2122,12 +2143,14 @@ function QuickPrescribeForm({ patient, onDone }: { patient: string; onDone: () =
         </Select>
       </Field>
       <Field label="Dosage"><Input placeholder="1 tablet" className="input-premium h-10" /></Field>
-      <button
+      <Button
         onClick={() => { toast.success("Prescription sent", { description: `${med?.name || "Medicine"} routed to ${patient}'s pharmacy.` }); onDone(); }}
-        className="btn-primary flex h-10 w-full items-center justify-center gap-2 rounded-xl text-sm font-semibold"
+        variant="default"
+        size="lg"
+        className="w-full justify-center gap-2 rounded-xl text-sm font-semibold"
       >
         <Check className="h-4 w-4" /> Sign &amp; send
-      </button>
+      </Button>
     </div>
   );
 }
@@ -2149,15 +2172,16 @@ function NotesTab() {
           <p className="text-sm text-muted-foreground">{notes.length} notes · signed &amp; audit-logged</p>
         </div>
         <div className="flex gap-2">
-          <button className="btn-secondary flex h-9 items-center gap-2 rounded-lg px-3 text-sm">
+          <Button variant="secondary" className="h-9 items-center gap-2 rounded-lg px-3 text-sm">
             <Printer className="h-4 w-4" /> Export
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={() => setComposer(true)}
-            className="btn-primary flex h-9 items-center gap-2 rounded-lg px-4 text-sm font-semibold"
+            variant="default"
+            className="h-9 items-center gap-2 rounded-lg px-4 text-sm font-semibold"
           >
             <Plus className="h-4 w-4" /> New note
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -2209,18 +2233,22 @@ function NotesTab() {
                       <div className="mt-3 flex items-center justify-between border-t border-border/40 pt-3">
                         <span className="text-[0.7rem] text-muted-foreground">Signed by {n.author}</span>
                         <div className="flex gap-2">
-                          <button
+                          <Button
                             onClick={() => toast("Note opened for editing", { description: "Edits will be audit-logged." })}
-                            className="btn-ghost flex items-center gap-1 rounded-md px-2 py-1 text-xs"
+                            variant="ghost"
+                            size="sm"
+                            className="gap-1 rounded-md px-2 py-1 text-xs"
                           >
                             <Edit3 className="h-3 w-3" /> Edit
-                          </button>
-                          <button
+                          </Button>
+                          <Button
                             onClick={() => toast.success("Note exported", { description: `PDF saved to ${n.patient}'s record.` })}
-                            className="btn-ghost flex items-center gap-1 rounded-md px-2 py-1 text-xs"
+                            variant="ghost"
+                            size="sm"
+                            className="gap-1 rounded-md px-2 py-1 text-xs"
                           >
                             <Printer className="h-3 w-3" /> Export
-                          </button>
+                          </Button>
                         </div>
                       </div>
                     </div>
@@ -2375,9 +2403,9 @@ function MessagesTab() {
                 </div>
               </div>
             </div>
-            <button className="btn-ghost grid h-9 w-9 place-items-center rounded-lg" aria-label="More options">
+            <Button variant="ghost" size="icon" className="h-9 w-9 rounded-lg" aria-label="More options">
               <MoreVertical className="h-4 w-4" />
-            </button>
+            </Button>
           </div>
 
           <div ref={scrollRef} className="flex-1 space-y-2 overflow-y-auto p-4" style={{ maxHeight: "calc(72vh - 120px)" }}>
@@ -2398,9 +2426,9 @@ function MessagesTab() {
 
           <div className="border-t border-border/40 p-3">
             <div className="flex items-center gap-2">
-              <button className="btn-ghost grid h-9 w-9 shrink-0 place-items-center rounded-lg" aria-label="Attach file">
+              <Button variant="ghost" size="icon" className="h-9 w-9 shrink-0 rounded-lg" aria-label="Attach file">
                 <Plus className="h-4 w-4" />
-              </button>
+              </Button>
               <Input
                 value={draft}
                 onChange={(e) => setDraft(e.target.value)}
@@ -2409,14 +2437,16 @@ function MessagesTab() {
                 className="input-premium h-10"
                 aria-label="Compose message"
               />
-              <button
+              <Button
                 onClick={send}
                 disabled={!draft.trim()}
-                className="btn-primary grid h-10 w-10 shrink-0 place-items-center rounded-xl disabled:opacity-50"
+                variant="default"
+                size="icon"
+                className="h-10 w-10 shrink-0 rounded-xl disabled:opacity-50"
                 aria-label="Send message"
               >
                 <Send className="h-4 w-4" />
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -2454,9 +2484,9 @@ function SettingsTab() {
           <h1 className="text-xl font-semibold tracking-tight">Settings</h1>
           <p className="text-sm text-muted-foreground">Profile, availability &amp; preferences</p>
         </div>
-        <button onClick={handleSave} className="btn-primary flex h-10 items-center gap-2 rounded-xl px-4 text-sm font-semibold">
+        <Button onClick={handleSave} variant="default" size="lg" className="gap-2 rounded-xl px-4 text-sm font-semibold">
           <Check className="h-4 w-4" /> Save changes
-        </button>
+        </Button>
       </div>
 
       <div className="grid gap-5 lg:grid-cols-3">
@@ -2467,7 +2497,7 @@ function SettingsTab() {
           </h2>
           <div className="mb-5 flex items-center gap-4">
             <span className="grid h-16 w-16 place-items-center rounded-2xl bg-gradient-to-br from-medical to-cyan-500 text-lg font-bold text-white">
-              {initialsOf(name)}
+              {getInitials(name)}
             </span>
             <div className="space-y-1">
               <div className="flex items-center gap-2">
@@ -2476,7 +2506,7 @@ function SettingsTab() {
                 </span>
                 <span className="chip">{specialty}</span>
               </div>
-              <button className="btn-outline h-8 rounded-lg px-3 text-xs">Change photo</button>
+              <Button variant="outline" className="h-8 rounded-lg px-3 text-xs">Change photo</Button>
             </div>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">

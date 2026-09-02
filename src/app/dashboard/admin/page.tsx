@@ -59,7 +59,6 @@ import {
   Download,
   KeyRound,
   Monitor,
-  Smartphone,
   Lock,
   Save,
   AlertTriangle,
@@ -70,11 +69,9 @@ import {
   Ban,
   RotateCcw,
   Sparkles,
-  Network,
   HardDrive,
   Wifi,
   CloudUpload,
-  FileCheck,
   Fingerprint,
   CircleDashed,
   Crown,
@@ -92,12 +89,12 @@ import {
   NETWORK_ACTIVITY,
   PROVINCE_SPLIT,
 } from "@/lib/data";
-import { cn } from "@/lib/utils";
+import { cn, getInitials } from "@/lib/utils";
 import { Toaster as SonnerToaster } from "@/components/ui/sonner";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -338,10 +335,6 @@ const ROLE_STYLE: Record<AdminUser["role"], { icon: typeof Users; tint: string }
    Helpers
    ------------------------------------------------------------------------- */
 
-function initialsOf(name: string) {
-  return name.split(" ").map((n) => n[0]).slice(0, 2).join("").toUpperCase();
-}
-
 const fadeUp = {
   hidden: { opacity: 0, y: 16 },
   show: (i: number = 0) => ({
@@ -488,7 +481,6 @@ function AdminDashboardInner() {
               <VerificationsView
                 hospitals={hospitals}
                 verifyHospital={verifyHospital}
-                revokeHospital={revokeHospital}
                 pendingDoctors={pendingDoctors}
                 approveDoctor={approveDoctor}
                 rejectDoctor={rejectDoctor}
@@ -1034,7 +1026,7 @@ function UsersView({
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-3">
                           <span className={cn("grid h-8 w-8 shrink-0 place-items-center rounded-full bg-gradient-to-br text-[0.65rem] font-bold text-white", roleMeta.tint)}>
-                            {initialsOf(u.name)}
+                            {getInitials(u.name)}
                           </span>
                           <div className="min-w-0">
                             <div className="truncate font-medium">{u.name}</div>
@@ -1159,7 +1151,7 @@ function UsersView({
                 {/* Header */}
                 <div className="flex items-center gap-4">
                   <span className={cn("grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br text-base font-bold text-white", ROLE_STYLE[selected.role].tint)}>
-                    {initialsOf(selected.name)}
+                    {getInitials(selected.name)}
                   </span>
                   <div className="min-w-0">
                     <div className="font-display text-lg font-bold">{selected.name}</div>
@@ -1546,7 +1538,6 @@ function VerificationsView({
 }: {
   hospitals: AdminHospital[];
   verifyHospital: (id: string) => void;
-  revokeHospital: (id: string) => void;
   pendingDoctors: PendingDoctor[];
   approveDoctor: (id: string) => void;
   rejectDoctor: (id: string) => void;

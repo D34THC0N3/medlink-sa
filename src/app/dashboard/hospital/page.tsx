@@ -6,7 +6,7 @@
    Liquid-glass command center for SA hospital administrators.
    ========================================================================= */
 
-import { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
@@ -87,7 +87,7 @@ import { Toaster as SonnerToaster } from "@/components/ui/sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -1218,6 +1218,9 @@ function BedsTab() {
 
       {/* Heatmap grid grouped by ward */}
       <div className="space-y-5">
+        {Object.values(bedsByWard).every((b) => b.length === 0) && (
+          <p className="py-8 text-center text-sm text-muted-foreground">No beds match the current ward filter.</p>
+        )}
         {WARDS.map((ward) => {
           const wardBeds = bedsByWard[ward] || [];
           if (wardBeds.length === 0) return null;

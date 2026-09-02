@@ -46,7 +46,7 @@ function SignUpForm() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     if (password.length < 8) {
@@ -54,15 +54,14 @@ function SignUpForm() {
       return;
     }
     setLoading(true);
-    setTimeout(() => {
-      const res = signUp({ name, email, password, role });
-      setLoading(false);
-      if (!res.ok) {
-        setError(res.error ?? "Sign up failed.");
-        return;
-      }
-      router.push(ROLE_DASHBOARDS[role]);
-    }, 400);
+    const res = await signUp({ name, email, password, role });
+    setLoading(false);
+    if (!res.ok) {
+      setError(res.error ?? "Sign up failed.");
+      return;
+    }
+    // Account created — redirect to sign-in
+    router.push("/sign-in?registered=true");
   };
 
   return (
