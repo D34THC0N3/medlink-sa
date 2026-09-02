@@ -1,7 +1,7 @@
-import type { NextConfig } from "next";
 import path from "path";
 
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   output: "standalone",
   webpack(config) {
     config.resolve.alias["framer-motion"] = path.resolve(

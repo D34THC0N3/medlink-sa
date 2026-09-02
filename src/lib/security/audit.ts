@@ -2,8 +2,6 @@
  * Server-side audit logging.
  * ponytail: append to a DB table; future: stream to external audit service.
  */
-import { db } from "../db";
-
 export type AuditAction =
   | "auth.sign_in"
   | "auth.sign_up"
