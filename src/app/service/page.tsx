@@ -518,13 +518,13 @@ function ServiceContent() {
                         </div>
                       </div>
 
-                      <button
+                      <Button
                         onClick={callEmergency}
                         className="mt-6 flex h-14 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-rose-500 to-red-600 text-base font-bold text-white shadow-[0_8px_30px_rgba(239,68,68,0.5)] transition-transform hover:scale-[1.02]"
                       >
                         <Phone className="h-5 w-5" />
                         Dispatch ambulance now
-                      </button>
+                      </Button>
                       <p className="mt-3 text-xs text-muted-foreground">
                         Also calls 10177 (national EMS) — stay on the line.
                       </p>
