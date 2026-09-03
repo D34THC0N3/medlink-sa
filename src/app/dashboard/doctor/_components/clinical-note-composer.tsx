@@ -87,7 +87,7 @@ export function ClinicalNoteComposer({ open, onClose, onSave }: ClinicalNoteComp
               value={title}
               onChange={e => setTitle(e.target.value)}
               placeholder="e.g., Follow-up — Hypertension"
-              className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
+              className="w-full rounded-lg border border-slate-200 bg-white dark:bg-slate-800 dark:border-slate-700 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
             />
           </Field>
 
@@ -96,7 +96,7 @@ export function ClinicalNoteComposer({ open, onClose, onSave }: ClinicalNoteComp
               value={chiefComplaint}
               onChange={e => setChiefComplaint(e.target.value)}
               placeholder="Why is the patient here today?"
-              className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
+              className="w-full rounded-lg border border-slate-200 bg-white dark:bg-slate-800 dark:border-slate-700 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
             />
           </Field>
 
@@ -154,7 +154,7 @@ export function ClinicalNoteComposer({ open, onClose, onSave }: ClinicalNoteComp
                 onChange={e => setAlertText(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && addAlert()}
                 placeholder="Add alert..."
-                className="flex-1 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-amber-500 focus:ring-1 focus:ring-amber-500 outline-none"
+                className="flex-1 rounded-lg border border-slate-200 bg-white dark:bg-slate-800 dark:border-slate-700 px-3 py-2 text-sm focus:border-amber-500 focus:ring-1 focus:ring-amber-500 outline-none"
               />
               <Button type="button" variant="outline" size="sm" onClick={addAlert}>
                 Add
@@ -180,19 +180,19 @@ export function ClinicalNoteComposer({ open, onClose, onSave }: ClinicalNoteComp
                 value={medName}
                 onChange={e => setMedName(e.target.value)}
                 placeholder="Medicine"
-                className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
+                className="rounded-lg border border-slate-200 bg-white dark:bg-slate-800 dark:border-slate-700 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
               />
               <input
                 value={medDosage}
                 onChange={e => setMedDosage(e.target.value)}
                 placeholder="Dosage"
-                className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
+                className="rounded-lg border border-slate-200 bg-white dark:bg-slate-800 dark:border-slate-700 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
               />
               <input
                 value={medInstructions}
                 onChange={e => setMedInstructions(e.target.value)}
                 placeholder="Instructions"
-                className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
+                className="rounded-lg border border-slate-200 bg-white dark:bg-slate-800 dark:border-slate-700 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
               />
             </div>
             <Button type="button" variant="outline" size="sm" onClick={addPrescription}>

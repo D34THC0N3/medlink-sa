@@ -8,22 +8,22 @@ export const fadeUp = {
 }
 
 export const RISK_STYLE: Record<Risk, string> = {
-  low: 'text-emerald-700 bg-emerald-50 ring-emerald-600/20',
-  stable: 'text-emerald-700 bg-emerald-50 ring-emerald-600/20',
-  mild: 'text-amber-700 bg-amber-50 ring-amber-600/20',
-  moderate: 'text-orange-700 bg-orange-50 ring-orange-600/20',
-  high: 'text-red-700 bg-red-50 ring-red-600/20',
-  critical: 'text-red-800 bg-red-100 ring-red-700/30'
+  low: 'text-emerald-700 bg-emerald-50 ring-emerald-600/20 dark:text-emerald-400 dark:bg-emerald-900/30 dark:ring-emerald-400/20',
+  stable: 'text-emerald-700 bg-emerald-50 ring-emerald-600/20 dark:text-emerald-400 dark:bg-emerald-900/30 dark:ring-emerald-400/20',
+  mild: 'text-amber-700 bg-amber-50 ring-amber-600/20 dark:text-amber-400 dark:bg-amber-900/30 dark:ring-amber-400/20',
+  moderate: 'text-orange-700 bg-orange-50 ring-orange-600/20 dark:text-orange-400 dark:bg-orange-900/30 dark:ring-orange-400/20',
+  high: 'text-red-700 bg-red-50 ring-red-600/20 dark:text-red-400 dark:bg-red-900/30 dark:ring-red-400/20',
+  critical: 'text-red-800 bg-red-100 ring-red-700/30 dark:text-red-300 dark:bg-red-900/40 dark:ring-red-400/30'
 }
 
 export const STATUS_STYLE: Record<ApptStatus, string> = {
-  scheduled: 'bg-blue-100 text-blue-700',
-  'checked-in': 'bg-indigo-100 text-indigo-700',
-  upcoming: 'bg-sky-100 text-sky-700',
-  completed: 'bg-emerald-100 text-emerald-700',
-  cancelled: 'bg-red-100 text-red-700',
-  'no-show': 'bg-amber-100 text-amber-700',
-  rescheduled: 'bg-purple-100 text-purple-700'
+  scheduled: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400',
+  'checked-in': 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400',
+  upcoming: 'bg-sky-100 text-sky-700 dark:bg-sky-900/30 dark:text-sky-400',
+  completed: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400',
+  cancelled: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400',
+  'no-show': 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400',
+  rescheduled: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400'
 }
 
 export function Field({
@@ -56,7 +56,7 @@ export function ChartTooltip({
 }) {
   if (!active || !payload?.length) return null
   return (
-    <div className="rounded-lg border bg-white px-3 py-2 text-xs shadow-sm">
+    <div className="rounded-lg border bg-white dark:bg-slate-800 px-3 py-2 text-xs shadow-sm">
       <p className="font-medium text-slate-900">{label}</p>
       <p className="text-slate-600">
         {payload[0].value}
@@ -97,22 +97,25 @@ export function ControlBtn({
   children,
   active,
   onClick,
-  className
+  className,
+  ariaLabel
 }: {
   children: React.ReactNode
   active?: boolean
   onClick?: () => void
   className?: string
+  ariaLabel?: string
 }) {
   return (
     <button
       type="button"
       onClick={onClick}
+      aria-label={ariaLabel}
       className={cn(
         'inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition',
         active
-          ? 'border-blue-200 bg-blue-50 text-blue-700'
-          : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-50',
+          ? 'border-blue-200 bg-blue-50 text-blue-700 dark:border-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
+          : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400 dark:hover:bg-slate-700',
         className
       )}
     >
@@ -156,7 +159,7 @@ export function InfoTile({
   value: React.ReactNode
 }) {
   return (
-    <div className="rounded-xl border bg-white p-4 space-y-2">
+    <div className="rounded-xl border bg-white dark:bg-slate-800 p-4 space-y-2">
       <div className="flex items-center gap-2 text-slate-500">{icon}<span className="text-xs font-medium uppercase tracking-wide">{label}</span></div>
       <div className="text-2xl font-bold text-slate-900">{value}</div>
     </div>

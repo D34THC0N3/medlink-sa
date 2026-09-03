@@ -134,12 +134,13 @@ export function VideoTab({ goToTab }: VideoTabProps) {
                 )}
               </div>
 
-              <div className="flex items-center justify-center gap-3 p-4 border-t bg-white">
+              <div className="flex items-center justify-center gap-3 p-4 border-t bg-white dark:bg-slate-800">
                 <Button
                   variant={micOn ? 'default' : 'destructive'}
                   size="icon"
                   className="rounded-full h-10 w-10"
                   onClick={() => setMicOn(!micOn)}
+                  aria-label={micOn ? 'Mute microphone' : 'Unmute microphone'}
                 >
                   {micOn ? <Mic className="h-4 w-4" /> : <MicOff className="h-4 w-4" />}
                 </Button>
@@ -148,16 +149,17 @@ export function VideoTab({ goToTab }: VideoTabProps) {
                   size="icon"
                   className="rounded-full h-10 w-10"
                   onClick={() => setCamOn(!camOn)}
+                  aria-label={camOn ? 'Turn off camera' : 'Turn on camera'}
                 >
                   {camOn ? <Camera className="h-4 w-4" /> : <CameraOff className="h-4 w-4" />}
                 </Button>
-                <Button variant="outline" size="icon" className="rounded-full h-10 w-10">
+                <Button variant="outline" size="icon" className="rounded-full h-10 w-10" aria-label="Share screen">
                   <ScreenShare className="h-4 w-4" />
                 </Button>
-                <Button variant="outline" size="icon" className="rounded-full h-10 w-10" onClick={() => setChatOpen(!chatOpen)}>
+                <Button variant="outline" size="icon" className="rounded-full h-10 w-10" onClick={() => setChatOpen(!chatOpen)} aria-label="Toggle chat">
                   <MessageCircle className="h-4 w-4" />
                 </Button>
-                <Button variant="outline" size="icon" className="rounded-full h-10 w-10" onClick={() => setQuickPrescOpen(true)}>
+                <Button variant="outline" size="icon" className="rounded-full h-10 w-10" onClick={() => setQuickPrescOpen(true)} aria-label="Quick prescription">
                   <Pill className="h-4 w-4" />
                 </Button>
                 <Button variant="destructive" className="rounded-full px-6">

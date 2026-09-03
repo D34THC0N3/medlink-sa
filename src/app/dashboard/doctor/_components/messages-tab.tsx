@@ -60,7 +60,7 @@ export function MessagesTab() {
 
   return (
     <motion.div variants={fadeUp} initial="hidden" animate="show" className="h-[calc(100vh-12rem)]">
-      <div className="flex h-full rounded-2xl border overflow-hidden bg-white">
+      <div className="flex h-full rounded-2xl border overflow-hidden bg-white dark:bg-slate-800">
         <div className="w-80 border-r flex flex-col">
           <div className="p-4 border-b">
             <div className="flex items-center justify-between mb-3">
@@ -126,9 +126,9 @@ export function MessagesTab() {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Button variant="ghost" size="icon" className="h-8 w-8"><Phone className="h-4 w-4" /></Button>
-                  <Button variant="ghost" size="icon" className="h-8 w-8"><Video className="h-4 w-4" /></Button>
-                  <Button variant="ghost" size="icon" className="h-8 w-8"><MoreHorizontal className="h-4 w-4" /></Button>
+                  <Button variant="ghost" size="icon" className="h-8 w-8" aria-label="Call patient"><Phone className="h-4 w-4" /></Button>
+                  <Button variant="ghost" size="icon" className="h-8 w-8" aria-label="Video call"><Video className="h-4 w-4" /></Button>
+                  <Button variant="ghost" size="icon" className="h-8 w-8" aria-label="More options"><MoreHorizontal className="h-4 w-4" /></Button>
                 </div>
               </div>
 
@@ -152,7 +152,7 @@ export function MessagesTab() {
 
               <div className="px-5 py-3 border-t">
                 <div className="flex items-center gap-2">
-                  <Button variant="ghost" size="icon" className="h-9 w-9 shrink-0">
+                  <Button variant="ghost" size="icon" className="h-9 w-9 shrink-0" aria-label="Attach file">
                     <Paperclip className="h-4 w-4" />
                   </Button>
                   <Input
@@ -162,7 +162,7 @@ export function MessagesTab() {
                     placeholder="Type a message..."
                     className="flex-1 h-9 text-sm"
                   />
-                  <Button variant="ghost" size="icon" className="h-9 w-9 shrink-0">
+                  <Button variant="ghost" size="icon" className="h-9 w-9 shrink-0" aria-label="Emoji">
                     <Smile className="h-4 w-4" />
                   </Button>
                   <Button
@@ -170,6 +170,7 @@ export function MessagesTab() {
                     className="h-9 w-9 shrink-0 bg-blue-600 hover:bg-blue-700 text-white"
                     onClick={handleSend}
                     disabled={!messageText.trim()}
+                    aria-label="Send message"
                   >
                     <Send className="h-4 w-4" />
                   </Button>

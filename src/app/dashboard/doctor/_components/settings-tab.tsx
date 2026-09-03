@@ -61,8 +61,8 @@ export function SettingsTab() {
               className={cn(
                 'w-full justify-start gap-2.5 px-3 py-2.5 h-auto text-sm font-medium',
                 activeSection === s.id
-                  ? 'bg-blue-50 text-blue-700 hover:bg-blue-50 hover:text-blue-700'
-                  : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+                  ? 'bg-blue-50 text-blue-700 hover:bg-blue-50 hover:text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 dark:hover:bg-blue-900/30 dark:hover:text-blue-400'
+                  : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-slate-200'
               )}
               onClick={() => setActiveSection(s.id)}
             >
