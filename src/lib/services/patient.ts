@@ -1,6 +1,7 @@
 /**
  * Patient domain server services.
  */
+import type { Prisma } from "@prisma/client";
 import { db } from "../db";
 
 export async function getAppointments(patientId: string) {
@@ -41,7 +42,7 @@ export async function getOrders(patientId: string) {
 export async function createOrder(data: {
   patientId: string;
   pharmacistId?: string;
-  items: any[];
+  items: Prisma.InputJsonValue[];
   total: number;
   deliveryAddress: string;
 }) {
