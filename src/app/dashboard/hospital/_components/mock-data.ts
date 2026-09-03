@@ -9,8 +9,6 @@ import {
 } from "lucide-react";
 import type { BedRow, BedStatus, BedPatientDetail } from "./types";
 
-export { BED_GRID, HOSPITAL_STAFF, HOSPITAL_QUEUE, APPROVALS_PENDING, FACILITIES } from "@/lib/data";
-
 export const SA_FIRST = [
   "Thandiwe", "Sipho", "Aisha", "Johan", "Lerato", "Bongani", "Naledi",
   "Pieter", "Fatima", "Sizwe", "Zanele", "Mandla", "Refilwe", "Andile",

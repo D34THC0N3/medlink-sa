@@ -5,8 +5,6 @@ import type {
   PendingPatient,
 } from "./types";
 
-export { ADMIN_USERS, ADMIN_HOSPITALS, ADMIN_AUDIT, NETWORK_ACTIVITY, PROVINCE_SPLIT } from "@/lib/data";
-
 export const SA_PROVINCES_HEALTH = [
   { name: "Gauteng", status: "green" as const, sessions: 1247, latency: 98 },
   { name: "KwaZulu-Natal", status: "green" as const, sessions: 892, latency: 124 },
