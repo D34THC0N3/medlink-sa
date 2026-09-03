@@ -3,15 +3,14 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import {
-  Settings, User, Bell, Shield, Palette, Globe, Mail, Phone,
+  User, Bell, Shield, Palette,
   Camera, Save, ChevronRight, LogOut, Moon, Sun, Monitor
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Separator } from '@/components/ui/separator'
-import { Switch } from '@/components/ui/switch'
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select'
 import { cn } from '@/lib/utils'
 import { useAuth } from '@/lib/auth-context'

@@ -3,18 +3,17 @@
 import React, { useState, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import {
-  Video, Phone, MessageCircle, Clock, CheckCircle, AlertTriangle,
-  Monitor, Mic, MicOff, Camera, CameraOff, ScreenShare, MoreHorizontal,
-  Pill, Activity, User, FileText, HistoryIcon
+  Video, Phone, MessageCircle, Clock, CheckCircle,
+  Monitor, Mic, MicOff, Camera, CameraOff, ScreenShare,
+  Pill
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { Textarea } from '@/components/ui/textarea'
 import { cn } from '@/lib/utils'
-import { fadeUp, ControlBtn, Field } from './shared'
+import { fadeUp, ControlBtn } from './shared'
 import type { VideoConsult } from './types'
 import { VIDEO_CONSULTS } from './mock-data'
 

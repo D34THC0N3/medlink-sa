@@ -3,11 +3,11 @@
 import React, { useMemo, useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import {
-  Users, Calendar, ClipboardList, MessageCircle, Video, AlertTriangle,
-  Activity, TrendingUp, AreaChart, ArrowUpRight, BarChart, CalendarCheck,
-  CheckCircle, Clock, UserCheck, Shield, Heart, Zap, Stethoscope, Pill, Brain
+  Users, Calendar, ClipboardList, MessageCircle,
+  ArrowUpRight, CalendarCheck,
+  CheckCircle, Clock, UserCheck, Pill
 } from 'lucide-react'
-import { ResponsiveContainer, AreaChart as ReArea, Area, XAxis, YAxis, CartesianGrid, Tooltip as RTooltip, BarChart as ReBar, Bar, PieChart, Pie, Cell } from 'recharts'
+import { ResponsiveContainer, AreaChart as ReArea, Area, XAxis, YAxis, CartesianGrid, Tooltip as RTooltip, PieChart, Pie, Cell } from 'recharts'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'

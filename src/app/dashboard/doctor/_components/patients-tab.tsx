@@ -3,9 +3,8 @@
 import React, { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
-  Search, Filter, User, Phone, Mail, Calendar, FileText, Pill, Activity,
-  AlertTriangle, ChevronDown, ChevronRight, Download, MoreHorizontal,
-  Heart, Brain, ScanLine, FlaskConical
+  Search, User, Calendar, Pill, Activity,
+  Heart
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -13,7 +12,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select'
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import { cn } from '@/lib/utils'
 import { fadeUp, RISK_STYLE, InfoTile } from './shared'
 import type { Patient, Risk } from './types'

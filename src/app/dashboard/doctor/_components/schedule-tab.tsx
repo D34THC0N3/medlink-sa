@@ -3,21 +3,17 @@
 import React, { useState, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import {
-  Calendar, Clock, Search, Filter, Plus, ChevronDown, ChevronRight,
-  MoreHorizontal, Video, Phone, MessageCircle, FileText, Users, Activity
+  Calendar, Plus, MoreHorizontal, Users
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
+import { Card, CardContent } from '@/components/ui/card'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select'
-import { Textarea } from '@/components/ui/textarea'
 import { cn } from '@/lib/utils'
-import { fadeUp, STATUS_STYLE, ControlBtn, Field } from './shared'
+import { fadeUp, STATUS_STYLE, ControlBtn } from './shared'
 import { ClinicalNoteComposer } from './clinical-note-composer'
-import type { ScheduleItem, ApptType, ApptStatus } from './types'
-import { SCHEDULE, PATIENTS } from './mock-data'
+import type { ScheduleItem, ApptStatus } from './types'
+import { SCHEDULE } from './mock-data'
 
 export function ScheduleTab() {
   const [view, setView] = useState<'list' | 'kanban'>('list')
@@ -44,10 +40,6 @@ export function ScheduleTab() {
     })
     return groups
   }, [filtered])
-
-  const handleSaveNote = (apptId: string, note: string) => {
-    setNotes(prev => ({ ...prev, [apptId]: note }))
-  }
 
   return (
     <motion.div variants={fadeUp} initial="hidden" animate="show" className="space-y-6">
@@ -144,8 +136,7 @@ export function ScheduleTab() {
         <ClinicalNoteComposer
           open={composerOpen}
           onClose={() => setComposerOpen(false)}
-          onSave={(note) => {
-            console.log('Note saved:', note)
+          onSave={() => {
             setComposerOpen(false)
           }}
         />

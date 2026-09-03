@@ -3,13 +3,12 @@
 import React, { useState, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import {
-  Search, Filter, Plus, Pill, Clock, CheckCircle, AlertTriangle,
-  Printer, Send, MoreHorizontal, ChevronDown, ChevronRight, HistoryIcon
+  Search, Plus, Pill,
+  Printer, Send, MoreHorizontal
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
+import { Card, CardContent } from '@/components/ui/card'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'

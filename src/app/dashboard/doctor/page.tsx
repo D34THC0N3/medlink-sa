@@ -3,11 +3,9 @@
 import React, { useState } from 'react'
 import dynamic from 'next/dynamic'
 import {
-  Activity, Users, Calendar, ClipboardList, MessageCircle, Video, Settings, FileText, Pill, Brain
+  Activity, Users, Calendar, MessageCircle, Video, Settings, FileText, Pill
 } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 import DashboardLayout from '@/components/layout/dashboard-layout'
-import { useAuth } from '@/lib/auth-context'
 import { cn } from '@/lib/utils'
 
 import type { TabId } from './_components/types'
@@ -33,7 +31,6 @@ const TABS: { id: TabId; label: string; icon: React.ElementType }[] = [
 ]
 
 export default function DoctorDashboardPage() {
-  const { user, updateUser, signOut } = useAuth()
   const [tab, setTab] = useState<TabId>('overview')
 
   const goToTab = (t: string) => setTab(t as TabId)
