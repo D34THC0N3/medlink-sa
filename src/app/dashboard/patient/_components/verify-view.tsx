@@ -8,9 +8,11 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { ViewHeader } from "./shared-utils";
 
+import type { User } from "@/lib/auth-context";
+
 type VerifyUser = { name?: string | null; identityVerified?: boolean };
 
-export function VerifyView({ user, updateUser }: { user: VerifyUser | null; updateUser?: (data: any) => void }) {
+export function VerifyView({ user, updateUser }: { user: VerifyUser | null; updateUser?: (patch: Partial<User>) => void }) {
   const [step, setStep] = useState<"idle" | "uploading" | "done">(
     user?.identityVerified ? "done" : "idle"
   );

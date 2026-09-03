@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import type { TabId, AuditKind, VerifiedStatus, AdminUser } from "./types";
+import type { TooltipProps } from "recharts";
 import {
   HeartPulse,
   Stethoscope,
@@ -57,12 +58,12 @@ export const ROLE_STYLE: Record<AdminUser["role"], { icon: typeof Activity; tint
 
 /* ---------- Recharts tooltip ---------- */
 
-export function ChartTooltip({ active, payload, label }: any) {
+export function ChartTooltip({ active, payload, label }: TooltipProps<string, string>) {
   if (!active || !payload?.length) return null;
   return (
     <div className="glass-card rounded-lg px-3 py-2 text-xs shadow-xl">
       {label && <div className="mb-1 font-semibold">{label}</div>}
-      {payload.map((p: any) => (
+      {payload.map((p) => (
         <div key={p.dataKey} className="flex items-center gap-2">
           <span className="h-2 w-2 rounded-full" style={{ background: p.color || p.payload?.color }} />
           <span className="text-muted-foreground">{p.name}:</span>

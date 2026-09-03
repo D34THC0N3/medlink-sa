@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { ArrowUpRight, ArrowDownRight } from "lucide-react";
 import type { TabId } from "./types";
+import type { TooltipProps } from "recharts";
 import {
   LayoutDashboard,
   BedDouble,
@@ -176,12 +177,12 @@ export function StatCard({
 
 /* ---------- Glass tooltip ---------- */
 
-export function GlassTooltip({ active, payload, label }: any) {
+export function GlassTooltip({ active, payload, label }: TooltipProps<string, string>) {
   if (!active || !payload || !payload.length) return null;
   return (
     <div className="glass-card rounded-lg px-3 py-2 text-xs shadow-xl">
       {label && <div className="mb-1 font-semibold">{label}</div>}
-      {payload.map((p: any, i: number) => (
+      {payload.map((p, i) => (
         <div key={i} className="flex items-center gap-2">
           <span
             className="inline-block h-2 w-2 rounded-full"

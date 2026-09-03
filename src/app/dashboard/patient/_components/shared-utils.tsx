@@ -2,6 +2,7 @@
 
 import { type ReactNode } from "react";
 import { motion } from "framer-motion";
+import type { LucideIcon } from "lucide-react";
 
 export function greeting() {
   const h = new Date().getHours();
@@ -22,7 +23,7 @@ export function StatCard({
   accent = "medical",
   index = 0,
 }: {
-  icon: any;
+  icon: LucideIcon;
   label: string;
   value: string;
   sub: string;

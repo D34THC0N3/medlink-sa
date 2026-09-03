@@ -8,16 +8,18 @@ import {
   ArrowRight, BadgeCheck, Calendar, HeartPulse, Pill, QrCode, Shield, Sparkles, Stethoscope,
   Truck, Video, FileImage, FileText, FlaskConical,
 } from "lucide-react";
+import type { TooltipProps } from "recharts";
 
 import { CURRENT_TICKET, PATIENT_APPOINTMENTS, PATIENT_PRESCRIPTIONS, PATIENT_RECORDS, PATIENT_VITALS } from "@/lib/data";
 import { greeting, formatRand, StatCard, StatusPill } from "./shared-utils";
+import type { User } from "@/lib/auth-context";
 
-function GlassTooltip({ active, payload, label }: any) {
+function GlassTooltip({ active, payload, label }: TooltipProps<string, string>) {
   if (!active || !payload?.length) return null;
   return (
     <div className="glass-panel border border-border/60 px-3 py-2 text-xs shadow-xl">
       <div className="mb-1 font-semibold">{label}</div>
-      {payload.map((p: any, i: number) => (
+      {payload.map((p, i) => (
         <div key={i} className="flex items-center gap-2">
           <span className="h-2 w-2 rounded-full" style={{ background: p.color }} />
           {p.name}: {p.value}
@@ -28,7 +30,7 @@ function GlassTooltip({ active, payload, label }: any) {
 }
 
 interface OverviewViewProps {
-  user: any;
+  user: User | null;
   goToTab: (t: string, extra?: Record<string, string>) => void;
 }
 

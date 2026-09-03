@@ -47,7 +47,7 @@ function PatientDashboardInner() {
     });
   };
 
-  const joinFromAppt = (a: any) => {
+  const joinFromAppt = (a: { doctor: string; specialty: string; date: string; time: string }) => {
     setVideoAppt({
       doctor: a.doctor,
       specialty: a.specialty,

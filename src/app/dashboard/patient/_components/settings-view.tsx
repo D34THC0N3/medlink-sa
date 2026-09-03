@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ViewHeader } from "./shared-utils";
+import type { User as AuthUser } from "@/lib/auth-context";
 
 type SettingsUser = {
   name?: string | null;
@@ -19,7 +20,7 @@ type SettingsUser = {
 
 type SettingsProps = {
   user: SettingsUser | null;
-  updateUser: (patch: any) => void;
+  updateUser: (patch: Partial<AuthUser>) => void;
   signOut: () => void;
 };
 
