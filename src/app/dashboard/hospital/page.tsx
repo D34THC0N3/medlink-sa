@@ -8,7 +8,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import DashboardLayout from "@/components/layout/dashboard-layout";
 import { Toaster as SonnerToaster } from "@/components/ui/sonner";
 
-import { TabBar, type TabId } from "./_components/shared";
+import { TabBar } from "./_components/shared";
+import type { TabId } from "./_components/types";
 
 const OverviewTab = dynamic(
   () => import("./_components/overview-tab"),

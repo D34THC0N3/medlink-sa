@@ -3,8 +3,7 @@
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { ArrowUpRight, ArrowDownRight } from "lucide-react";
-export type { TabId } from "./types";
-import type { TabId, BedStatus } from "./types";
+import type { TabId } from "./types";
 import {
   LayoutDashboard,
   BedDouble,
@@ -15,57 +14,6 @@ import {
   Settings,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-/* ---------- Animation variants ---------- */
-
-export const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
-  show: (i: number = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: i * 0.05, duration: 0.4, ease: [0.16, 1, 0.3, 1] as const },
-  }),
-};
-
-/* ---------- Bed status styles ---------- */
-
-export const BED_STATUS_META: Record<
-  BedStatus,
-  { label: string; tile: string; dot: string; ring: string; chart: string; text: string }
-> = {
-  occupied: {
-    label: "Occupied",
-    tile: "bg-rose-500/90 border-rose-400/50 text-white",
-    dot: "bg-rose-500",
-    ring: "ring-rose-500/40",
-    chart: "#f43f5e",
-    text: "text-rose-500",
-  },
-  available: {
-    label: "Available",
-    tile: "bg-emerald-500/90 border-emerald-400/50 text-white",
-    dot: "bg-emerald-500",
-    ring: "ring-emerald-500/40",
-    chart: "#10b981",
-    text: "text-emerald-500",
-  },
-  cleaning: {
-    label: "Cleaning",
-    tile: "bg-amber-500/90 border-amber-400/50 text-white",
-    dot: "bg-amber-500",
-    ring: "ring-amber-500/40",
-    chart: "#f59e0b",
-    text: "text-amber-500",
-  },
-  reserved: {
-    label: "Reserved",
-    tile: "bg-violet-500/90 border-violet-400/50 text-white",
-    dot: "bg-violet-500",
-    ring: "ring-violet-500/40",
-    chart: "#8b5cf6",
-    text: "text-violet-500",
-  },
-};
 
 /* ---------- Tab bar ---------- */
 
@@ -111,31 +59,6 @@ export function TabBar({ tab, setTab }: { tab: TabId; setTab: (t: TabId) => void
           </Button>
         );
       })}
-    </div>
-  );
-}
-
-/* ---------- Section header ---------- */
-
-export function SectionHeader({
-  kicker,
-  icon: Icon,
-  title,
-  subtitle,
-}: {
-  kicker: string;
-  icon: React.ElementType;
-  title: React.ReactNode;
-  subtitle: string;
-}) {
-  return (
-    <div className="space-y-1">
-      <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-medical">
-        <Icon className="h-3.5 w-3.5" />
-        {kicker}
-      </div>
-      <h2 className="font-display text-2xl font-bold">{title}</h2>
-      <p className="text-sm text-muted-foreground">{subtitle}</p>
     </div>
   );
 }
@@ -301,53 +224,3 @@ export function StatusPill({
   );
 }
 
-/* ---------- Toggle row ---------- */
-
-export function ToggleRow({
-  icon: Icon,
-  title,
-  desc,
-  checked,
-  onCheckedChange,
-  tone = "medical",
-}: {
-  icon: React.ElementType;
-  title: string;
-  desc: string;
-  checked: boolean;
-  onCheckedChange: (v: boolean) => void;
-  tone?: "medical" | "amber" | "emerald";
-}) {
-  const toneCls = {
-    medical: "text-medical bg-medical/10",
-    amber: "text-amber-600 dark:text-amber-400 bg-amber-500/10",
-    emerald: "text-emerald-600 dark:text-emerald-400 bg-emerald-500/10",
-  }[tone];
-  return (
-    <div className="flex items-center justify-between rounded-lg border border-border/60 bg-background/40 px-3 py-2.5">
-      <div className="flex items-center gap-2.5">
-        <span className={cn("grid h-8 w-8 place-items-center rounded-lg", toneCls)}>
-          <Icon className="h-4 w-4" />
-        </span>
-        <div>
-          <div className="text-sm font-medium">{title}</div>
-          <div className="text-[0.7rem] text-muted-foreground">{desc}</div>
-        </div>
-      </div>
-      <div
-        onClick={() => onCheckedChange(!checked)}
-        className={cn(
-          "relative h-6 w-11 cursor-pointer rounded-full transition-colors",
-          checked ? "bg-medical" : "bg-foreground/20"
-        )}
-      >
-        <div
-          className={cn(
-            "absolute top-0.5 h-5 w-5 rounded-full bg-white transition-transform",
-            checked ? "translate-x-[22px]" : "translate-x-0.5"
-          )}
-        />
-      </div>
-    </div>
-  );
-}

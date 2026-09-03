@@ -129,16 +129,6 @@ export const WEEKLY_REVENUE = [
   { d: "Sun", r: 3100 },
 ];
 
-export const TABS: { id: string; label: string; icon: string }[] = [
-  { id: "overview", label: "Overview", icon: "LayoutDashboard" },
-  { id: "orders", label: "Orders", icon: "ShoppingCart" },
-  { id: "inventory", label: "Inventory", icon: "Package" },
-  { id: "pricing", label: "Medicine & pricing", icon: "Tag" },
-  { id: "ptv", label: "PTV Review", icon: "ShieldCheck" },
-  { id: "delivery", label: "Delivery", icon: "Truck" },
-  { id: "settings", label: "Settings", icon: "Settings" },
-];
-
 export const STATUS_META: Record<OrderStatus, StatusMeta> = {
   new: {
     label: "New",
@@ -210,5 +200,3 @@ export const PTV_STATUS_META: Record<PTVReviewStatus, { label: string; badge: st
 };
 
 export { MEDICINES } from "@/lib/data";
-
-export const rand = (n: number) => Math.round(n);

@@ -108,18 +108,6 @@ export function SectionHeader({
 }
 
 /* -------------------------------------------------------------------------
-   Glass Tooltip
-   ------------------------------------------------------------------------- */
-
-export function GlassTooltip({ children, content }: { children: React.ReactNode; content: string }) {
-  return (
-    <span title={content} className="inline-flex">
-      {children}
-    </span>
-  );
-}
-
-/* -------------------------------------------------------------------------
    Toggle Row
    ------------------------------------------------------------------------- */
 

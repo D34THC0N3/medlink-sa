@@ -1,5 +1,4 @@
 import React from 'react'
-import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import type { Risk, ApptStatus } from './types'
 
@@ -164,26 +163,3 @@ export function InfoTile({
   )
 }
 
-export function ScanLine({ className }: { className?: string }) {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-      <path d="M3 7V5a2 2 0 0 1 2-2h2" /><path d="M17 3h2a2 2 0 0 1 2 2v2" /><path d="M21 17v2a2 2 0 0 1-2 2h-2" /><path d="M7 21H5a2 2 0 0 1-2-2v-2" /><line x1="7" x2="17" y1="12" y2="12" />
-    </svg>
-  )
-}
-
-export function FlaskConical({ className }: { className?: string }) {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-      <path d="M9.5 2v5.1a2 2 0 0 1-.6 1.4L6 10.5a1.4 1.4 0 0 0-.4 1.1v.8a2 2 0 0 0 .6 1.4l5.8 5.8a2 2 0 0 0 1.4.6h.8a1.4 1.4 0 0 0 1.1-.4l2-2a2 2 0 0 0 .6-1.4V12a1.4 1.4 0 0 0-.4-1.1L15.5 8.5a2 2 0 0 1-.6-1.4V2" /><path d="M14 2h6" />
-    </svg>
-  )
-}
-
-export function HistoryIcon({ className }: { className?: string }) {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-      <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /><path d="M3 3v5h5" /><path d="M12 7v5l4 2" />
-    </svg>
-  )
-}

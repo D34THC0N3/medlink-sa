@@ -1,14 +1,5 @@
 import type { PTVResult } from "@/lib/ptv";
 
-export type TabId =
-  | "overview"
-  | "orders"
-  | "inventory"
-  | "pricing"
-  | "ptv"
-  | "delivery"
-  | "settings";
-
 export type OrderStatus = "new" | "preparing" | "ready" | "completed";
 
 export type Order = {

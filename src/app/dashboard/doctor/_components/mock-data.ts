@@ -194,6 +194,3 @@ export const VIDEO_CONSULTS: VideoConsult[] = [
   { id: "v6", patientName: "Annelize Botha", initials: "AB", reason: "Migraine management", type: "video", date: "10 Jun", time: "11:00", duration: "20 min", status: "completed" },
   { id: "v7", patientName: "Kagiso Sithole", initials: "KS", reason: "Gout flare review", type: "in-person", date: "08 Jun", time: "10:00", duration: "15 min", status: "missed" },
 ];
-
-export const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-export const FREQUENCIES = ["Once daily", "Twice daily", "Three times daily", "Four times daily", "At bedtime", "As needed", "Every 4 hours", "Every 6 hours"];
