@@ -1,7 +1,7 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-import { findMockUserByEmail, type MockUser } from "@/lib/mock-users";
+import { findMockUserByEmail } from "@/lib/mock-users";
 import type { UserRole } from "@/lib/auth-context";
 
 /**
@@ -42,7 +42,7 @@ async function authorize(
   // Mock mode: validate against in-memory users
   const mock = findMockUserByEmail(credentials.email);
   if (!mock) return null;
-  const valid = bcrypt.compare(credentials.password, mock.passwordHash);
+  const valid = await bcrypt.compare(credentials.password, mock.passwordHash);
   if (!valid) return null;
   return {
     id: mock.id,
@@ -53,7 +53,17 @@ async function authorize(
   };
 }
 
+/**
+ * NextAuth requires a secret in production or it throws MissingSecretError.
+ * Prefer the real env var; fall back to a fixed string so the academic demo
+ * deploy works without dashboard configuration.
+ * NOTE: set NEXTAUTH_SECRET in Vercel for any real deployment.
+ */
+const AUTH_SECRET =
+  process.env.NEXTAUTH_SECRET ?? "medlink-sa-poe-demo-secret-do-not-use-in-production";
+
 export const authOptions: NextAuthOptions = {
+  secret: AUTH_SECRET,
   session: { strategy: "jwt" },
   pages: { signIn: "/sign-in" },
   providers: [

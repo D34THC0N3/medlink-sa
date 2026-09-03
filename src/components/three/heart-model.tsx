@@ -46,7 +46,7 @@ export default function HeartModel({ scrollProgress = 0, className }: Props) {
     renderer.setSize(mount.clientWidth, mount.clientHeight, false);
     renderer.setClearColor(0x000000, 0);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.15;
+    renderer.toneMappingExposure = 0.95;
     mount.appendChild(renderer.domElement);
 
     // ---- scene + camera ----
@@ -59,23 +59,49 @@ export default function HeartModel({ scrollProgress = 0, className }: Props) {
     );
     camera.position.set(0, 0, 7);
 
-    // ---- lights (physical, for the GLB) ----
-    const hemi = new THREE.HemisphereLight(0xffffff, 0x223355, 0.55);
+    // ---- environment map (image-based lighting) ----
+    // Without this, MeshStandardMaterial.envMapIntensity is a no-op and the
+    // model loses all reflective surface detail. Built procedurally from a
+    // tiny gradient canvas so it costs no network request.
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    const envCanvas = document.createElement("canvas");
+    envCanvas.width = 16;
+    envCanvas.height = 64;
+    const ectx = envCanvas.getContext("2d");
+    if (ectx) {
+      const grad = ectx.createLinearGradient(0, 0, 0, 64);
+      grad.addColorStop(0, "#dbe9ff");
+      grad.addColorStop(0.5, "#5b7fa6");
+      grad.addColorStop(1, "#0b1220");
+      ectx.fillStyle = grad;
+      ectx.fillRect(0, 0, 16, 64);
+    }
+    const envTex = new THREE.CanvasTexture(envCanvas);
+    envTex.mapping = THREE.EquirectangularReflectionMapping;
+    const envRT = pmrem.fromEquirectangular(envTex);
+    scene.environment = envRT.texture;
+    envTex.dispose();
+    pmrem.dispose();
+
+    // ---- lights ----
+    // Budget kept near ~3 total. Higher values clip the material to pure
+    // white under ACES tone mapping, which is what made the heart look blank.
+    const hemi = new THREE.HemisphereLight(0xffffff, 0x223355, 0.35);
     scene.add(hemi);
 
-    const key = new THREE.DirectionalLight(0xffffff, 2.2);
+    const key = new THREE.DirectionalLight(0xffffff, 1.1);
     key.position.set(4, 6, 6);
     scene.add(key);
 
-    const fill = new THREE.DirectionalLight(0x60a5fa, 1.0);
+    const fill = new THREE.DirectionalLight(0x60a5fa, 0.35);
     fill.position.set(-5, 2, 3);
     scene.add(fill);
 
-    const rim = new THREE.DirectionalLight(0x22d3ee, 1.4);
+    const rim = new THREE.DirectionalLight(0x22d3ee, 0.7);
     rim.position.set(0, -3, -5);
     scene.add(rim);
 
-    const accent = new THREE.PointLight(0x3b82f6, 1.6, 18);
+    const accent = new THREE.PointLight(0x3b82f6, 0.6, 18);
     accent.position.set(-2, 1, 4);
     scene.add(accent);
 
@@ -108,7 +134,10 @@ export default function HeartModel({ scrollProgress = 0, className }: Props) {
         heart.rotation.y = Math.PI * 0.05;
         heart.rotation.x = Math.PI * 0.02;
 
-        // give it a subtle reddish tint if material is plain
+        // The GLB ships a baseColorTexture + metallicRoughnessTexture, so the
+        // only safe adjustment is envMapIntensity. Do NOT overwrite roughness
+        // or metalness scalars here: that would cancel the metallicRoughness
+        // texture and flatten the surface.
         heart.traverse((obj) => {
           const mesh = obj as THREE.Mesh;
           if (mesh.isMesh && mesh.material) {
@@ -116,9 +145,8 @@ export default function HeartModel({ scrollProgress = 0, className }: Props) {
             mats.forEach((m) => {
               const mat = m as THREE.MeshStandardMaterial;
               if (mat.isMeshStandardMaterial) {
-                mat.envMapIntensity = 1.2;
-                mat.roughness = Math.min(mat.roughness + 0.05, 0.85);
-                mat.metalness = Math.min(mat.metalness, 0.1);
+                mat.envMapIntensity = 1.0;
+                mat.needsUpdate = true;
               }
             });
           }
@@ -529,14 +557,43 @@ export default function HeartModel({ scrollProgress = 0, className }: Props) {
     };
     tick();
 
+    // Stop rendering entirely while the canvas is scrolled out of view or the
+    // tab is hidden. Without this the GPU keeps drawing the model for the whole
+    // session, which is a needless battery and CPU drain on a landing page.
+    let onScreen = true;
+    const resume = () => {
+      if (!onScreen || document.hidden) return;
+      cancelAnimationFrame(raf);
+      clock.getDelta(); // drop the accumulated pause so motion does not jump
+      raf = requestAnimationFrame(tick);
+    };
+    const visObserver = new IntersectionObserver(
+      ([entry]) => {
+        onScreen = entry.isIntersecting;
+        if (onScreen) resume();
+        else cancelAnimationFrame(raf);
+      },
+      { threshold: 0 }
+    );
+    visObserver.observe(mount);
+
+    const onVisibility = () => {
+      if (document.hidden) cancelAnimationFrame(raf);
+      else resume();
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+
     return () => {
       cancelAnimationFrame(raf);
+      visObserver.disconnect();
+      document.removeEventListener("visibilitychange", onVisibility);
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointermove", onPointerMoveDrag);
       window.removeEventListener("pointerup", onPointerUp);
       renderer.domElement.removeEventListener("pointerdown", onPointerDown);
       renderer.domElement.removeEventListener("webglcontextlost", onLost);
       ro.disconnect();
+      envRT.dispose();
       renderer.dispose();
       if (heart) {
         heart.traverse((obj) => {
