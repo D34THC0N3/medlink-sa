@@ -133,9 +133,10 @@ export default function FaqSection() {
                     open && "border-medical/40"
                   )}
                 >
-                  <button
+                  <Button
+                    variant="ghost"
                     onClick={() => setOpenId(open ? null : i)}
-                    className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left"
+                    className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left h-auto"
                     aria-expanded={open}
                   >
                     <span className="text-[0.95rem] font-semibold leading-snug sm:text-base">
@@ -147,7 +148,7 @@ export default function FaqSection() {
                         open && "rotate-180"
                       )}
                     />
-                  </button>
+                  </Button>
                   <AnimatePresence initial={false}>
                     {open && (
                       <motion.div

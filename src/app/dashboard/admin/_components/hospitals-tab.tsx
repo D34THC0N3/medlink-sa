@@ -26,6 +26,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { fadeUp, SectionHeader } from "./shared";
 import type { AdminHospital } from "./types";
@@ -138,9 +139,9 @@ export function HospitalsTab({ hospitals, verifyHospital, revokeHospital }: Hosp
               {!h.verified ? (
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <button className="flex items-center gap-1.5 rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-emerald-700">
+                    <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white gap-1.5">
                       <Check className="h-3.5 w-3.5" /> Verify
-                    </button>
+                    </Button>
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
@@ -166,9 +167,9 @@ export function HospitalsTab({ hospitals, verifyHospital, revokeHospital }: Hosp
               ) : (
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <button className="flex items-center gap-1.5 rounded-lg border border-border/60 px-3 py-1.5 text-xs font-medium text-muted-foreground hover:bg-foreground/5">
+                    <Button size="sm" variant="outline" className="gap-1.5">
                       <X className="h-3.5 w-3.5" /> Revoke
-                    </button>
+                    </Button>
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>

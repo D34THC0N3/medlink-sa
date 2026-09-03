@@ -101,10 +101,10 @@ export function NotesTab() {
         {filtered.map(note => (
           <Card key={note.id} className="hover:shadow-sm transition-shadow">
             <CardContent className="p-0">
-              <button
-                type="button"
+              <Button
+                variant="ghost"
+                className="flex w-full items-center justify-between px-5 py-4 h-auto text-left"
                 onClick={() => toggleExpand(note.id)}
-                className="flex w-full items-center justify-between px-5 py-4 text-left"
               >
                 <div className="flex items-center gap-3">
                   <div className="flex h-9 w-9 items-center justify-center rounded-full bg-blue-100 text-blue-700">
@@ -122,7 +122,7 @@ export function NotesTab() {
                   <Badge variant="outline" className="text-[11px]">{note.type}</Badge>
                   {expandedNote === note.id ? <ChevronDown className="h-4 w-4 text-slate-400" /> : <ChevronRight className="h-4 w-4 text-slate-400" />}
                 </div>
-              </button>
+              </Button>
               <AnimatePresence>
                 {expandedNote === note.id && (
                   <motion.div

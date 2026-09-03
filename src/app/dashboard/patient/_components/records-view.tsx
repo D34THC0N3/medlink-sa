@@ -4,6 +4,8 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { FileText, Search } from "lucide-react";
 
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { PATIENT_RECORDS } from "@/lib/data";
 import { StatusPill, ViewHeader } from "./shared-utils";
 
@@ -28,15 +30,18 @@ export function RecordsView() {
 
       <div className="mb-4 flex flex-wrap gap-2">
         {FILTERS.map((f) => (
-          <button
+          <Button
             key={f}
+            variant="ghost"
+            size="sm"
             onClick={() => setFilter(f)}
-            className={`rounded-lg px-3 py-1.5 text-xs font-medium transition ${
+            className={cn(
+              "rounded-lg px-3 text-xs font-medium",
               filter === f ? "bg-medical text-white" : "bg-card/60 text-muted-foreground hover:bg-card"
-            }`}
+            )}
           >
             {f}
-          </button>
+          </Button>
         ))}
         <div className="input-premium flex h-8 flex-1 items-center gap-2 rounded-lg px-3">
           <Search className="h-3.5 w-3.5 text-muted-foreground" />

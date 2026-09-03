@@ -24,6 +24,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import DashboardLayout from "@/components/layout/dashboard-layout";
 
@@ -66,11 +67,13 @@ function TabBar({ tab, setTab }: { tab: TabId; setTab: (t: TabId) => void }) {
         const Icon = t.icon;
         const active = tab === t.id;
         return (
-          <button
+          <Button
             key={t.id}
+            variant="ghost"
+            size="sm"
             onClick={() => setTab(t.id)}
             className={cn(
-              "flex items-center gap-2 rounded-xl px-3.5 py-2 text-sm font-medium transition-all",
+              "flex items-center gap-2 rounded-xl px-3.5 py-2 text-sm font-medium",
               active
                 ? "bg-background text-foreground shadow-sm"
                 : "text-muted-foreground hover:text-foreground hover:bg-background/50"
@@ -78,7 +81,7 @@ function TabBar({ tab, setTab }: { tab: TabId; setTab: (t: TabId) => void }) {
           >
             <Icon className="h-4 w-4" />
             {t.label}
-          </button>
+          </Button>
         );
       })}
     </div>

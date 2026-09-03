@@ -79,14 +79,14 @@ export function MessagesTab() {
           </div>
           <div className="flex-1 overflow-y-auto">
             {filtered.map(c => (
-              <button
+              <Button
                 key={c.id}
-                type="button"
-                onClick={() => setSelectedConvo(c)}
+                variant="ghost"
                 className={cn(
-                  'flex w-full items-center gap-3 px-4 py-3 text-left hover:bg-slate-50 transition-colors border-b border-slate-100',
+                  'flex w-full items-center gap-3 px-4 py-3 h-auto text-left border-b border-slate-100 justify-start rounded-none hover:bg-slate-50',
                   selectedConvo?.id === c.id && 'bg-blue-50 hover:bg-blue-50'
                 )}
+                onClick={() => setSelectedConvo(c)}
               >
                 <Avatar className="h-9 w-9 shrink-0">
                   <AvatarFallback className="bg-blue-100 text-blue-700 text-xs font-bold">
@@ -105,7 +105,7 @@ export function MessagesTab() {
                     {c.unread}
                   </span>
                 )}
-              </button>
+              </Button>
             ))}
           </div>
         </div>

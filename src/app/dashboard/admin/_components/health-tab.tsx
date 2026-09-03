@@ -31,6 +31,7 @@ import {
   CartesianGrid,
   Tooltip as RTooltip,
 } from "recharts";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { fadeUp, ChartTooltip, SectionHeader, PanelHeader, SessionRow, ResourceBar } from "./shared";
 import { SYSTEM_METRICS, API_RESPONSE_TREND, SA_PROVINCES_HEALTH } from "./mock-data";
@@ -246,18 +247,20 @@ export function HealthTab() {
       <motion.div variants={fadeUp} className="glass-panel border-rose-500/20 p-5">
         <PanelHeader icon={AlertTriangle} title="Danger Zone" subtitle="Irreversible actions — use with caution" />
         <div className="mt-3 flex flex-wrap gap-3">
-          <button
+          <Button
+            variant="outline"
             onClick={() => toast.info("Restart queued — this is a demo")}
-            className="flex items-center gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 px-4 py-2 text-sm font-medium text-amber-600 dark:text-amber-400 hover:bg-amber-500/20"
+            className="gap-2 border-amber-500/30 bg-amber-500/10 text-amber-600 dark:text-amber-400 hover:bg-amber-500/20"
           >
             <RefreshCw className="h-4 w-4" /> Restart Services
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="destructive"
             onClick={() => toast.info("Maintenance mode — this is a demo")}
-            className="flex items-center gap-2 rounded-lg border border-rose-500/30 bg-rose-500/10 px-4 py-2 text-sm font-medium text-rose-600 dark:text-rose-400 hover:bg-rose-500/20"
+            className="gap-2"
           >
             <Power className="h-4 w-4" /> Enter Maintenance
-          </button>
+          </Button>
         </div>
       </motion.div>
     </motion.div>

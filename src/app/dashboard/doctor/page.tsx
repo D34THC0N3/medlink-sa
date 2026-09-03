@@ -7,6 +7,7 @@ import {
 } from 'lucide-react'
 import DashboardLayout from '@/components/layout/dashboard-layout'
 import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
 
 import type { TabId } from './_components/types'
 
@@ -63,19 +64,21 @@ export default function DoctorDashboardPage() {
       <div className="space-y-6">
         <nav className="flex gap-1 rounded-xl bg-slate-100 p-1 overflow-x-auto">
           {TABS.map(t => (
-            <button
+            <Button
               key={t.id}
+              variant="ghost"
+              size="sm"
               onClick={() => setTab(t.id)}
               className={cn(
-                'flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium transition-all whitespace-nowrap',
+                'rounded-lg px-3 py-2 h-auto text-sm font-medium',
                 tab === t.id
-                  ? 'bg-white text-blue-700 shadow-sm'
+                  ? 'bg-white text-blue-700 shadow-sm hover:bg-white/90 hover:text-blue-700'
                   : 'text-slate-500 hover:text-slate-900 hover:bg-white/50'
               )}
             >
               <t.icon className="h-4 w-4" />
               <span className="hidden sm:inline">{t.label}</span>
-            </button>
+            </Button>
           ))}
         </nav>
 

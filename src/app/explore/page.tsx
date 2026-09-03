@@ -142,19 +142,20 @@ function ExploreContent() {
                 { id: "pharmacy", label: "Pharmacies", icon: Pill },
               ] as const
             ).map((t) => (
-              <button
+              <Button
                 key={t.id}
+                variant="outline"
                 onClick={() => setTab(t.id)}
                 className={cn(
-                  "flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all",
+                  "flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold",
                   tab === t.id
-                    ? "bg-medical text-white"
+                    ? "bg-medical text-white border-medical"
                     : "bg-card/60 text-muted-foreground hover:text-foreground"
                 )}
               >
                 <t.icon className="h-3.5 w-3.5" />
                 {t.label}
-              </button>
+              </Button>
             ))}
           </div>
         </div>
@@ -179,18 +180,20 @@ function ExploreContent() {
                       { id: "stock", label: "In stock" },
                     ] as const
                   ).map((s) => (
-                    <button
+                    <Button
                       key={s.id}
+                      variant="ghost"
+                      size="sm"
                       onClick={() => setSort(s.id)}
                       className={cn(
-                        "rounded-md px-2 py-1 font-semibold transition-colors",
+                        "rounded-md px-2 py-1 text-xs font-semibold",
                         sort === s.id
                           ? "bg-medical/12 text-medical"
                           : "text-muted-foreground hover:text-foreground"
                       )}
                     >
                       {s.label}
-                    </button>
+                    </Button>
                   ))}
                 </div>
               )}

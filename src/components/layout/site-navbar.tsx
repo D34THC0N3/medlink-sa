@@ -145,17 +145,19 @@ export default function SiteNavbar() {
                     className="absolute right-0 top-11 z-50 w-44 overflow-hidden rounded-xl border border-border bg-card p-1 shadow-2xl"
                   >
                     {LANGUAGES.map((l) => (
-                      <button
+                      <Button
                         key={l.code}
+                        variant="ghost"
+                        size="sm"
                         onClick={() => { setLang(l.code as LangCode); setLangOpen(false); }}
                         className={cn(
-                          "flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors hover:bg-foreground/5",
+                          "w-full justify-between px-3 py-2 text-sm hover:bg-foreground/5",
                           lang === l.code && "bg-foreground/5"
                         )}
                       >
                         <span className="font-medium">{l.native}</span>
                         {lang === l.code && <Check className="h-3.5 w-3.5 text-medical" />}
-                      </button>
+                      </Button>
                     ))}
                   </motion.div>
                 </>
@@ -235,17 +237,19 @@ export default function SiteNavbar() {
                 </div>
                 <div className="grid grid-cols-2 gap-1">
                   {LANGUAGES.map((l) => (
-                    <button
+                    <Button
                       key={l.code}
+                      variant="ghost"
+                      size="sm"
                       onClick={() => { setLang(l.code as LangCode); }}
                       className={cn(
-                        "flex items-center justify-between rounded-lg px-3 py-2 text-xs font-medium transition-colors hover:bg-foreground/5",
+                        "w-full justify-between px-3 py-2 text-xs font-medium",
                         lang === l.code ? "bg-medical/10 text-medical" : "text-foreground/80"
                       )}
                     >
                       {l.native}
                       {lang === l.code && <Check className="h-3 w-3" />}
-                    </button>
+                    </Button>
                   ))}
                 </div>
               </div>
@@ -261,10 +265,10 @@ export default function SiteNavbar() {
                       <div className="truncate text-xs text-muted-foreground">{user.email}</div>
                     </div>
                   </div>
-                  <button onClick={() => { signOut(); setMobileOpen(false); router.push("/"); }} className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-sm text-rose-500 transition-colors hover:bg-rose-500/10">
+                  <Button variant="ghost" onClick={() => { signOut(); setMobileOpen(false); router.push("/"); }} className="w-full justify-start gap-3 rounded-xl px-3 py-3 text-sm text-rose-500 hover:bg-rose-500/10">
                     <LogOut className="h-4 w-4" />
                     {t("nav.signout")}
-                  </button>
+                  </Button>
                 </div>
               ) : (
                 <div className="grid gap-2">

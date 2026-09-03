@@ -107,14 +107,14 @@ export function ClinicalNoteComposer({ open, onClose, onSave }: ClinicalNoteComp
             { key: 'plan', label: 'Plan', color: 'red', value: plan, setter: setPlan }
           ].map(section => (
             <div key={section.key} className="rounded-xl border border-slate-200 overflow-hidden">
-              <button
-                type="button"
+              <Button
+                variant="ghost"
+                className="flex w-full items-center justify-between px-4 py-3 h-auto text-sm font-semibold text-slate-700 hover:bg-slate-50 justify-start rounded-none"
                 onClick={() => toggle(section.key)}
-                className="flex w-full items-center justify-between px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50"
               >
                 <span>{section.label}</span>
                 {expanded[section.key] ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
-              </button>
+              </Button>
               <AnimatePresence>
                 {expanded[section.key] && (
                   <motion.div

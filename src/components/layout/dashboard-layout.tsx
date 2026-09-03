@@ -305,16 +305,17 @@ export default function DashboardLayout({
                 ))}
               </nav>
               <div className="border-t border-border/50 p-3">
-                <button
+                <Button
+                  variant="ghost"
                   onClick={() => {
                     signOut();
                     router.push("/");
                   }}
-                  className="flex w-full items-center gap-2.5 rounded-lg px-2 py-2.5 text-sm text-rose-500 hover:bg-rose-500/10"
+                  className="w-full justify-start gap-2.5 px-2 py-2.5 text-sm text-rose-500 hover:bg-rose-500/10"
                 >
                   <LogOut className="h-4 w-4" />
                   Sign out
-                </button>
+                </Button>
               </div>
             </motion.aside>
           </>
@@ -335,7 +336,9 @@ export default function DashboardLayout({
             <Menu className="h-4 w-4" />
           </Button>
 
-          <button
+          <Button
+            variant="outline"
+            size="sm"
             onClick={() => setCmdOpen(true)}
             className="input-premium hidden h-9 max-w-xs flex-1 items-center gap-2 px-3 text-sm text-muted-foreground sm:flex"
           >
@@ -344,7 +347,7 @@ export default function DashboardLayout({
             <kbd className="ml-auto rounded bg-foreground/10 px-1.5 py-0.5 font-mono text-[0.6rem] font-semibold">
               ⌘K
             </kbd>
-          </button>
+          </Button>
 
           <div className="ml-auto flex items-center gap-1.5">
             <Link
@@ -378,17 +381,19 @@ export default function DashboardLayout({
                       className="absolute right-0 top-11 z-50 w-44 overflow-hidden rounded-xl border border-border bg-card p-1 shadow-2xl"
                     >
                       {LANGUAGES.map((l) => (
-                        <button
+                        <Button
                           key={l.code}
+                          variant="ghost"
+                          size="sm"
                           onClick={() => { setLang(l.code as LangCode); setLangOpen(false); }}
                           className={cn(
-                            "flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors hover:bg-foreground/5",
+                            "w-full justify-between px-3 py-2 text-sm",
                             lang === l.code && "bg-foreground/5"
                           )}
                         >
                           <span className="font-medium">{l.native}</span>
                           {lang === l.code && <Check className="h-3.5 w-3.5 text-medical" />}
-                        </button>
+                        </Button>
                       ))}
                     </motion.div>
                   </>

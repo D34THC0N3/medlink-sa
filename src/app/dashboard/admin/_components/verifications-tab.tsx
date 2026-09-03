@@ -25,6 +25,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { fadeUp, SectionHeader } from "./shared";
 import type { AdminHospital, PendingDoctor, PendingPatient } from "./types";
@@ -79,9 +80,9 @@ function VerificationItem({
       <div className="flex shrink-0 gap-1.5">
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <button className="rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-emerald-700">
-              <Check className="mr-1 inline h-3.5 w-3.5" /> {approveLabel}
-            </button>
+            <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white gap-1">
+              <Check className="h-3.5 w-3.5" /> {approveLabel}
+            </Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
@@ -98,9 +99,9 @@ function VerificationItem({
         </AlertDialog>
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <button className="rounded-lg border border-border/60 px-3 py-1.5 text-xs font-medium text-muted-foreground hover:bg-foreground/5">
-              <X className="mr-1 inline h-3.5 w-3.5" /> Reject
-            </button>
+            <Button size="sm" variant="outline" className="gap-1">
+              <X className="h-3.5 w-3.5" /> Reject
+            </Button>
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
@@ -183,12 +184,14 @@ export function VerificationsTab({
           const active = sub === t.id;
           const count = counts[t.id];
           return (
-            <button
+            <Button
               key={t.id}
+              variant="ghost"
+              size="sm"
               onClick={() => setSub(t.id)}
               className={cn(
-                "relative flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-colors",
-                active ? "bg-medical text-white" : "bg-foreground/5 text-muted-foreground hover:bg-foreground/10"
+                "rounded-full gap-2",
+                active ? "bg-medical text-white hover:bg-medical/90" : "bg-foreground/5 text-muted-foreground hover:bg-foreground/10"
               )}
             >
               <Icon className="h-4 w-4" />
@@ -203,7 +206,7 @@ export function VerificationsTab({
                   {count}
                 </span>
               )}
-            </button>
+            </Button>
           );
         })}
       </motion.div>

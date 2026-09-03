@@ -197,11 +197,12 @@ function ServiceContent() {
                     </label>
                     <div className="grid gap-2 sm:grid-cols-2">
                       {facilities.slice(0, 4).map((f) => (
-                        <button
+                        <Button
                           key={f.id}
+                          variant="outline"
                           onClick={() => setSelectedFacility(f.name)}
                           className={cn(
-                            "flex items-start gap-2.5 rounded-xl border p-3 text-left transition-all",
+                            "flex h-auto items-start gap-2.5 p-3 text-left",
                             selectedFacility === f.name
                               ? "border-medical bg-medical/10 ring-1 ring-medical/30"
                               : "border-border bg-card/40 hover:border-medical/40"
@@ -219,7 +220,7 @@ function ServiceContent() {
                               {f.distanceKm} km · wait ~{f.queueWait}min
                             </div>
                           </div>
-                        </button>
+                        </Button>
                       ))}
                     </div>
                   </div>
@@ -231,18 +232,20 @@ function ServiceContent() {
                     <div className="flex flex-wrap gap-2">
                       {["General", "Triage", "Lab", "Pharmacy", "Vaccination"].map(
                         (s) => (
-                          <button
+                          <Button
                             key={s}
+                            variant="ghost"
+                            size="sm"
                             onClick={() => setSelectedService(s)}
                             className={cn(
-                              "chip cursor-pointer transition-all",
+                              "rounded-full px-3",
                               selectedService === s
-                                ? "border-medical bg-medical/15 text-medical"
+                                ? "border border-medical bg-medical/15 text-medical"
                                 : ""
                             )}
                           >
                             {s}
-                          </button>
+                          </Button>
                         )
                       )}
                     </div>

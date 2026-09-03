@@ -221,13 +221,15 @@ export function OrderDetailDrawer({
             className="relative h-full w-full max-w-md glass-panel border-l border-border/60 bg-background/95 p-6 backdrop-blur-xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <button
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={onClose}
-              className="absolute right-4 top-4 rounded-lg p-1 text-muted-foreground hover:bg-muted"
+              className="absolute right-4 top-4 h-8 w-8 text-muted-foreground hover:bg-muted"
               aria-label="Close order detail"
             >
               <X className="h-5 w-5" />
-            </button>
+            </Button>
 
             <div className="mb-6">
               <p className="font-mono text-xs text-muted-foreground">{order.id}</p>

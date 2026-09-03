@@ -19,6 +19,7 @@ import {
   Save,
   AlertTriangle,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { fadeUp, SectionHeader, ToggleRow } from "./shared";
 
@@ -121,12 +122,12 @@ export function SettingsTab() {
           </div>
         </div>
 
-        <button
+        <Button
           onClick={() => toast.success("Profile saved")}
-          className="mt-4 flex items-center gap-2 rounded-lg bg-medical px-4 py-2 text-sm font-medium text-white hover:bg-medical/90"
+          className="mt-4 gap-2"
         >
           <Save className="h-4 w-4" /> Save Profile
-        </button>
+        </Button>
       </motion.div>
 
       {/* Security & compliance toggles */}
@@ -222,18 +223,20 @@ export function SettingsTab() {
         </div>
 
         <div className="flex flex-wrap gap-3">
-          <button
+          <Button
+            variant="destructive"
             onClick={() => toast.info("Database reset — this is a demo")}
-            className="flex items-center gap-2 rounded-lg border border-rose-500/30 bg-rose-500/10 px-4 py-2 text-sm font-medium text-rose-600 dark:text-rose-400 hover:bg-rose-500/20"
+            className="gap-2"
           >
             <Database className="h-4 w-4" /> Reset Database
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="destructive"
             onClick={() => toast.info("Platform deletion — this is a demo")}
-            className="flex items-center gap-2 rounded-lg border border-rose-500/30 bg-rose-500/10 px-4 py-2 text-sm font-medium text-rose-600 dark:text-rose-400 hover:bg-rose-500/20"
+            className="gap-2"
           >
             <Trash2 className="h-4 w-4" /> Delete Platform
-          </button>
+          </Button>
         </div>
       </motion.div>
     </motion.div>

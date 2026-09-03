@@ -125,12 +125,13 @@ function SignInForm() {
                 <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   Password
                 </label>
-                <button
+                <Button
+                  variant="link"
                   type="button"
-                  className="text-xs font-medium text-medical hover:underline"
+                  className="h-auto p-0 text-xs font-medium text-medical hover:underline"
                 >
                   Forgot?
-                </button>
+                </Button>
               </div>
               <div className="input-premium flex h-11 items-center gap-2 px-3.5">
                 <Lock className="h-4 w-4 text-muted-foreground" />
@@ -142,10 +143,12 @@ function SignInForm() {
                   placeholder="••••••••"
                   className="h-full w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
                 />
-                <button
+                <Button
+                  variant="ghost"
+                  size="icon"
                   type="button"
                   onClick={() => setShowPwd((v) => !v)}
-                  className="text-muted-foreground hover:text-foreground"
+                  className="h-8 w-8 text-muted-foreground hover:text-foreground"
                   aria-label={showPwd ? "Hide password" : "Show password"}
                 >
                   {showPwd ? (
@@ -153,7 +156,7 @@ function SignInForm() {
                   ) : (
                     <Eye className="h-4 w-4" />
                   )}
-                </button>
+                </Button>
               </div>
             </div>
 
@@ -177,13 +180,15 @@ function SignInForm() {
             </div>
             <div className="flex flex-wrap gap-2">
               {TEST_ACCOUNTS.map((a) => (
-                <button
+                <Button
                   key={a.email}
+                  variant="outline"
+                  size="sm"
                   onClick={() => quickFill(a.email)}
-                  className="chip cursor-pointer transition-colors hover:border-medical/40 hover:text-medical"
+                  className="rounded-full px-3 py-1.5 text-xs font-semibold cursor-pointer transition-colors hover:border-medical/40 hover:text-medical"
                 >
                   {a.label}
-                </button>
+                </Button>
               ))}
             </div>
           </div>

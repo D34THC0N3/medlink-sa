@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Search, Send, Paperclip } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 type Draft = { sender: string; text: string; time: string };
@@ -83,11 +84,12 @@ export function MessagesView() {
           </div>
           <div className="overflow-y-auto">
             {filtered.map((t) => (
-              <button
+              <Button
                 key={t.id}
+                variant="ghost"
                 onClick={() => setActive(t.id)}
                 className={cn(
-                  "flex w-full flex-col gap-1 border-b border-border p-3 text-left transition hover:bg-card/60",
+                  "flex h-auto w-full flex-col gap-1 border-b border-border p-3 text-left",
                   active === t.id && "bg-medical/10"
                 )}
               >
@@ -102,7 +104,7 @@ export function MessagesView() {
                     {t.unread}
                   </span>
                 )}
-              </button>
+              </Button>
             ))}
           </div>
         </div>
@@ -142,18 +144,18 @@ export function MessagesView() {
           </div>
 
           <div className="flex items-center gap-2 border-t border-border p-3">
-            <button className="grid h-8 w-8 place-items-center rounded-lg text-muted-foreground hover:bg-card/60">
+            <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg text-muted-foreground hover:bg-card/60">
               <Paperclip className="h-4 w-4" />
-            </button>
+            </Button>
             <input
               value={draft}
               onChange={(e) => setDraft(e.target.value)}
               placeholder="Type a message…"
               className="input-premium flex-1 h-9 rounded-lg px-3 text-sm"
             />
-            <button className="grid h-9 w-9 place-items-center rounded-lg bg-medical text-white hover:bg-medical/90">
+            <Button size="icon" className="h-9 w-9 rounded-lg bg-medical text-white hover:bg-medical/90">
               <Send className="h-4 w-4" />
-            </button>
+            </Button>
           </div>
         </div>
       </div>

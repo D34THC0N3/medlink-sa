@@ -39,19 +39,12 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { cn, getInitials } from "@/lib/utils";
 import { fadeUp, VERIFIED_STYLE, ROLE_STYLE, SectionHeader, DetailCell } from "./shared";
 import type { AdminUser, VerifiedStatus } from "./types";
 
 /* ---------- helpers ---------- */
-
-function getInitials(name: string) {
-  return name
-    .split(" ")
-    .map((s) => s[0])
-    .join("")
-    .toUpperCase();
-}
 
 const STATUS_OPTIONS: { value: VerifiedStatus | "all"; label: string }[] = [
   { value: "all", label: "All" },
@@ -117,16 +110,18 @@ export function UsersTab({ users, mutateUser }: UsersTabProps) {
         <div className="flex items-center gap-1.5">
           <Filter className="h-4 w-4 text-muted-foreground" />
           {ROLE_OPTIONS.map((r) => (
-            <button
+            <Button
               key={r}
+              variant="ghost"
+              size="sm"
               onClick={() => setRoleFilter(r)}
               className={cn(
                 "rounded-full px-3 py-1 text-xs font-medium transition-colors",
-                roleFilter === r ? "bg-medical text-white" : "bg-foreground/5 text-muted-foreground hover:bg-foreground/10"
+                roleFilter === r ? "bg-medical text-white hover:bg-medical/90" : "bg-foreground/5 text-muted-foreground hover:bg-foreground/10"
               )}
             >
               {r}
-            </button>
+            </Button>
           ))}
         </div>
 
@@ -178,9 +173,11 @@ export function UsersTab({ users, mutateUser }: UsersTabProps) {
                       className="group border-b border-border/30 hover:bg-foreground/[0.02]"
                     >
                       <td className="px-4 py-3">
-                        <button
+                        <Button
+                          variant="ghost"
+                          size="sm"
                           onClick={() => setExpandId(expanded ? null : u.id)}
-                          className="flex items-center gap-3"
+                          className="h-auto justify-start p-0"
                         >
                           <span className={cn("grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br text-xs font-bold text-white", rs.tint)}>
                             {getInitials(u.name)}
@@ -194,7 +191,7 @@ export function UsersTab({ users, mutateUser }: UsersTabProps) {
                           ) : (
                             <ChevronRight className="ml-1 h-3.5 w-3.5 text-muted-foreground" />
                           )}
-                        </button>
+                        </Button>
                       </td>
                       <td className="px-4 py-3">
                         <span className="flex items-center gap-1.5 text-xs">
@@ -211,19 +208,21 @@ export function UsersTab({ users, mutateUser }: UsersTabProps) {
                       <td className="px-4 py-3 text-xs text-muted-foreground">{u.joined}</td>
                       <td className="px-4 py-3 text-right">
                         <div className="flex items-center justify-end gap-1 opacity-0 transition-opacity group-hover:opacity-100">
-                          <button
+                          <Button
+                            variant="ghost"
+                            size="icon"
                             onClick={() => setDetailUser(u)}
-                            className="rounded-lg p-1.5 text-muted-foreground hover:bg-foreground/5 hover:text-foreground"
+                            className="h-8 w-8 text-muted-foreground hover:bg-foreground/5 hover:text-foreground"
                             title="View details"
                           >
                             <Eye className="h-4 w-4" />
-                          </button>
+                          </Button>
                           {u.verified !== "approved" && (
                             <AlertDialog>
                               <AlertDialogTrigger asChild>
-                                <button className="rounded-lg p-1.5 text-emerald-600 hover:bg-emerald-500/10" title="Verify">
+                                <Button variant="ghost" size="icon" className="h-8 w-8 text-emerald-600 hover:bg-emerald-500/10" title="Verify">
                                   <Check className="h-4 w-4" />
-                                </button>
+                                </Button>
                               </AlertDialogTrigger>
                               <AlertDialogContent>
                                 <AlertDialogHeader>
@@ -250,9 +249,9 @@ export function UsersTab({ users, mutateUser }: UsersTabProps) {
                           {u.verified !== "suspended" && (
                             <AlertDialog>
                               <AlertDialogTrigger asChild>
-                                <button className="rounded-lg p-1.5 text-amber-600 hover:bg-amber-500/10" title="Suspend">
+                                <Button variant="ghost" size="icon" className="h-8 w-8 text-amber-600 hover:bg-amber-500/10" title="Suspend">
                                   <Ban className="h-4 w-4" />
-                                </button>
+                                </Button>
                               </AlertDialogTrigger>
                               <AlertDialogContent>
                                 <AlertDialogHeader>
@@ -277,16 +276,18 @@ export function UsersTab({ users, mutateUser }: UsersTabProps) {
                             </AlertDialog>
                           )}
                           {u.verified === "suspended" && (
-                            <button
+                            <Button
+                              variant="ghost"
+                              size="icon"
                               onClick={() => {
                                 mutateUser(u.id, { verified: "approved" });
                                 toast.success(`${u.name} reinstated`);
                               }}
-                              className="rounded-lg p-1.5 text-medical hover:bg-medical/10"
+                              className="h-8 w-8 text-medical hover:bg-medical/10"
                               title="Reinstate"
                             >
                               <RotateCcw className="h-4 w-4" />
-                            </button>
+                            </Button>
                           )}
                         </div>
                       </td>
@@ -326,28 +327,31 @@ export function UsersTab({ users, mutateUser }: UsersTabProps) {
                 {/* Quick actions */}
                 <div className="flex gap-2 pt-2">
                   {detailUser.verified !== "approved" && (
-                    <button
+                    <Button
+                      size="sm"
                       onClick={() => {
                         mutateUser(detailUser.id, { verified: "approved" });
                         setDetailUser({ ...detailUser, verified: "approved" });
                         toast.success(`${detailUser.name} verified`);
                       }}
-                      className="flex items-center gap-1.5 rounded-lg bg-emerald-600 px-3 py-2 text-xs font-medium text-white hover:bg-emerald-700"
+                      className="gap-1.5 bg-emerald-600 text-white hover:bg-emerald-700"
                     >
                       <Check className="h-3.5 w-3.5" /> Approve
-                    </button>
+                    </Button>
                   )}
                   {detailUser.verified !== "suspended" && (
-                    <button
+                    <Button
+                      size="sm"
+                      variant="destructive"
                       onClick={() => {
                         mutateUser(detailUser.id, { verified: "suspended" });
                         setDetailUser({ ...detailUser, verified: "suspended" });
                         toast.success(`${detailUser.name} suspended`);
                       }}
-                      className="flex items-center gap-1.5 rounded-lg bg-amber-600 px-3 py-2 text-xs font-medium text-white hover:bg-amber-700"
+                      className="gap-1.5 bg-amber-600 text-white hover:bg-amber-700"
                     >
                       <Ban className="h-3.5 w-3.5" /> Suspend
-                    </button>
+                    </Button>
                   )}
                 </div>
               </div>

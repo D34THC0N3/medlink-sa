@@ -11,6 +11,7 @@ import {
 import type { TooltipProps } from "recharts";
 
 import { CURRENT_TICKET, PATIENT_APPOINTMENTS, PATIENT_PRESCRIPTIONS, PATIENT_RECORDS, PATIENT_VITALS } from "@/lib/data";
+import { Button } from "@/components/ui/button";
 import { greeting, formatRand, StatCard, StatusPill } from "./shared-utils";
 import type { User } from "@/lib/auth-context";
 
@@ -189,9 +190,9 @@ export function OverviewView({ user, goToTab }: OverviewViewProps) {
         >
           <div className="mb-4 flex items-center justify-between">
             <h3 className="font-display text-lg font-semibold">Upcoming</h3>
-            <button onClick={() => goToTab("appointments")} className="text-xs font-medium text-medical hover:underline">
+            <Button variant="ghost" size="sm" onClick={() => goToTab("appointments")} className="text-xs font-medium text-medical hover:underline">
               View all
-            </button>
+            </Button>
           </div>
           <div className="space-y-3">
             {PATIENT_APPOINTMENTS.slice(0, 3).map((a) => (
@@ -223,9 +224,9 @@ export function OverviewView({ user, goToTab }: OverviewViewProps) {
         >
           <div className="mb-4 flex items-center justify-between">
             <h3 className="font-display text-lg font-semibold">Recent records</h3>
-            <button onClick={() => goToTab("records")} className="text-xs font-medium text-medical hover:underline">
+            <Button variant="ghost" size="sm" onClick={() => goToTab("records")} className="text-xs font-medium text-medical hover:underline">
               View all
-            </button>
+            </Button>
           </div>
           <div className="space-y-2">
             {PATIENT_RECORDS.map((r) => {

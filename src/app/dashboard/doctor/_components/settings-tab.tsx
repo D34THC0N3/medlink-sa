@@ -55,30 +55,30 @@ export function SettingsTab() {
       <div className="grid gap-6 lg:grid-cols-[240px_1fr]">
         <div className="space-y-1">
           {sections.map(s => (
-            <button
+            <Button
               key={s.id}
-              type="button"
-              onClick={() => setActiveSection(s.id)}
+              variant="ghost"
               className={cn(
-                'flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors',
+                'w-full justify-start gap-2.5 px-3 py-2.5 h-auto text-sm font-medium',
                 activeSection === s.id
-                  ? 'bg-blue-50 text-blue-700'
+                  ? 'bg-blue-50 text-blue-700 hover:bg-blue-50 hover:text-blue-700'
                   : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
               )}
+              onClick={() => setActiveSection(s.id)}
             >
               <s.icon className="h-4 w-4" />
               {s.label}
-            </button>
+            </Button>
           ))}
           <Separator className="my-2" />
-          <button
-            type="button"
+          <Button
+            variant="ghost"
+            className="w-full justify-start gap-2.5 px-3 py-2.5 h-auto text-sm font-medium text-red-600 hover:bg-red-50 hover:text-red-600"
             onClick={signOut}
-            className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 transition-colors"
           >
             <LogOut className="h-4 w-4" />
             Sign Out
-          </button>
+          </Button>
         </div>
 
         <div>
@@ -230,20 +230,20 @@ export function SettingsTab() {
                       { value: 'dark', label: 'Dark', icon: Moon },
                       { value: 'system', label: 'System', icon: Monitor }
                     ].map(t => (
-                      <button
+                      <Button
                         key={t.value}
-                        type="button"
-                        onClick={() => setTheme(t.value)}
+                        variant="outline"
                         className={cn(
-                          'flex flex-col items-center gap-2 rounded-xl border-2 p-4 transition-all',
+                          'flex flex-col items-center gap-2 rounded-xl border-2 p-4 h-auto',
                           theme === t.value
-                            ? 'border-blue-500 bg-blue-50 text-blue-700'
+                            ? 'border-blue-500 bg-blue-50 text-blue-700 hover:bg-blue-50 hover:text-blue-700'
                             : 'border-slate-200 hover:border-slate-300 text-slate-600'
                         )}
+                        onClick={() => setTheme(t.value)}
                       >
                         <t.icon className="h-5 w-5" />
                         <span className="text-xs font-medium">{t.label}</span>
-                      </button>
+                      </Button>
                     ))}
                   </div>
                 </div>

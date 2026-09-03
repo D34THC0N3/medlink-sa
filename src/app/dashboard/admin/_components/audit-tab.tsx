@@ -14,6 +14,7 @@ import {
   Hash,
 } from "lucide-react";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { fadeUp, AUDIT_KIND_META, SectionHeader } from "./shared";
 import { AUDIT_EXTENDED } from "./mock-data";
@@ -80,32 +81,36 @@ export function AuditTab() {
           {KIND_FILTERS.map((k) => {
             const meta = k.value !== "all" ? AUDIT_KIND_META[k.value] : null;
             return (
-              <button
+              <Button
                 key={k.value}
                 onClick={() => setKindFilter(k.value)}
+                variant="ghost"
+                size="sm"
                 className={cn(
-                  "flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium transition-colors",
+                  "rounded-full",
                   kindFilter === k.value
                     ? k.value === "all"
-                      ? "bg-medical text-white"
-                      : cn(meta?.bg, meta?.color, "ring-1", meta?.ring)
+                      ? "bg-medical text-white hover:bg-medical/90"
+                      : cn(meta?.bg, meta?.color, "ring-1", meta?.ring, "hover:opacity-90")
                     : "bg-foreground/5 text-muted-foreground hover:bg-foreground/10"
                 )}
               >
                 {meta && <meta.icon className="h-3 w-3" />}
                 {k.label}
-              </button>
+              </Button>
             );
           })}
         </div>
 
         {/* Export mock */}
-        <button
+        <Button
+          variant="outline"
+          size="sm"
           onClick={() => toast?.info?.("Export coming soon") ?? undefined}
-          className="flex items-center gap-1.5 rounded-lg border border-border/60 px-3 py-2 text-xs font-medium text-muted-foreground hover:bg-foreground/5"
+          className="flex items-center gap-1.5 text-xs"
         >
           <Download className="h-3.5 w-3.5" /> Export
-        </button>
+        </Button>
       </motion.div>
 
       {/* Results count */}
@@ -128,9 +133,10 @@ export function AuditTab() {
                 className="glass-panel overflow-hidden rounded-xl"
               >
                 {/* Row */}
-                <button
+                <Button
+                  variant="ghost"
                   onClick={() => setExpandId(expanded ? null : e.id)}
-                  className="flex w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-foreground/[0.02]"
+                  className="flex w-full items-center gap-3 px-4 py-3 text-left h-auto hover:bg-foreground/[0.02]"
                 >
                   <span className={cn("grid h-8 w-8 shrink-0 place-items-center rounded-lg ring-1", meta.bg, meta.ring)}>
                     <meta.icon className={cn("h-4 w-4", meta.color)} />
@@ -151,7 +157,7 @@ export function AuditTab() {
                   ) : (
                     <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground" />
                   )}
-                </button>
+                </Button>
 
                 {/* Expanded details */}
                 <AnimatePresence>

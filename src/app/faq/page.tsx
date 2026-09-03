@@ -258,18 +258,19 @@ export default function FaqPage() {
             className="mt-10 flex flex-wrap items-center justify-center gap-2"
           >
             {(["All", ...CATEGORIES] as const).map((c) => (
-              <button
+              <Button
                 key={c}
+                variant="outline"
                 onClick={() => setActive(c)}
                 className={cn(
-                  "rounded-full border px-4 py-1.5 text-xs font-semibold transition-all",
+                  "rounded-full px-4 py-1.5 text-xs font-semibold",
                   active === c
                     ? "border-medical/40 bg-medical/12 text-medical"
                     : "border-border bg-background/40 text-muted-foreground hover:border-medical/30 hover:text-foreground"
                 )}
               >
                 {c}
-              </button>
+              </Button>
             ))}
           </motion.div>
 
@@ -318,9 +319,10 @@ export default function FaqPage() {
                           open && "border-medical/40"
                         )}
                       >
-                        <button
+                        <Button
+                          variant="ghost"
                           onClick={() => setOpenId(open ? null : id)}
-                          className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left"
+                          className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left h-auto"
                           aria-expanded={open}
                         >
                           <span className="text-[0.95rem] font-semibold leading-snug">
@@ -332,7 +334,7 @@ export default function FaqPage() {
                               open && "rotate-180"
                             )}
                           />
-                        </button>
+                        </Button>
                         <AnimatePresence initial={false}>
                           {open && (
                             <motion.div

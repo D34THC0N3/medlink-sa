@@ -164,12 +164,13 @@ function SignUpForm() {
             </label>
             <div className="grid grid-cols-2 gap-2">
               {ROLES.map((r) => (
-                <button
+                <Button
                   key={r.id}
                   type="button"
+                  variant="outline"
                   onClick={() => setRole(r.id)}
                   className={cn(
-                    "flex items-center gap-2.5 rounded-xl border p-3 text-left transition-all",
+                    "flex h-auto items-center gap-2.5 p-3 text-left",
                     role === r.id
                       ? "border-medical bg-medical/10 ring-1 ring-medical/30"
                       : "border-border bg-card/40 hover:border-medical/40"
@@ -191,7 +192,7 @@ function SignUpForm() {
                       {r.desc}
                     </div>
                   </div>
-                </button>
+                </Button>
               ))}
             </div>
           </div>

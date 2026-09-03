@@ -123,21 +123,21 @@ export default function InventoryTab() {
             <thead>
               <tr className="border-b border-border/50 text-left text-xs font-medium text-muted-foreground">
                 <th className="px-4 py-3">
-                  <button className="flex items-center gap-1 hover:text-foreground" onClick={() => toggleSort("name")}>
+                  <Button variant="ghost" size="sm" className="h-auto gap-1 p-0 hover:text-foreground" onClick={() => toggleSort("name")}>
                     Medicine <ArrowUpDown className="h-3 w-3" />
-                  </button>
+                  </Button>
                 </th>
                 <th className="px-4 py-3">
-                  <button className="flex items-center gap-1 hover:text-foreground" onClick={() => toggleSort("stock")}>
+                  <Button variant="ghost" size="sm" className="h-auto gap-1 p-0 hover:text-foreground" onClick={() => toggleSort("stock")}>
                     Stock <ArrowUpDown className="h-3 w-3" />
-                  </button>
+                  </Button>
                 </th>
                 <th className="px-4 py-3">Status</th>
                 <th className="px-4 py-3">Category</th>
                 <th className="px-4 py-3">
-                  <button className="flex items-center gap-1 hover:text-foreground" onClick={() => toggleSort("lastRestocked")}>
+                  <Button variant="ghost" size="sm" className="h-auto gap-1 p-0 hover:text-foreground" onClick={() => toggleSort("lastRestocked")}>
                     Last restocked <ArrowUpDown className="h-3 w-3" />
-                  </button>
+                  </Button>
                 </th>
                 <th className="px-4 py-3 text-right">Actions</th>
               </tr>

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Search, ShoppingCart } from "lucide-react";
 
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { MEDICINES } from "@/lib/data";
 import { ViewHeader } from "./shared-utils";
@@ -79,16 +80,18 @@ export function MedicineView({ preselectId }: { preselectId?: string }) {
           />
         </div>
         {CATEGORIES.map((c) => (
-          <button
+          <Button
             key={c}
+            variant="ghost"
+            size="sm"
             onClick={() => setCategory(c)}
             className={cn(
-              "rounded-lg px-3 py-1.5 text-xs font-medium transition",
+              "rounded-lg px-3 py-1.5 text-xs font-medium",
               category === c ? "bg-medical text-white" : "bg-card/60 text-muted-foreground hover:bg-card"
             )}
           >
             {c}
-          </button>
+          </Button>
         ))}
         <select
           value={sort}
@@ -115,13 +118,15 @@ export function MedicineView({ preselectId }: { preselectId?: string }) {
               <span className={cn("text-xs font-medium", m.stock > 0 ? "text-emerald-500" : "text-rose-500")}>
                 {m.stock > 0 ? `${m.stock} pharmacies in stock` : "Out of stock"}
               </span>
-              <button
+              <Button
+                variant="default"
+                size="sm"
                 onClick={() => setOrderMed(m)}
                 disabled={m.stock === 0}
-                className="flex h-8 items-center gap-1 rounded-lg px-3 text-xs font-semibold disabled:opacity-40"
+                className="gap-1 rounded-lg"
               >
                 <ShoppingCart className="h-3.5 w-3.5" /> Order
-              </button>
+              </Button>
             </div>
           </div>
         ))}
