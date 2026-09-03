@@ -111,7 +111,8 @@ export default function HeartModel({ scrollProgress = 0, className }: Props) {
 
     let heart: THREE.Object3D | null = null;
     let mixer: THREE.AnimationMixer | null = null;
-    const clock = new THREE.Clock();
+    let prevTime = performance.now();
+    const startTime = prevTime;
 
     // ---- load GLB ----
     const loader = new GLTFLoader();
@@ -134,21 +135,23 @@ export default function HeartModel({ scrollProgress = 0, className }: Props) {
         heart.rotation.y = Math.PI * 0.05;
         heart.rotation.x = Math.PI * 0.02;
 
-        // The GLB ships a baseColorTexture + metallicRoughnessTexture, so the
-        // only safe adjustment is envMapIntensity. Do NOT overwrite roughness
-        // or metalness scalars here: that would cancel the metallicRoughness
-        // texture and flatten the surface.
+        // Override all materials with a consistent heart material.
+        // The GLB textures may fail to load (blob URL issues), so we replace
+        // them with a solid MeshPhysicalMaterial that looks anatomically correct.
         heart.traverse((obj) => {
           const mesh = obj as THREE.Mesh;
-          if (mesh.isMesh && mesh.material) {
-            const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
-            mats.forEach((m) => {
-              const mat = m as THREE.MeshStandardMaterial;
-              if (mat.isMeshStandardMaterial) {
-                mat.envMapIntensity = 1.0;
-                mat.needsUpdate = true;
-              }
+          if (mesh.isMesh) {
+            const heartMat = new THREE.MeshPhysicalMaterial({
+              color: 0xb91c2c,
+              roughness: 0.35,
+              metalness: 0.05,
+              clearcoat: 0.3,
+              clearcoatRoughness: 0.4,
+              emissive: 0x4a0000,
+              emissiveIntensity: 0.15,
+              envMapIntensity: 1.2,
             });
+            mesh.material = heartMat;
           }
         });
 
@@ -361,8 +364,9 @@ export default function HeartModel({ scrollProgress = 0, className }: Props) {
     // ---- loop ----
     let raf = 0;
     const tick = () => {
-      const t = clock.getElapsedTime();
-      const dt = clock.getDelta();
+      const t = (performance.now() - startTime) / 1000;
+      const dt = (performance.now() - prevTime) / 1000;
+      prevTime = performance.now();
       const sp = scrollRef.current; // 0..1
 
       // Lifelike heartbeat: double-thump (lub-dub) at ~55 bpm.
@@ -564,7 +568,7 @@ export default function HeartModel({ scrollProgress = 0, className }: Props) {
     const resume = () => {
       if (!onScreen || document.hidden) return;
       cancelAnimationFrame(raf);
-      clock.getDelta(); // drop the accumulated pause so motion does not jump
+      prevTime = performance.now(); // drop the accumulated pause so motion does not jump
       raf = requestAnimationFrame(tick);
     };
     const visObserver = new IntersectionObserver(
