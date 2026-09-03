@@ -168,15 +168,15 @@ export function VideoTab({ goToTab }: VideoTabProps) {
               </div>
 
               {chatOpen && (
-                <div className="absolute right-4 bottom-20 w-72 bg-white rounded-xl shadow-xl border overflow-hidden">
-                  <div className="p-3 border-b bg-slate-50">
-                    <p className="text-xs font-semibold text-slate-700">Chat</p>
+                <div className="absolute right-4 bottom-20 w-72 bg-white dark:bg-slate-800 rounded-xl shadow-xl border overflow-hidden">
+                  <div className="p-3 border-b bg-slate-50 dark:bg-slate-700">
+                    <p className="text-xs font-semibold text-slate-700 dark:text-slate-300">Chat</p>
                   </div>
                   <div className="h-48 overflow-y-auto p-3 space-y-2">
                     {chatMessages.map((m, i) => (
-                      <div key={i} className={cn('text-xs rounded-lg px-3 py-2', m.from === 'You' ? 'bg-blue-50 ml-8' : 'bg-slate-100 mr-8')}>
-                        <p className="font-medium text-slate-600">{m.from}</p>
-                        <p className="text-slate-800">{m.text}</p>
+                      <div key={i} className={cn('text-xs rounded-lg px-3 py-2', m.from === 'You' ? 'bg-blue-50 dark:bg-blue-900/30 ml-8' : 'bg-slate-100 dark:bg-slate-700 mr-8')}>
+                        <p className="font-medium text-slate-600 dark:text-slate-400">{m.from}</p>
+                        <p className="text-slate-800 dark:text-slate-200">{m.text}</p>
                       </div>
                     ))}
                     {chatMessages.length === 0 && <p className="text-xs text-slate-400 text-center py-4">No messages yet</p>}

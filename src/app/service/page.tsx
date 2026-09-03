@@ -384,7 +384,7 @@ function ServiceContent() {
                   </div>
 
                   {/* QR */}
-                  <div className="mt-6 grid h-40 w-40 place-items-center rounded-2xl bg-white p-3 shadow-lg">
+                  <div className="mt-6 grid h-40 w-40 place-items-center rounded-2xl bg-white dark:bg-slate-800 p-3 shadow-lg">
                     <QrPattern seed={ticket.number} />
                   </div>
                   <div className="mt-2 text-xs text-muted-foreground">

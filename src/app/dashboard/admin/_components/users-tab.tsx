@@ -214,13 +214,14 @@ export function UsersTab({ users, mutateUser }: UsersTabProps) {
                             onClick={() => setDetailUser(u)}
                             className="h-8 w-8 text-muted-foreground hover:bg-foreground/5 hover:text-foreground"
                             title="View details"
+                            aria-label="View user details"
                           >
                             <Eye className="h-4 w-4" />
                           </Button>
                           {u.verified !== "approved" && (
                             <AlertDialog>
                               <AlertDialogTrigger asChild>
-                                <Button variant="ghost" size="icon" className="h-8 w-8 text-emerald-600 hover:bg-emerald-500/10" title="Verify">
+                                <Button variant="ghost" size="icon" className="h-8 w-8 text-emerald-600 hover:bg-emerald-500/10" title="Verify" aria-label="Verify user">
                                   <Check className="h-4 w-4" />
                                 </Button>
                               </AlertDialogTrigger>
@@ -249,7 +250,7 @@ export function UsersTab({ users, mutateUser }: UsersTabProps) {
                           {u.verified !== "suspended" && (
                             <AlertDialog>
                               <AlertDialogTrigger asChild>
-                                <Button variant="ghost" size="icon" className="h-8 w-8 text-amber-600 hover:bg-amber-500/10" title="Suspend">
+                                <Button variant="ghost" size="icon" className="h-8 w-8 text-amber-600 hover:bg-amber-500/10" title="Suspend" aria-label="Suspend user">
                                   <Ban className="h-4 w-4" />
                                 </Button>
                               </AlertDialogTrigger>
@@ -285,6 +286,7 @@ export function UsersTab({ users, mutateUser }: UsersTabProps) {
                               }}
                               className="h-8 w-8 text-medical hover:bg-medical/10"
                               title="Reinstate"
+                              aria-label="Reinstate user"
                             >
                               <RotateCcw className="h-4 w-4" />
                             </Button>

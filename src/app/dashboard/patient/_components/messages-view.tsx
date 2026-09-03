@@ -144,7 +144,7 @@ export function MessagesView() {
           </div>
 
           <div className="flex items-center gap-2 border-t border-border p-3">
-            <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg text-muted-foreground hover:bg-card/60">
+            <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg text-muted-foreground hover:bg-card/60" aria-label="Attach file">
               <Paperclip className="h-4 w-4" />
             </Button>
             <input
@@ -153,7 +153,7 @@ export function MessagesView() {
               placeholder="Type a message…"
               className="input-premium flex-1 h-9 rounded-lg px-3 text-sm"
             />
-            <Button size="icon" className="h-9 w-9 rounded-lg bg-medical text-white hover:bg-medical/90">
+            <Button size="icon" className="h-9 w-9 rounded-lg bg-medical text-white hover:bg-medical/90" aria-label="Send message">
               <Send className="h-4 w-4" />
             </Button>
           </div>
