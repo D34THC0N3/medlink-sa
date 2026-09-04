@@ -128,7 +128,7 @@ export default function DashboardLayout({
     if (!loading && (!user || user.role !== role)) {
       router.replace("/sign-in?redirect=" + encodeURIComponent("/dashboard/" + role));
     }
-  }, [user, loading, role]);
+  }, [user, loading, role, router]);
 
   // Cmd+K
   useEffect(() => {
@@ -154,7 +154,11 @@ export default function DashboardLayout({
   }
 
   const items = NAV_BY_ROLE[role];
-  const activeHref = pathname + (typeof window !== "undefined" ? window.location.search : "");
+  const [searchParams, setSearchParams] = useState("");
+  useEffect(() => {
+    setSearchParams(window.location.search);
+  }, [pathname]);
+  const activeHref = pathname + searchParams;
 
   return (
     <div className="min-h-[100svh] bg-background">

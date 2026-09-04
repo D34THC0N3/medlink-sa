@@ -51,7 +51,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signIn: AuthContextValue["signIn"] = (email, password) => {
     // signIn is async under Auth.js — callers need to handle redirect
-    nextAuthSignIn("credentials", {
+    void nextAuthSignIn("credentials", {
       email,
       password,
       redirect: false,

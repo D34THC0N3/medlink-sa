@@ -42,25 +42,29 @@ function SignInForm() {
     setError(null);
     setLoading(true);
 
-    const res = await nextAuthSignIn("credentials", {
-      email,
-      password,
-      redirect: false,
-    });
+    try {
+      const res = await nextAuthSignIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
 
-    setLoading(false);
+      if (!res?.ok) {
+        setError("Invalid email or password.");
+        return;
+      }
 
-    if (!res?.ok) {
-      setError("Invalid email or password.");
-      return;
+      // After successful sign-in, fetch session to get role, then redirect
+      const sessionRes = await fetch("/api/auth/session");
+      const session = await sessionRes.json();
+      const role = session?.user?.role as UserRole | undefined;
+      const dest = redirect ?? (role ? ROLE_DASHBOARDS[role] : "/dashboard/patient");
+      window.location.href = dest;
+    } catch {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
     }
-
-    // After successful sign-in, fetch session to get role, then redirect
-    const sessionRes = await fetch("/api/auth/session");
-    const session = await sessionRes.json();
-    const role = session?.user?.role as UserRole | undefined;
-    const dest = redirect ?? (role ? ROLE_DASHBOARDS[role] : "/dashboard/patient");
-    window.location.href = dest;
   };
 
   const quickFill = (em: string) => {
