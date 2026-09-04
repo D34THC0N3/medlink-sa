@@ -3,6 +3,10 @@ import path from "path";
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: "standalone",
+  poweredByHeader: false,
+  images: {
+    formats: ["image/avif", "image/webp"],
+  },
   webpack(config) {
     config.resolve.alias["framer-motion"] = path.resolve(
       process.cwd(),
@@ -19,6 +23,7 @@ const nextConfig = {
     },
   },
   reactStrictMode: false,
+  productionBrowserSourceMaps: false,
 };
 
 export default nextConfig;

@@ -73,17 +73,9 @@ function ExploreContent() {
     <div className="min-h-[100svh] bg-background">
       <SiteNavbar />
 
-      {/* ambient */}
+      {/* ambient grid */}
       <div className="pointer-events-none fixed inset-0 -z-10">
         <div className="bg-grid absolute inset-0 opacity-[0.25] dark:opacity-[0.08]" />
-        <div
-          className="glow-orb animate-float-slow"
-          style={{ width: 460, height: 460, background: "var(--glow-1)", top: "8%", right: "-8%" }}
-        />
-        <div
-          className="glow-orb animate-float-slow"
-          style={{ width: 360, height: 360, background: "var(--glow-2)", bottom: "10%", left: "-6%", animationDelay: "-5s" }}
-        />
       </div>
 
       <main className="mx-auto max-w-6xl px-4 pb-20 pt-28 sm:px-6 sm:pt-32">
@@ -109,8 +101,8 @@ function ExploreContent() {
         </motion.div>
 
         {/* Search + tabs */}
-        <div className="glass-panel mb-6 p-4 sm:p-5">
-          <div className="input-premium flex h-12 items-center gap-2 px-4">
+        <div className="mb-6 rounded-2xl border border-border bg-card p-4 sm:p-5">
+          <div className="flex h-12 items-center gap-2 rounded-xl border border-border bg-background px-4">
             <Search className="h-5 w-5 text-muted-foreground" />
             <input
               value={query}
@@ -216,7 +208,7 @@ function ExploreContent() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4, ease: EASE, delay: i * 0.04 }}
                       onClick={() => setSelectedMed(m)}
-                      className="glass-card group p-4 text-left transition-all hover:-translate-y-1 hover:border-medical/40"
+                      className="group rounded-2xl border border-border bg-card p-4 text-left transition-all hover:-translate-y-1 hover:border-medical/40"
                     >
                       <div className="flex items-start justify-between">
                         <span className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-medical/20 to-cyan-400/10 text-medical transition-transform group-hover:scale-110">
@@ -295,17 +287,17 @@ function ExploreContent() {
                       initial={{ opacity: 0, y: 16 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4, ease: EASE, delay: i * 0.05 }}
-                      className="glass-card group p-4 transition-all hover:-translate-y-0.5 hover:border-medical/40"
+                      className="group rounded-2xl border border-border bg-card p-4 transition-all hover:-translate-y-0.5 hover:border-medical/40"
                     >
                       <div className="flex items-start gap-3">
                         <span
                           className={cn(
-                            "grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br text-white shadow-sm",
+                            "grid h-11 w-11 shrink-0 place-items-center rounded-xl text-white shadow-sm",
                             f.category === "hospital"
-                              ? "from-medical to-cyan-400"
+                              ? "bg-medical"
                               : f.category === "clinic"
-                                ? "from-cyan-400 to-medical"
-                                : "from-emerald-500 to-teal-400"
+                                ? "bg-cyan-500"
+                                : "bg-emerald-500"
                           )}
                         >
                           {f.category === "pharmacy" ? (
@@ -387,26 +379,25 @@ function ExploreContent() {
                 </div>
 
                 {/* Map */}
-                <div className="relative h-[400px] overflow-hidden rounded-2xl border border-border bg-card/40 lg:h-auto lg:min-h-[520px]">
-                  <div className="absolute inset-0 bg-gradient-to-br from-medical/[0.06] via-background to-cyan-400/[0.04]" />
+                <div className="relative h-[400px] overflow-hidden rounded-2xl border border-border bg-card lg:h-auto lg:min-h-[520px]">
                   <div className="bg-grid absolute inset-0 opacity-40 dark:opacity-20" />
                   <MapPins />
                   <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/5" />
                   <div className="absolute left-3 top-3 z-20">
-                    <span className="glass-card flex items-center gap-1.5 px-2.5 py-1 text-[0.7rem] font-semibold">
+                    <span className="flex items-center gap-1.5 rounded-xl border border-border bg-card px-2.5 py-1 text-[0.7rem] font-semibold">
                       <MapPin className="h-3 w-3 text-medical" />
                       Gauteng · Johannesburg
                     </span>
                   </div>
                   <div className="absolute right-3 top-3 z-20">
-                    <span className="glass-card flex items-center gap-1.5 px-2.5 py-1 text-[0.7rem] font-semibold text-muted-foreground">
+                    <span className="flex items-center gap-1.5 rounded-xl border border-border bg-card px-2.5 py-1 text-[0.7rem] font-semibold text-muted-foreground">
                       <Navigation className="h-3 w-3" />
                       SA network
                     </span>
                   </div>
                   <div className="absolute bottom-3 left-3 z-20">
-                    <span className="glass-card flex items-center gap-1.5 px-2.5 py-1 text-[0.7rem] font-semibold text-emerald-500">
-                      <span className="status-dot bg-emerald-500" />
+                    <span className="flex items-center gap-1.5 rounded-xl border border-border bg-card px-2.5 py-1 text-[0.7rem] font-semibold text-emerald-500">
+                      <span className="inline-block h-2 w-2 rounded-full bg-emerald-500" />
                       {facilities.length} nearby
                     </span>
                   </div>
@@ -437,7 +428,7 @@ function ExploreContent() {
             initial={{ opacity: 0, y: 20, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             onClick={(e) => e.stopPropagation()}
-            className="glass-strong relative z-10 max-h-[85vh] w-full max-w-2xl overflow-y-auto rounded-2xl p-6 sm:p-8"
+            className="relative z-10 max-h-[85vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-border bg-card p-6 sm:p-8"
           >
             <div className="flex items-start justify-between">
               <div>
@@ -616,7 +607,7 @@ function MapPins() {
               className="absolute inline-flex h-full w-full animate-ping rounded-full bg-medical opacity-40"
               style={{ animationDelay: p.delay }}
             />
-            <span className="relative inline-flex h-3 w-3 rounded-full bg-medical ring-2 ring-background shadow-[0_0_12px_var(--glow-1)]" />
+              <span className="relative inline-flex h-3 w-3 rounded-full bg-medical ring-2 ring-background" />
           </span>
         </div>
       ))}

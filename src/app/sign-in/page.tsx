@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import {
-  Activity,
   Mail,
   Lock,
   Eye,
@@ -81,8 +80,10 @@ function SignInForm() {
           className="w-full max-w-md"
         >
           <Link href="/" className="mb-8 flex items-center gap-2.5">
-            <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-medical to-cyan-400 shadow-[0_4px_16px_var(--glow-1)]">
-              <Activity className="h-5 w-5 text-white" strokeWidth={2.5} />
+            <span className="grid h-9 w-9 place-items-center rounded-xl bg-foreground">
+              <svg className="h-5 w-5 text-background" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 4v16M4 12h16" />
+              </svg>
             </span>
             <span className="font-display text-[0.95rem] font-semibold tracking-tight">
               MedLink<span className="text-medical"> SA</span>
@@ -108,7 +109,7 @@ function SignInForm() {
               <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 Email
               </label>
-              <div className="input-premium flex h-11 items-center gap-2 px-3.5">
+              <div className="flex h-11 items-center gap-2 rounded-xl border border-border bg-background px-3.5">
                 <Mail className="h-4 w-4 text-muted-foreground" />
                 <input
                   type="email"
@@ -135,7 +136,7 @@ function SignInForm() {
                   Forgot?
                 </Button>
               </div>
-              <div className="input-premium flex h-11 items-center gap-2 px-3.5">
+              <div className="flex h-11 items-center gap-2 rounded-xl border border-border bg-background px-3.5">
                 <Lock className="h-4 w-4 text-muted-foreground" />
                 <input
                   type={showPwd ? "text" : "password"}
@@ -208,29 +209,8 @@ function SignInForm() {
       </div>
 
       {/* Right: brand panel */}
-      <div className="relative hidden overflow-hidden bg-gradient-to-br from-medical/15 via-background to-cyan-400/10 lg:block">
+      <div className="relative hidden overflow-hidden bg-muted/30 lg:block">
         <div className="absolute inset-0">
-          <div
-            className="glow-orb animate-float-slow"
-            style={{
-              width: 400,
-              height: 400,
-              background: "var(--glow-1)",
-              top: "10%",
-              right: "-10%",
-            }}
-          />
-          <div
-            className="glow-orb animate-float-slow"
-            style={{
-              width: 320,
-              height: 320,
-              background: "var(--glow-2)",
-              bottom: "10%",
-              left: "-8%",
-              animationDelay: "-4s",
-            }}
-          />
           <div className="bg-grid absolute inset-0 opacity-30 dark:opacity-15" />
         </div>
         <div className="relative flex h-full flex-col justify-center p-12">
@@ -241,7 +221,7 @@ function SignInForm() {
             className="max-w-md"
           >
             <span className="chip mb-6">
-              <span className="status-dot bg-emerald-500" />
+              <span className="inline-block h-2 w-2 rounded-full bg-emerald-500" />
               Live across 9 provinces
             </span>
             <h2 className="font-display text-4xl font-semibold leading-tight tracking-tight">

@@ -68,29 +68,8 @@ function SignUpForm() {
   return (
     <div className="grid min-h-[100svh] lg:grid-cols-2">
       {/* Left: brand panel */}
-      <div className="relative hidden overflow-hidden bg-gradient-to-br from-medical/15 via-background to-cyan-400/10 lg:block">
+      <div className="relative hidden overflow-hidden bg-muted/30 lg:block">
         <div className="absolute inset-0">
-          <div
-            className="glow-orb animate-float-slow"
-            style={{
-              width: 420,
-              height: 420,
-              background: "var(--glow-1)",
-              top: "5%",
-              left: "-12%",
-            }}
-          />
-          <div
-            className="glow-orb animate-float-slow"
-            style={{
-              width: 340,
-              height: 340,
-              background: "var(--glow-2)",
-              bottom: "8%",
-              right: "-6%",
-              animationDelay: "-5s",
-            }}
-          />
           <div className="bg-grid absolute inset-0 opacity-30 dark:opacity-15" />
         </div>
         <div className="relative flex h-full flex-col justify-center p-12">
@@ -107,7 +86,7 @@ function SignUpForm() {
             <h2 className="font-display text-4xl font-semibold leading-tight tracking-tight">
               Healthcare that
               <br />
-              <span className="text-gradient-medical">follows you.</span>
+              <span className="text-medical">follows you.</span>
             </h2>
             <p className="mt-5 text-base text-muted-foreground">
               Your records, your prescriptions, your appointments — in one
@@ -142,7 +121,7 @@ function SignUpForm() {
           className="w-full max-w-md"
         >
           <Link href="/" className="mb-8 flex items-center gap-2.5">
-            <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-medical to-cyan-400 shadow-[0_4px_16px_var(--glow-1)]">
+            <span className="grid h-9 w-9 place-items-center rounded-xl bg-medical">
               <Activity className="h-5 w-5 text-white" strokeWidth={2.5} />
             </span>
             <span className="font-display text-[0.95rem] font-semibold tracking-tight">
@@ -209,7 +188,7 @@ function SignUpForm() {
               <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 Full name
               </label>
-              <div className="input-premium flex h-11 items-center gap-2 px-3.5">
+              <div className="flex h-11 items-center gap-2 rounded-xl border border-border bg-background px-3.5">
                 <UserIcon className="h-4 w-4 text-muted-foreground" />
                 <input
                   required
@@ -225,7 +204,7 @@ function SignUpForm() {
               <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 Email
               </label>
-              <div className="input-premium flex h-11 items-center gap-2 px-3.5">
+              <div className="flex h-11 items-center gap-2 rounded-xl border border-border bg-background px-3.5">
                 <Mail className="h-4 w-4 text-muted-foreground" />
                 <input
                   type="email"
@@ -242,7 +221,7 @@ function SignUpForm() {
               <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 Password
               </label>
-              <div className="input-premium flex h-11 items-center gap-2 px-3.5">
+              <div className="flex h-11 items-center gap-2 rounded-xl border border-border bg-background px-3.5">
                 <Lock className="h-4 w-4 text-muted-foreground" />
                 <input
                   type="password"

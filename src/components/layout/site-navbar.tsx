@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Activity,
   Moon,
   Sun,
   Menu,
@@ -85,21 +84,22 @@ export default function SiteNavbar() {
     >
       <nav
         className={cn(
-          "glass-iphone mx-auto flex h-14 items-center justify-between gap-2 px-3 transition-all duration-500 sm:h-16 sm:px-5",
-          "mt-4 sm:mt-1",
-          scrolled ? "shadow-2xl" : ""
+          "mx-auto flex h-14 items-center justify-between gap-2 px-3 transition-all duration-300 sm:h-16 sm:px-5",
+          "mt-2 rounded-2xl border border-border bg-background/90 backdrop-blur-md sm:mx-4",
+          scrolled ? "shadow-lg" : ""
         )}
-        style={{ width: "calc(100% - 1rem)", maxWidth: "100%" }}
+        style={{ maxWidth: "calc(100vw - 2rem)" }}
       >
         {/* === LEFT: Brand === */}
         <Link href="/" className="group flex shrink-0 items-center gap-2.5" aria-label="MedLink SA home">
-          <span className="relative grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-medical to-cyan-400 shadow-[0_4px_16px_var(--glow-1)]">
-            <Activity className="h-5 w-5 text-white" strokeWidth={2.5} />
-            <span className="absolute inset-0 rounded-xl ring-1 ring-inset ring-white/30" />
+          <span className="relative grid h-9 w-9 place-items-center rounded-xl bg-foreground">
+            <svg className="h-5 w-5 text-background" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 4v16M4 12h16" />
+            </svg>
           </span>
-          <div className="hidden flex-col sm:flex" style={{ gap: "0.2rem" }}>
-            <span className="font-display text-[0.95rem] font-semibold leading-none tracking-tight">
-              MedLink<span className="text-medical"> SA</span>
+          <div className="hidden flex-col sm:flex" style={{ gap: "0.15rem" }}>
+            <span className="font-display text-[0.85rem] font-bold uppercase leading-none tracking-[0.08em]">
+              MEDLINK-SA
             </span>
             <span className="text-[0.5rem] font-medium uppercase leading-none tracking-[0.18em] text-muted-foreground">
               National Health Network
@@ -110,7 +110,7 @@ export default function SiteNavbar() {
         {/* === CENTER: Emergency button === */}
         <Link
           href="/service"
-          className="emergency-fab grid h-11 w-11 shrink-0 place-items-center rounded-full"
+          className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-destructive text-white shadow-lg transition-all hover:scale-105"
           aria-label="Emergency — call ambulance"
           title="Emergency: call an ambulance to your location"
         >
@@ -141,7 +141,7 @@ export default function SiteNavbar() {
               onClick={() => router.push(ROLE_DASHBOARDS[user.role])}
               className="hidden items-center gap-2 rounded-lg px-3 py-1.5 font-semibold md:flex"
             >
-              <span className="grid h-6 w-6 place-items-center rounded-full bg-gradient-to-br from-medical to-cyan-400 text-[0.6rem] font-bold text-white">
+              <span className="grid h-6 w-6 place-items-center rounded-full bg-foreground text-[0.6rem] font-bold text-background">
                 {user.name.split(" ").map((n) => n[0]).slice(0, 2).join("")}
               </span>
               {t("nav.dashboard")}
@@ -194,7 +194,7 @@ export default function SiteNavbar() {
               {user ? (
                 <div className="space-y-1">
                   <div className="flex items-center gap-3 rounded-xl px-3 py-2.5">
-                    <span className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-medical to-cyan-400 text-xs font-bold text-white">
+                    <span className="grid h-9 w-9 place-items-center rounded-full bg-foreground text-xs font-bold text-background">
                       {user.name.split(" ").map((n) => n[0]).slice(0, 2).join("")}
                     </span>
                     <div className="min-w-0">

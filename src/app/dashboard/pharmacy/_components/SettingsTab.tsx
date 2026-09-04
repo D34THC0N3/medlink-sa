@@ -61,37 +61,37 @@ export default function SettingsTab() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="glass-panel p-5 lg:col-span-2"
+          className="rounded-2xl border border-border bg-card p-5 lg:col-span-2"
         >
           <h3 className="mb-4 text-sm font-semibold">Pharmacy profile</h3>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div className="space-y-2 sm:col-span-2">
               <Label htmlFor="ph-name">Pharmacy name</Label>
-              <Input id="ph-name" className="input-premium" value={name} onChange={(e) => setName(e.target.value)} />
+              <Input id="ph-name" value={name} onChange={(e) => setName(e.target.value)} />
             </div>
             <div className="space-y-2">
               <Label htmlFor="ph-branch">Branch</Label>
-              <Input id="ph-branch" className="input-premium" value={branch} onChange={(e) => setBranch(e.target.value)} />
+              <Input id="ph-branch" value={branch} onChange={(e) => setBranch(e.target.value)} />
             </div>
             <div className="space-y-2">
               <Label htmlFor="ph-phone">Phone</Label>
-              <Input id="ph-phone" className="input-premium" value={phone} onChange={(e) => setPhone(e.target.value)} />
+              <Input id="ph-phone" value={phone} onChange={(e) => setPhone(e.target.value)} />
             </div>
             <div className="space-y-2 sm:col-span-2">
               <Label htmlFor="ph-address">Address</Label>
-              <Textarea id="ph-address" className="input-premium min-h-[68px] resize-none" value={address} onChange={(e) => setAddress(e.target.value)} />
+              <Textarea id="ph-address" className="min-h-[68px] resize-none" value={address} onChange={(e) => setAddress(e.target.value)} />
             </div>
             <div className="space-y-2 sm:col-span-2">
               <Label htmlFor="ph-hours">Operating hours</Label>
-              <Input id="ph-hours" className="input-premium" value={hours} onChange={(e) => setHours(e.target.value)} />
+              <Input id="ph-hours" value={hours} onChange={(e) => setHours(e.target.value)} />
             </div>
             <div className="space-y-2">
               <Label htmlFor="ph-radius">Delivery radius (km)</Label>
-              <Input id="ph-radius" className="input-premium" type="number" value={radius} onChange={(e) => setRadius(e.target.value)} />
+              <Input id="ph-radius" type="number" value={radius} onChange={(e) => setRadius(e.target.value)} />
             </div>
             <div className="space-y-2">
               <Label htmlFor="ph-fee">Delivery fee (R)</Label>
-              <Input id="ph-fee" className="input-premium" type="number" step="0.01" value={fee} onChange={(e) => setFee(e.target.value)} />
+              <Input id="ph-fee" type="number" step="0.01" value={fee} onChange={(e) => setFee(e.target.value)} />
             </div>
           </div>
 
@@ -120,7 +120,7 @@ export default function SettingsTab() {
           transition={{ duration: 0.4, delay: 0.1 }}
           className="space-y-4"
         >
-          <div className="glass-card rounded-xl p-5">
+          <div className="rounded-2xl border border-border bg-card p-5">
             <div className="flex items-center gap-3">
               <span className="grid h-10 w-10 place-items-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
                 <ShieldCheck className="h-5 w-5" />
@@ -136,7 +136,7 @@ export default function SettingsTab() {
             </p>
           </div>
 
-          <div className="glass-card rounded-xl p-5">
+          <div className="rounded-2xl border border-border bg-card p-5">
             <div className="flex items-center gap-3">
               <span className="grid h-10 w-10 place-items-center rounded-xl bg-medical/10 text-medical">
                 <Globe className="h-5 w-5" />
@@ -157,7 +157,7 @@ export default function SettingsTab() {
             </Button>
           </div>
 
-          <div className="glass-card rounded-xl p-5">
+          <div className="rounded-2xl border border-border bg-card p-5">
             <div className="flex items-center gap-3">
               <span className="grid h-10 w-10 place-items-center rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400">
                 <UserCheck className="h-5 w-5" />
@@ -169,7 +169,7 @@ export default function SettingsTab() {
             </div>
           </div>
 
-          <div className="glass-card rounded-xl p-5">
+          <div className="rounded-2xl border border-border bg-card p-5">
             <div className="text-sm font-semibold">Notifications</div>
             <div className="mt-3 space-y-2">
               <ToggleRow icon={Bell} label="Email notifications" description="Order alerts and stock updates" checked={emailNotifs} onCheckedChange={setEmailNotifs} />
@@ -177,7 +177,7 @@ export default function SettingsTab() {
             </div>
           </div>
 
-          <div className="glass-card rounded-xl p-5">
+          <div className="rounded-2xl border border-border bg-card p-5">
             <div className="text-sm font-semibold">Danger zone</div>
             <p className="mt-2 text-xs text-muted-foreground">
               Closing the pharmacy temporarily hides you from search and pauses new orders.
