@@ -4,7 +4,7 @@ import React, { useState, useMemo, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import {
   MessageCircle, Search, Send, Paperclip, Smile, Phone, Video,
-  MoreHorizontal
+  MoreHorizontal, Menu, X
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -20,6 +20,7 @@ export function MessagesTab() {
   const [messageText, setMessageText] = useState('')
   const [messages, setMessages] = useState<Record<string, Array<{ from: string; text: string; time: string }>>>({})
   const [search, setSearch] = useState('')
+  const [mobileOpen, setMobileOpen] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   const filtered = useMemo(() => {
@@ -60,15 +61,19 @@ export function MessagesTab() {
 
   return (
     <motion.div variants={fadeUp} initial="hidden" animate="show" className="h-[calc(100vh-12rem)]">
-      <div className="flex h-full rounded-2xl border overflow-hidden bg-white dark:bg-slate-800">
-        <div className="w-80 border-r flex flex-col">
+      <div className="flex h-full rounded-2xl border overflow-hidden bg-card">
+        {/* Sidebar — desktop: always visible, mobile: toggled */}
+        <div className={cn(
+          'w-full border-r flex flex-col md:w-80',
+          mobileOpen ? 'flex' : 'hidden md:flex'
+        )}>
           <div className="p-4 border-b">
             <div className="flex items-center justify-between mb-3">
-              <h2 className="text-lg font-bold text-slate-900">Messages</h2>
-              <span className="text-xs text-slate-500">{CONVERSATIONS.filter(c => c.unread > 0).length} unread</span>
+              <h2 className="text-lg font-bold">Messages</h2>
+              <span className="text-xs text-muted-foreground">{CONVERSATIONS.filter(c => c.unread > 0).length} unread</span>
             </div>
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder="Search conversations..."
                 value={search}
@@ -83,25 +88,25 @@ export function MessagesTab() {
                 key={c.id}
                 variant="ghost"
                 className={cn(
-                  'flex w-full items-center gap-3 px-4 py-3 h-auto text-left border-b border-slate-100 justify-start rounded-none hover:bg-slate-50',
-                  selectedConvo?.id === c.id && 'bg-blue-50 hover:bg-blue-50'
+                  'flex w-full items-center gap-3 px-4 py-3 h-auto text-left border-b justify-start rounded-none hover:bg-muted',
+                  selectedConvo?.id === c.id && 'bg-primary/10 hover:bg-primary/10'
                 )}
-                onClick={() => setSelectedConvo(c)}
+                onClick={() => { setSelectedConvo(c); setMobileOpen(false) }}
               >
                 <Avatar className="h-9 w-9 shrink-0">
-                  <AvatarFallback className="bg-blue-100 text-blue-700 text-xs font-bold">
+                  <AvatarFallback className="bg-primary/10 text-primary text-xs font-bold">
                     {c.patientName.split(' ').map(n => n[0]).join('')}
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between">
-                    <p className="text-sm font-semibold text-slate-800 truncate">{c.patientName}</p>
-                    <span className="text-[10px] text-slate-400 shrink-0">{c.lastTime}</span>
+                    <p className="text-sm font-semibold truncate">{c.patientName}</p>
+                    <span className="text-[10px] text-muted-foreground shrink-0">{c.lastTime}</span>
                   </div>
-                  <p className="text-xs text-slate-500 truncate">{c.lastMessage}</p>
+                  <p className="text-xs text-muted-foreground truncate">{c.lastMessage}</p>
                 </div>
                 {c.unread > 0 && (
-                  <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-blue-500 text-[10px] font-bold text-white px-1 shrink-0">
+                  <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground px-1 shrink-0">
                     {c.unread}
                   </span>
                 )}
@@ -110,19 +115,23 @@ export function MessagesTab() {
           </div>
         </div>
 
+        {/* Chat area */}
         <div className="flex-1 flex flex-col">
           {selectedConvo ? (
             <>
               <div className="flex items-center justify-between px-5 py-3 border-b">
                 <div className="flex items-center gap-3">
+                  <Button variant="ghost" size="icon" className="h-8 w-8 md:hidden" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Toggle sidebar">
+                    {mobileOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+                  </Button>
                   <Avatar className="h-8 w-8">
-                    <AvatarFallback className="bg-blue-100 text-blue-700 text-xs font-bold">
+                    <AvatarFallback className="bg-primary/10 text-primary text-xs font-bold">
                       {selectedConvo.patientName.split(' ').map(n => n[0]).join('')}
                     </AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="text-sm font-semibold text-slate-800">{selectedConvo.patientName}</p>
-                    <p className="text-[11px] text-slate-500">{selectedConvo.patientEmail}</p>
+                    <p className="text-sm font-semibold">{selectedConvo.patientName}</p>
+                    <p className="text-[11px] text-muted-foreground">{selectedConvo.patientEmail}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
@@ -137,11 +146,11 @@ export function MessagesTab() {
                   <div key={i} className={cn('flex', m.from === 'doctor' ? 'justify-end' : 'justify-start')}>
                     <div className={cn('max-w-[70%] rounded-2xl px-4 py-2.5 text-sm',
                       m.from === 'doctor'
-                        ? 'bg-blue-600 text-white rounded-br-md'
-                        : 'bg-slate-100 text-slate-800 rounded-bl-md'
+                        ? 'bg-primary text-primary-foreground rounded-br-md'
+                        : 'bg-muted rounded-bl-md'
                     )}>
                       <p>{m.text}</p>
-                      <p className={cn('text-[10px] mt-1', m.from === 'doctor' ? 'text-blue-200' : 'text-slate-400')}>
+                      <p className={cn('text-[10px] mt-1', m.from === 'doctor' ? 'text-primary-foreground/60' : 'text-muted-foreground')}>
                         {m.time}
                       </p>
                     </div>
@@ -167,7 +176,7 @@ export function MessagesTab() {
                   </Button>
                   <Button
                     size="icon"
-                    className="h-9 w-9 shrink-0 bg-blue-600 hover:bg-blue-700 text-white"
+                    className="h-9 w-9 shrink-0"
                     onClick={handleSend}
                     disabled={!messageText.trim()}
                     aria-label="Send message"
@@ -178,7 +187,7 @@ export function MessagesTab() {
               </div>
             </>
           ) : (
-            <div className="flex-1 flex items-center justify-center text-slate-400">
+            <div className="flex-1 flex items-center justify-center text-muted-foreground">
               <div className="text-center">
                 <MessageCircle className="h-12 w-12 mx-auto mb-3 opacity-30" />
                 <p className="text-sm">Select a conversation</p>

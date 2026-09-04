@@ -470,15 +470,15 @@ function ExploreContent() {
             <h3 className="mt-6 font-display text-base font-semibold">
               Compare prices across pharmacies
             </h3>
-            <div className="mt-3 overflow-hidden rounded-xl border border-border">
-              <table className="w-full text-sm">
+            <div className="mt-3 overflow-x-auto rounded-xl border border-border">
+              <table className="w-full min-w-[480px] text-sm">
                 <thead className="bg-card/60 text-[0.7rem] uppercase tracking-wider text-muted-foreground">
                   <tr>
                     <th className="px-4 py-2.5 text-left">Pharmacy</th>
                     <th className="px-4 py-2.5 text-right">Price</th>
                     <th className="px-4 py-2.5 text-center">Stock</th>
-                    <th className="px-4 py-2.5 text-center">Delivery</th>
-                    <th className="px-4 py-2.5 text-right">Distance</th>
+                    <th className="hidden sm:table-cell px-4 py-2.5 text-center">Delivery</th>
+                    <th className="hidden sm:table-cell px-4 py-2.5 text-right">Distance</th>
                     <th className="px-4 py-2.5 text-right"></th>
                   </tr>
                 </thead>
@@ -515,7 +515,7 @@ function ExploreContent() {
                             <X className="mx-auto h-4 w-4 text-rose-500" />
                           )}
                         </td>
-                        <td className="px-4 py-3 text-center">
+                        <td className="hidden sm:table-cell px-4 py-3 text-center">
                           {p.delivery ? (
                             <Truck className="mx-auto h-4 w-4 text-medical" />
                           ) : (
@@ -524,7 +524,7 @@ function ExploreContent() {
                             </span>
                           )}
                         </td>
-                        <td className="px-4 py-3 text-right tabular-nums text-muted-foreground">
+                        <td className="hidden sm:table-cell px-4 py-3 text-right tabular-nums text-muted-foreground">
                           {p.distanceKm} km
                         </td>
                         <td className="px-4 py-3 text-right">

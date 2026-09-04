@@ -20,6 +20,7 @@ import {
   AlertTriangle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { fadeUp, SectionHeader, ToggleRow } from "./shared";
 
@@ -53,7 +54,7 @@ export function SettingsTab() {
       </motion.div>
 
       {/* Admin profile */}
-      <motion.div variants={fadeUp} className="glass-panel p-5">
+      <motion.div variants={fadeUp} className="rounded-2xl border border-border bg-card p-5">
         <div className="mb-4 flex items-center gap-2.5">
           <span className="grid h-8 w-8 place-items-center rounded-lg bg-medical/10 text-medical">
             <User className="h-4 w-4" />
@@ -70,10 +71,10 @@ export function SettingsTab() {
             <label className="mb-1 block text-xs font-medium text-muted-foreground">Full Name</label>
             <div className="relative">
               <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <input
+              <Input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full rounded-lg border border-border/60 bg-background/60 py-2 pl-9 pr-3 text-sm focus:outline-none focus:ring-2 focus:ring-medical/30"
+                className="pl-9 h-9"
               />
             </div>
           </div>
@@ -83,10 +84,10 @@ export function SettingsTab() {
             <label className="mb-1 block text-xs font-medium text-muted-foreground">Email</label>
             <div className="relative">
               <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <input
+              <Input
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-lg border border-border/60 bg-background/60 py-2 pl-9 pr-3 text-sm focus:outline-none focus:ring-2 focus:ring-medical/30"
+                className="pl-9 h-9"
               />
             </div>
           </div>
@@ -96,10 +97,10 @@ export function SettingsTab() {
             <label className="mb-1 block text-xs font-medium text-muted-foreground">Phone</label>
             <div className="relative">
               <Phone className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <input
+              <Input
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                className="w-full rounded-lg border border-border/60 bg-background/60 py-2 pl-9 pr-3 text-sm focus:outline-none focus:ring-2 focus:ring-medical/30"
+                className="pl-9 h-9"
               />
             </div>
           </div>
@@ -112,7 +113,7 @@ export function SettingsTab() {
               <select
                 value={province}
                 onChange={(e) => setProvince(e.target.value)}
-                className="w-full rounded-lg border border-border/60 bg-background/60 py-2 pl-9 pr-3 text-sm focus:outline-none focus:ring-2 focus:ring-medical/30"
+                className="w-full h-9 rounded-md border border-input bg-transparent px-3 py-1 pl-9 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-ring"
               >
                 {["Gauteng", "KwaZulu-Natal", "Western Cape", "Eastern Cape", "Free State", "Limpopo", "Mpumalanga", "Northern Cape", "North West"].map((p) => (
                   <option key={p} value={p}>{p}</option>
@@ -131,7 +132,7 @@ export function SettingsTab() {
       </motion.div>
 
       {/* Security & compliance toggles */}
-      <motion.div variants={fadeUp} className="glass-panel p-5">
+      <motion.div variants={fadeUp} className="rounded-2xl border border-border bg-card p-5">
         <div className="mb-4 flex items-center gap-2.5">
           <span className="grid h-8 w-8 place-items-center rounded-lg bg-violet-500/10 text-violet-600 dark:text-violet-400">
             <Shield className="h-4 w-4" />
@@ -171,7 +172,7 @@ export function SettingsTab() {
       </motion.div>
 
       {/* Platform toggles */}
-      <motion.div variants={fadeUp} className="glass-panel p-5">
+      <motion.div variants={fadeUp} className="rounded-2xl border border-border bg-card p-5">
         <div className="mb-4 flex items-center gap-2.5">
           <span className="grid h-8 w-8 place-items-center rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400">
             <Globe className="h-4 w-4" />
@@ -211,7 +212,7 @@ export function SettingsTab() {
       </motion.div>
 
       {/* Danger zone */}
-      <motion.div variants={fadeUp} className="glass-panel border-rose-500/20 p-5">
+      <motion.div variants={fadeUp} className="rounded-2xl border border-rose-500/20 bg-card p-5">
         <div className="mb-4 flex items-center gap-2.5">
           <span className="grid h-8 w-8 place-items-center rounded-lg bg-rose-500/10 text-rose-600 dark:text-rose-400">
             <Trash2 className="h-4 w-4" />
