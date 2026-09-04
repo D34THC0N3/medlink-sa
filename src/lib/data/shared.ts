@@ -1,12 +1,5 @@
 /* Shared mock data used across multiple roles / pages */
 
-export const LANGUAGES = [
-  { code: "en", label: "English", native: "English" },
-  { code: "zu", label: "isiZulu", native: "isiZulu" },
-  { code: "af", label: "Afrikaans", native: "Afrikaans" },
-  { code: "st", label: "Sesotho", native: "Sesotho" },
-];
-
 /* ---------- Medicines with prices across pharmacies ---------- */
 export type Medicine = {
   id: string;
@@ -128,7 +121,7 @@ export const MEDICINES: Medicine[] = [
 ];
 
 /* ---------- Facilities ---------- */
-export type Facility = {
+type Facility = {
   id: string;
   name: string;
   category: "hospital" | "clinic" | "pharmacy";
@@ -240,7 +233,7 @@ export const FACILITIES: Facility[] = [
 ];
 
 /* ---------- Queue / service data ---------- */
-export type QueueTicket = {
+type QueueTicket = {
   number: number;
   facility: string;
   service: string;
@@ -266,12 +259,4 @@ export const QUEUE_STATE = {
   lastUpdated: "just now",
 };
 
-/* ---------- Landing page ---------- */
-export const PAIN_POINTS = [
-  { title: "Queueing for hours to be seen for 5 minutes", solution: "Smart triage queues, teleconsults and SMS-ready turn times so patients stop waiting in corridors.", icon: "Clock" },
-  { title: "Records that vanish between clinics", solution: "One patient, one record — carried on the network, not the folder. FHIR R4 compliant.", icon: "FolderX" },
-  { title: "Pharmacies that never got the script", solution: "E-prescriptions route straight to the nearest open pharmacy — with stock checks.", icon: "Pill" },
-  { title: "Beds no one knew were free", solution: "A live heatmap of every ward, every hospital — so ambulances stop circling.", icon: "BedDouble" },
-  { title: "Passwords nobody can remember", solution: "Passkeys & WhatsApp OTP. Sign in with a face, a fingerprint or a tap.", icon: "KeyRound" },
-  { title: "Rural clinics left in the dark", solution: "Offline-first capture. Work with zero signal, sync the moment it returns.", icon: "WifiOff" },
-];
+

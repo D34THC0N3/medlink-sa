@@ -43,32 +43,4 @@ export const DOCTOR_SCHEDULE = [
   },
 ];
 
-export const DOCTOR_HIGH_RISK = [
-  {
-    id: "h1",
-    name: "Thandiwe Mokoena",
-    initials: "TM",
-    condition: "Hypertension · Stage 2",
-    risk: "critical" as const,
-    lastVisit: "12 Jun",
-    trend: [128, 131, 126, 133, 129, 124, 127],
-  },
-  {
-    id: "h2",
-    name: "Sipho Dlamini",
-    initials: "SD",
-    condition: "Post-op cardiac",
-    risk: "high" as const,
-    lastVisit: "10 Jun",
-    trend: [86, 84, 90, 88, 92, 87, 89],
-  },
-  {
-    id: "h3",
-    name: "Aisha Patel",
-    initials: "AP",
-    condition: "Diabetes T2",
-    risk: "moderate" as const,
-    lastVisit: "08 Jun",
-    trend: [142, 138, 140, 145, 139, 141, 137],
-  },
-];
+

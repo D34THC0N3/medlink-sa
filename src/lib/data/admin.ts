@@ -18,15 +18,7 @@ export const ADMIN_HOSPITALS = [
   { id: "h5", name: "Inkosi Albert Luthuli", province: "KwaZulu-Natal", beds: 836, doctors: 89, verified: false, joined: "3 days ago" },
 ];
 
-export const ADMIN_AUDIT = [
-  { id: "a1", actor: "Dr. Dlamini", action: "signed prescription", target: "Glucophage 850mg — Patient #4821", time: "2m ago", kind: "create" as const },
-  { id: "a2", actor: "System", action: "synced 14 records to DHIS2", target: "Gauteng · Today", time: "8m ago", kind: "system" as const },
-  { id: "a3", actor: "Admin", action: "verified facility", target: "Clicks Pharmacy — Rosebank", time: "21m ago", kind: "verify" as const },
-  { id: "a4", actor: "Patient #4821", action: "logged in via passkey", target: "iPhone · Face ID", time: "34m ago", kind: "auth" as const },
-  { id: "a5", actor: "Dr. Dlamini", action: "edited clinical note", target: "Hypertension follow-up · #3390", time: "1h ago", kind: "edit" as const },
-  { id: "a6", actor: "Admin", action: "blocked account", target: "user #2299 (fraud)", time: "2h ago", kind: "delete" as const },
-  { id: "a7", actor: "System", action: "flagged 3 high-risk patients", target: "Cardiology ward", time: "2h ago", kind: "system" as const },
-];
+
 
 export const NETWORK_ACTIVITY = [
   { d: "Mon", consults: 4200, scripts: 1800 },
