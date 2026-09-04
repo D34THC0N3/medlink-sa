@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { signIn as nextAuthSignIn } from "next-auth/react";
 import { ROLE_DASHBOARDS, type UserRole } from "@/lib/auth-context";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 
 const TEST_ACCOUNTS = [
@@ -128,6 +129,7 @@ function SignInForm() {
                 <Button
                   variant="link"
                   type="button"
+                  onClick={() => toast("Password reset is coming soon!")}
                   className="h-auto p-0 text-xs font-medium text-medical hover:underline"
                 >
                   Forgot?

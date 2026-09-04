@@ -5,15 +5,53 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const DASHBOARD_ROLES = [
-  "dashboard/admin",
-  "dashboard/doctor",
-  "dashboard/hospital",
-  "dashboard/patient",
-  "dashboard/pharmacy",
-] as const;
+type UserRole = "patient" | "doctor" | "hospital" | "pharmacy" | "admin";
+
+const ROLE_DASHBOARDS: Record<UserRole, string> = {
+  patient: "/dashboard/patient",
+  doctor: "/dashboard/doctor",
+  hospital: "/dashboard/hospital",
+  pharmacy: "/dashboard/pharmacy",
+  admin: "/dashboard/admin",
+};
+
+const VALID_ROLES = Object.keys(ROLE_DASHBOARDS) as string[];
 
 const PUBLIC_PATHS = ["/sign-in", "/sign-up", "/api/auth"];
+
+/**
+ * Decode a JWT payload without importing a library.
+ * Edge Runtime has no Node crypto — base64url decode is sufficient
+ * for reading claims (not verifying signatures).
+ */
+function decodeJwtPayload(token: string): Record<string, unknown> | null {
+  try {
+    const [, payloadB64] = token.split(".");
+    if (!payloadB64) return null;
+    // base64url → base64 padding
+    const padded = payloadB64.replace(/-/g, "+").replace(/_/g, "/");
+    const decoded = atob(padded);
+    return JSON.parse(decoded);
+  } catch {
+    return null;
+  }
+}
+
+function getSessionUser(req: NextRequest): { role: UserRole } | null {
+  const token =
+    req.cookies.get("next-auth.session-token")?.value ??
+    req.cookies.get("__Secure-next-auth.session-token")?.value;
+  if (!token) return null;
+
+  const payload = decodeJwtPayload(token);
+  if (!payload) return null;
+
+  // NextAuth v4 JWT shape: { user: { id, name, email, role, ... }, exp, iat }
+  const user = payload.user as Record<string, unknown> | undefined;
+  const role = user?.role as string | undefined;
+  if (!role || !VALID_ROLES.includes(role)) return null;
+  return { role: role as UserRole };
+}
 
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -28,15 +66,22 @@ export function middleware(req: NextRequest) {
     return addSecurityHeaders(NextResponse.next());
   }
 
-  // Dashboard routes require auth — check for session cookie
+  // Dashboard routes require auth
   if (pathname.startsWith("/dashboard")) {
-    const hasSession = req.cookies.has("next-auth.session-token") ||
-      req.cookies.has("__Secure-next-auth.session-token");
+    const sessionUser = getSessionUser(req);
 
-    if (!hasSession) {
+    if (!sessionUser) {
       const signInUrl = new URL("/sign-in", req.url);
       signInUrl.searchParams.set("redirect", pathname);
       return NextResponse.redirect(signInUrl);
+    }
+
+    // Role-based access guard: enforce that each role only
+    // accesses their own dashboard prefix
+    const allowedPrefix = ROLE_DASHBOARDS[sessionUser.role];
+    if (!pathname.startsWith(allowedPrefix)) {
+      const dashUrl = new URL(allowedPrefix, req.url);
+      return NextResponse.redirect(dashUrl);
     }
   }
 
