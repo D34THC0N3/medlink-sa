@@ -15,15 +15,14 @@ import {
   Compass,
   ClipboardList,
   HelpCircle,
-  Languages,
-  Check,
   Plus,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useAuth, ROLE_DASHBOARDS } from "@/lib/auth-context";
-import { useLang, LANGUAGES, type LangCode } from "@/lib/lang-context";
+import { useLang } from "@/lib/lang-context";
+import { LanguageSwitcher } from "@/components/ui/language-switcher";
 
 export default function SiteNavbar() {
   const { theme, setTheme } = useTheme();
@@ -35,7 +34,6 @@ export default function SiteNavbar() {
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [langOpen, setLangOpen] = useState(false);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -122,48 +120,7 @@ export default function SiteNavbar() {
         {/* === RIGHT: Actions === */}
         <div className="flex shrink-0 items-center gap-1.5">
           {/* Language switcher */}
-          <div className="relative">
-            <Button
-              variant="ghost"
-              onClick={() => setLangOpen((v) => !v)}
-              className="flex h-9 items-center gap-1 rounded-lg px-2"
-              aria-label="Change language"
-              aria-expanded={langOpen}
-            >
-              <Languages className="h-4 w-4" />
-              <span className="hidden text-[0.65rem] font-bold uppercase sm:inline">{lang}</span>
-            </Button>
-            <AnimatePresence>
-              {langOpen && (
-                <>
-                  <div className="fixed inset-0 z-40" onClick={() => setLangOpen(false)} />
-                  <motion.div
-                    initial={{ opacity: 0, y: 8, scale: 0.96 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 8, scale: 0.96 }}
-                    transition={{ duration: 0.18 }}
-                    className="absolute right-0 top-11 z-50 w-44 overflow-hidden rounded-xl border border-border bg-card p-1 shadow-2xl"
-                  >
-                    {LANGUAGES.map((l) => (
-                      <Button
-                        key={l.code}
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => { setLang(l.code as LangCode); setLangOpen(false); }}
-                        className={cn(
-                          "w-full justify-between px-3 py-2 text-sm hover:bg-foreground/5",
-                          lang === l.code && "bg-foreground/5"
-                        )}
-                      >
-                        <span className="font-medium">{l.native}</span>
-                        {lang === l.code && <Check className="h-3.5 w-3.5 text-medical" />}
-                      </Button>
-                    ))}
-                  </motion.div>
-                </>
-              )}
-            </AnimatePresence>
-          </div>
+          <LanguageSwitcher />
 
           {/* Theme toggle */}
           <Button
@@ -230,28 +187,8 @@ export default function SiteNavbar() {
               </div>
               <div className="my-2 hairline" />
               {/* Language switcher in dropdown */}
-              <div className="mb-2">
-                <div className="flex items-center gap-2 px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-wider text-muted-foreground">
-                  <Languages className="h-3 w-3" />
-                  Language
-                </div>
-                <div className="grid grid-cols-2 gap-1">
-                  {LANGUAGES.map((l) => (
-                    <Button
-                      key={l.code}
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => { setLang(l.code as LangCode); }}
-                      className={cn(
-                        "w-full justify-between px-3 py-2 text-xs font-medium",
-                        lang === l.code ? "bg-medical/10 text-medical" : "text-foreground/80"
-                      )}
-                    >
-                      {l.native}
-                      {lang === l.code && <Check className="h-3 w-3" />}
-                    </Button>
-                  ))}
-                </div>
+              <div className="mb-2 px-3 py-1.5">
+                <LanguageSwitcher variant="sm" />
               </div>
               <div className="my-2 hairline" />
               {user ? (

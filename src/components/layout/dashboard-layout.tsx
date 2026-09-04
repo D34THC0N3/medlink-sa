@@ -16,14 +16,12 @@ import {
   Command,
   Plus,
   ChevronDown,
-  Languages,
-  Check,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { useAuth, ROLE_LABELS, type UserRole } from "@/lib/auth-context";
-import { useLang, LANGUAGES, type LangCode } from "@/lib/lang-context";
+import { LanguageSwitcher } from "@/components/ui/language-switcher";
 
 type NavItem = {
   label: string;
@@ -113,14 +111,12 @@ export default function DashboardLayout({
   role: UserRole;
 }) {
   const { user, loading, signOut } = useAuth();
-  const { lang, setLang } = useLang();
   const router = useRouter();
   const pathname = usePathname();
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [mobileNav, setMobileNav] = useState(false);
   const [cmdOpen, setCmdOpen] = useState(false);
-  const [langOpen, setLangOpen] = useState(false);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -358,48 +354,7 @@ export default function DashboardLayout({
               <Plus className="h-5 w-5" strokeWidth={3} />
             </Link>
             {/* Language switcher */}
-            <div className="relative">
-              <Button
-                variant="ghost"
-                onClick={() => setLangOpen((v) => !v)}
-                className="flex items-center gap-1 rounded-lg px-2"
-                aria-label="Change language"
-                aria-expanded={langOpen}
-              >
-                <Languages className="h-4 w-4" />
-                <span className="hidden text-[0.65rem] font-bold uppercase sm:inline">{lang}</span>
-              </Button>
-              <AnimatePresence>
-                {langOpen && (
-                  <>
-                    <div className="fixed inset-0 z-40" onClick={() => setLangOpen(false)} />
-                    <motion.div
-                      initial={{ opacity: 0, y: 8, scale: 0.96 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 8, scale: 0.96 }}
-                      transition={{ duration: 0.18 }}
-                      className="absolute right-0 top-11 z-50 w-44 overflow-hidden rounded-xl border border-border bg-card p-1 shadow-2xl"
-                    >
-                      {LANGUAGES.map((l) => (
-                        <Button
-                          key={l.code}
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => { setLang(l.code as LangCode); setLangOpen(false); }}
-                          className={cn(
-                            "w-full justify-between px-3 py-2 text-sm",
-                            lang === l.code && "bg-foreground/5"
-                          )}
-                        >
-                          <span className="font-medium">{l.native}</span>
-                          {lang === l.code && <Check className="h-3.5 w-3.5 text-medical" />}
-                        </Button>
-                      ))}
-                    </motion.div>
-                  </>
-                )}
-              </AnimatePresence>
-            </div>
+            <LanguageSwitcher />
 
             {/* Theme toggle */}
             <Button
