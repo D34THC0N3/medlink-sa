@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Activity,
   Moon,
   Sun,
   Menu,
@@ -15,14 +14,14 @@ import {
   Compass,
   ClipboardList,
   HelpCircle,
-  Languages,
-  Check,
   Plus,
 } from "lucide-react";
 import { useTheme } from "next-themes";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useAuth, ROLE_DASHBOARDS } from "@/lib/auth-context";
-import { useLang, LANGUAGES, type LangCode } from "@/lib/lang-context";
+import { useLang } from "@/lib/lang-context";
+import { LanguageSwitcher } from "@/components/ui/language-switcher";
 
 export default function SiteNavbar() {
   const { theme, setTheme } = useTheme();
@@ -34,7 +33,6 @@ export default function SiteNavbar() {
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [langOpen, setLangOpen] = useState(false);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -86,21 +84,22 @@ export default function SiteNavbar() {
     >
       <nav
         className={cn(
-          "glass-iphone mx-auto flex h-14 items-center justify-between gap-2 px-3 transition-all duration-500 sm:h-16 sm:px-5",
-          "mt-4 sm:mt-1",
-          scrolled ? "shadow-2xl" : ""
+          "mx-auto flex h-14 items-center justify-between gap-2 px-3 transition-all duration-300 sm:h-16 sm:px-5",
+          "mt-2 rounded-2xl border border-border bg-background/90 backdrop-blur-md sm:mx-4",
+          scrolled ? "shadow-lg" : ""
         )}
-        style={{ width: "calc(100% - 1rem)", maxWidth: "100%" }}
+        style={{ maxWidth: "calc(100vw - 2rem)" }}
       >
         {/* === LEFT: Brand === */}
         <Link href="/" className="group flex shrink-0 items-center gap-2.5" aria-label="MedLink SA home">
-          <span className="relative grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-medical to-cyan-400 shadow-[0_4px_16px_var(--glow-1)]">
-            <Activity className="h-5 w-5 text-white" strokeWidth={2.5} />
-            <span className="absolute inset-0 rounded-xl ring-1 ring-inset ring-white/30" />
+          <span className="relative grid h-9 w-9 place-items-center rounded-xl bg-foreground">
+            <svg className="h-5 w-5 text-background" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 4v16M4 12h16" />
+            </svg>
           </span>
-          <div className="hidden flex-col sm:flex" style={{ gap: "0.2rem" }}>
-            <span className="font-display text-[0.95rem] font-semibold leading-none tracking-tight">
-              MedLink<span className="text-medical"> SA</span>
+          <div className="hidden flex-col sm:flex" style={{ gap: "0.15rem" }}>
+            <span className="font-display text-[0.85rem] font-bold uppercase leading-none tracking-[0.08em]">
+              MEDLINK-SA
             </span>
             <span className="text-[0.5rem] font-medium uppercase leading-none tracking-[0.18em] text-muted-foreground">
               National Health Network
@@ -111,7 +110,7 @@ export default function SiteNavbar() {
         {/* === CENTER: Emergency button === */}
         <Link
           href="/service"
-          className="emergency-fab grid h-11 w-11 shrink-0 place-items-center rounded-full"
+          className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-destructive text-white shadow-lg transition-all hover:scale-105"
           aria-label="Emergency — call ambulance"
           title="Emergency: call an ambulance to your location"
         >
@@ -121,83 +120,48 @@ export default function SiteNavbar() {
         {/* === RIGHT: Actions === */}
         <div className="flex shrink-0 items-center gap-1.5">
           {/* Language switcher */}
-          <div className="relative">
-            <button
-              onClick={() => setLangOpen((v) => !v)}
-              className="btn-ghost flex h-9 items-center gap-1 rounded-lg px-2"
-              aria-label="Change language"
-              aria-expanded={langOpen}
-            >
-              <Languages className="h-4 w-4" />
-              <span className="hidden text-[0.65rem] font-bold uppercase sm:inline">{lang}</span>
-            </button>
-            <AnimatePresence>
-              {langOpen && (
-                <>
-                  <div className="fixed inset-0 z-40" onClick={() => setLangOpen(false)} />
-                  <motion.div
-                    initial={{ opacity: 0, y: 8, scale: 0.96 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 8, scale: 0.96 }}
-                    transition={{ duration: 0.18 }}
-                    className="absolute right-0 top-11 z-50 w-44 overflow-hidden rounded-xl border border-border bg-card p-1 shadow-2xl"
-                  >
-                    {LANGUAGES.map((l) => (
-                      <button
-                        key={l.code}
-                        onClick={() => { setLang(l.code as LangCode); setLangOpen(false); }}
-                        className={cn(
-                          "flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors hover:bg-foreground/5",
-                          lang === l.code && "bg-foreground/5"
-                        )}
-                      >
-                        <span className="font-medium">{l.native}</span>
-                        {lang === l.code && <Check className="h-3.5 w-3.5 text-medical" />}
-                      </button>
-                    ))}
-                  </motion.div>
-                </>
-              )}
-            </AnimatePresence>
-          </div>
+          <LanguageSwitcher />
 
           {/* Theme toggle */}
-          <button
+          <Button
+            variant="ghost"
+            size="icon"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="btn-ghost grid h-9 w-9 place-items-center rounded-lg"
             aria-label="Toggle theme"
           >
             {mounted && theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-          </button>
+          </Button>
 
           {/* Auth CTA — gated on mounted to avoid hydration mismatch */}
           {!mounted ? (
             <span className="hidden h-9 w-24 rounded-lg md:inline-block" />
           ) : user ? (
-            <button
+            <Button
+              variant="outline"
               onClick={() => router.push(ROLE_DASHBOARDS[user.role])}
-              className="btn-glass hidden items-center gap-2 rounded-lg px-3 py-1.5 text-sm font-semibold md:flex"
+              className="hidden items-center gap-2 rounded-lg px-3 py-1.5 font-semibold md:flex"
             >
-              <span className="grid h-6 w-6 place-items-center rounded-full bg-gradient-to-br from-medical to-cyan-400 text-[0.6rem] font-bold text-white">
+              <span className="grid h-6 w-6 place-items-center rounded-full bg-foreground text-[0.6rem] font-bold text-background">
                 {user.name.split(" ").map((n) => n[0]).slice(0, 2).join("")}
               </span>
               {t("nav.dashboard")}
-            </button>
+            </Button>
           ) : (
-            <Link href="/sign-in" className="btn-glass hidden rounded-lg px-4 py-2 text-sm font-semibold md:inline-flex">
-              {t("nav.signin")}
-            </Link>
+            <Button variant="outline" asChild className="hidden rounded-lg px-4 py-2 font-semibold md:inline-flex">
+              <Link href="/sign-in">{t("nav.signin")}</Link>
+            </Button>
           )}
 
           {/* Hamburger */}
-          <button
+          <Button
+            variant="outline"
+            size="icon"
             onClick={() => setMobileOpen((v) => !v)}
-            className="btn-glass grid h-9 w-9 place-items-center rounded-lg"
             aria-label="Open menu"
             aria-expanded={mobileOpen}
           >
             {mobileOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-          </button>
+          </Button>
         </div>
       </nav>
 
@@ -223,32 +187,14 @@ export default function SiteNavbar() {
               </div>
               <div className="my-2 hairline" />
               {/* Language switcher in dropdown */}
-              <div className="mb-2">
-                <div className="flex items-center gap-2 px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-wider text-muted-foreground">
-                  <Languages className="h-3 w-3" />
-                  Language
-                </div>
-                <div className="grid grid-cols-2 gap-1">
-                  {LANGUAGES.map((l) => (
-                    <button
-                      key={l.code}
-                      onClick={() => { setLang(l.code as LangCode); }}
-                      className={cn(
-                        "flex items-center justify-between rounded-lg px-3 py-2 text-xs font-medium transition-colors hover:bg-foreground/5",
-                        lang === l.code ? "bg-medical/10 text-medical" : "text-foreground/80"
-                      )}
-                    >
-                      {l.native}
-                      {lang === l.code && <Check className="h-3 w-3" />}
-                    </button>
-                  ))}
-                </div>
+              <div className="mb-2 px-3 py-1.5">
+                <LanguageSwitcher variant="sm" />
               </div>
               <div className="my-2 hairline" />
               {user ? (
                 <div className="space-y-1">
                   <div className="flex items-center gap-3 rounded-xl px-3 py-2.5">
-                    <span className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-medical to-cyan-400 text-xs font-bold text-white">
+                    <span className="grid h-9 w-9 place-items-center rounded-full bg-foreground text-xs font-bold text-background">
                       {user.name.split(" ").map((n) => n[0]).slice(0, 2).join("")}
                     </span>
                     <div className="min-w-0">
@@ -256,19 +202,23 @@ export default function SiteNavbar() {
                       <div className="truncate text-xs text-muted-foreground">{user.email}</div>
                     </div>
                   </div>
-                  <button onClick={() => { signOut(); setMobileOpen(false); router.push("/"); }} className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-sm text-rose-500 transition-colors hover:bg-rose-500/10">
+                  <Button variant="ghost" onClick={() => { signOut(); setMobileOpen(false); router.push("/"); }} className="w-full justify-start gap-3 rounded-xl px-3 py-3 text-sm text-rose-500 hover:bg-rose-500/10">
                     <LogOut className="h-4 w-4" />
                     {t("nav.signout")}
-                  </button>
+                  </Button>
                 </div>
               ) : (
                 <div className="grid gap-2">
-                  <Link href="/sign-in" onClick={() => setMobileOpen(false)} className="btn-glass flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold">
-                    {t("nav.signin")}
-                  </Link>
-                  <Link href="/sign-up" onClick={() => setMobileOpen(false)} className="btn-primary flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-semibold">
-                    {t("nav.getstarted")}
-                  </Link>
+                  <Button variant="outline" asChild className="flex items-center justify-center gap-2 rounded-xl px-4 py-3 font-semibold">
+                    <Link href="/sign-in" onClick={() => setMobileOpen(false)}>
+                      {t("nav.signin")}
+                    </Link>
+                  </Button>
+                  <Button variant="default" asChild className="flex items-center justify-center gap-2 rounded-xl px-4 py-3 font-semibold">
+                    <Link href="/sign-up" onClick={() => setMobileOpen(false)}>
+                      {t("nav.getstarted")}
+                    </Link>
+                  </Button>
                 </div>
               )}
             </motion.div>

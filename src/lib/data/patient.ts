@@ -1,0 +1,131 @@
+/* Patient dashboard mock data */
+
+export const PATIENT_APPOINTMENTS = [
+  {
+    id: "a1",
+    doctor: "Dr. Sipho Dlamini",
+    specialty: "Cardiology",
+    facility: "Chris Hani Baragwanath",
+    date: "Today",
+    time: "16:00",
+    type: "video" as const,
+    status: "confirmed" as const,
+  },
+  {
+    id: "a2",
+    doctor: "Dr. Thandiwe Mokoena",
+    specialty: "General Practice",
+    facility: "Rosebank Clinic",
+    date: "Tomorrow",
+    time: "09:30",
+    type: "in-person" as const,
+    status: "confirmed" as const,
+  },
+  {
+    id: "a3",
+    doctor: "Dr. Naidoo",
+    specialty: "Dermatology",
+    facility: "Video consult",
+    date: "Fri, 21 Jun",
+    time: "11:00",
+    type: "video" as const,
+    status: "pending" as const,
+  },
+  {
+    id: "a4",
+    doctor: "Dr. Mokoena",
+    specialty: "General Practice",
+    facility: "Rosebank Clinic",
+    date: "02 Jun",
+    time: "10:00",
+    type: "in-person" as const,
+    status: "completed" as const,
+  },
+  {
+    id: "a5",
+    doctor: "Dr. Sipho Dlamini",
+    specialty: "Cardiology",
+    facility: "Chris Hani Baragwanath",
+    date: "28 May",
+    time: "14:30",
+    type: "video" as const,
+    status: "completed" as const,
+  },
+  {
+    id: "a6",
+    doctor: "Dr. Naidoo",
+    specialty: "Dermatology",
+    facility: "Video consult",
+    date: "20 May",
+    time: "09:00",
+    type: "video" as const,
+    status: "cancelled" as const,
+  },
+];
+
+export const PATIENT_PRESCRIPTIONS = [
+  {
+    id: "p1",
+    medicine: "Glucophage 850mg",
+    dosage: "1 tablet twice daily",
+    prescribedBy: "Dr. Dlamini",
+    date: "12 Jun 2025",
+    refillsLeft: 2,
+    status: "active" as const,
+  },
+  {
+    id: "p2",
+    medicine: "Ventolin Inhaler",
+    dosage: "2 puffs as needed",
+    prescribedBy: "Dr. Mokoena",
+    date: "03 Jun 2025",
+    refillsLeft: 1,
+    status: "active" as const,
+  },
+  {
+    id: "p3",
+    medicine: "Augmentin 875mg",
+    dosage: "1 tablet twice daily × 7 days",
+    prescribedBy: "Dr. Dlamini",
+    date: "28 May 2025",
+    refillsLeft: 0,
+    status: "completed" as const,
+  },
+];
+
+export const PATIENT_RECORDS = [
+  {
+    id: "r1",
+    title: "Cardiology follow-up",
+    facility: "Chris Hani Baragwanath",
+    date: "12 Jun 2025",
+    doctor: "Dr. Dlamini",
+    type: "Consultation" as const,
+  },
+  {
+    id: "r2",
+    title: "Chest X-Ray",
+    facility: "Rosebank Clinic",
+    date: "03 Jun 2025",
+    doctor: "Dr. Mokoena",
+    type: "Imaging" as const,
+  },
+  {
+    id: "r3",
+    title: "Blood panel — HbA1c",
+    facility: "Ampath Lab",
+    date: "28 May 2025",
+    doctor: "Dr. Dlamini",
+    type: "Lab" as const,
+  },
+];
+
+export const PATIENT_VITALS = [
+  { day: "Mon", bp: 128, hr: 74, spo2: 97, glucose: 6.4 },
+  { day: "Tue", bp: 131, hr: 76, spo2: 98, glucose: 6.8 },
+  { day: "Wed", bp: 126, hr: 72, spo2: 98, glucose: 6.1 },
+  { day: "Thu", bp: 133, hr: 78, spo2: 96, glucose: 7.2 },
+  { day: "Fri", bp: 129, hr: 75, spo2: 97, glucose: 6.5 },
+  { day: "Sat", bp: 124, hr: 71, spo2: 98, glucose: 6.0 },
+  { day: "Sun", bp: 127, hr: 73, spo2: 98, glucose: 6.3 },
+];

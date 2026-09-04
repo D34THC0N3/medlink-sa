@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { useAuth, ROLE_DASHBOARDS, type UserRole } from "@/lib/auth-context";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 const ROLES: Array<{
   id: UserRole;
@@ -46,7 +47,7 @@ function SignUpForm() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     if (password.length < 8) {
@@ -54,43 +55,21 @@ function SignUpForm() {
       return;
     }
     setLoading(true);
-    setTimeout(() => {
-      const res = signUp({ name, email, password, role });
-      setLoading(false);
-      if (!res.ok) {
-        setError(res.error ?? "Sign up failed.");
-        return;
-      }
-      router.push(ROLE_DASHBOARDS[role]);
-    }, 400);
+    const res = await signUp({ name, email, password, role });
+    setLoading(false);
+    if (!res.ok) {
+      setError(res.error ?? "Sign up failed.");
+      return;
+    }
+    // Account created — redirect to sign-in
+    router.push("/sign-in?registered=true");
   };
 
   return (
     <div className="grid min-h-[100svh] lg:grid-cols-2">
       {/* Left: brand panel */}
-      <div className="relative hidden overflow-hidden bg-gradient-to-br from-medical/15 via-background to-cyan-400/10 lg:block">
+      <div className="relative hidden overflow-hidden bg-muted/30 lg:block">
         <div className="absolute inset-0">
-          <div
-            className="glow-orb animate-float-slow"
-            style={{
-              width: 420,
-              height: 420,
-              background: "var(--glow-1)",
-              top: "5%",
-              left: "-12%",
-            }}
-          />
-          <div
-            className="glow-orb animate-float-slow"
-            style={{
-              width: 340,
-              height: 340,
-              background: "var(--glow-2)",
-              bottom: "8%",
-              right: "-6%",
-              animationDelay: "-5s",
-            }}
-          />
           <div className="bg-grid absolute inset-0 opacity-30 dark:opacity-15" />
         </div>
         <div className="relative flex h-full flex-col justify-center p-12">
@@ -107,7 +86,7 @@ function SignUpForm() {
             <h2 className="font-display text-4xl font-semibold leading-tight tracking-tight">
               Healthcare that
               <br />
-              <span className="text-gradient-medical">follows you.</span>
+              <span className="text-medical">follows you.</span>
             </h2>
             <p className="mt-5 text-base text-muted-foreground">
               Your records, your prescriptions, your appointments — in one
@@ -142,7 +121,7 @@ function SignUpForm() {
           className="w-full max-w-md"
         >
           <Link href="/" className="mb-8 flex items-center gap-2.5">
-            <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-medical to-cyan-400 shadow-[0_4px_16px_var(--glow-1)]">
+            <span className="grid h-9 w-9 place-items-center rounded-xl bg-medical">
               <Activity className="h-5 w-5 text-white" strokeWidth={2.5} />
             </span>
             <span className="font-display text-[0.95rem] font-semibold tracking-tight">
@@ -164,12 +143,13 @@ function SignUpForm() {
             </label>
             <div className="grid grid-cols-2 gap-2">
               {ROLES.map((r) => (
-                <button
+                <Button
                   key={r.id}
                   type="button"
+                  variant="outline"
                   onClick={() => setRole(r.id)}
                   className={cn(
-                    "flex items-center gap-2.5 rounded-xl border p-3 text-left transition-all",
+                    "flex h-auto items-center gap-2.5 p-3 text-left",
                     role === r.id
                       ? "border-medical bg-medical/10 ring-1 ring-medical/30"
                       : "border-border bg-card/40 hover:border-medical/40"
@@ -191,7 +171,7 @@ function SignUpForm() {
                       {r.desc}
                     </div>
                   </div>
-                </button>
+                </Button>
               ))}
             </div>
           </div>
@@ -208,7 +188,7 @@ function SignUpForm() {
               <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 Full name
               </label>
-              <div className="input-premium flex h-11 items-center gap-2 px-3.5">
+              <div className="flex h-11 items-center gap-2 rounded-xl border border-border bg-background px-3.5">
                 <UserIcon className="h-4 w-4 text-muted-foreground" />
                 <input
                   required
@@ -224,7 +204,7 @@ function SignUpForm() {
               <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 Email
               </label>
-              <div className="input-premium flex h-11 items-center gap-2 px-3.5">
+              <div className="flex h-11 items-center gap-2 rounded-xl border border-border bg-background px-3.5">
                 <Mail className="h-4 w-4 text-muted-foreground" />
                 <input
                   type="email"
@@ -241,7 +221,7 @@ function SignUpForm() {
               <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 Password
               </label>
-              <div className="input-premium flex h-11 items-center gap-2 px-3.5">
+              <div className="flex h-11 items-center gap-2 rounded-xl border border-border bg-background px-3.5">
                 <Lock className="h-4 w-4 text-muted-foreground" />
                 <input
                   type="password"
@@ -254,14 +234,15 @@ function SignUpForm() {
               </div>
             </div>
 
-            <button
+            <Button
               type="submit"
               disabled={loading}
-              className="btn-primary flex h-11 w-full items-center justify-center gap-2 rounded-xl text-sm font-semibold disabled:opacity-60"
+              variant="default"
+              className="flex h-11 w-full items-center justify-center gap-2 rounded-xl font-semibold disabled:opacity-60"
             >
               {loading ? "Creating account…" : "Create account"}
               {!loading && <ArrowRight className="h-4 w-4" />}
-            </button>
+            </Button>
           </form>
 
           <p className="mt-8 text-center text-sm text-muted-foreground">

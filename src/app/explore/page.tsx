@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
@@ -23,9 +23,11 @@ import {
 } from "lucide-react";
 import SiteNavbar from "@/components/layout/site-navbar";
 import SiteFooter from "@/components/layout/site-footer";
-import { MEDICINES, FACILITIES, type Medicine } from "@/lib/data";
+import { MEDICINES, type Medicine, type Facility } from "@/lib/data";
+import { getFacilities } from "@/lib/actions/facility";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -38,6 +40,11 @@ function ExploreContent() {
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<"price" | "distance" | "stock">("price");
   const [selectedMed, setSelectedMed] = useState<Medicine | null>(null);
+  const [allFacilities, setAllFacilities] = useState<Facility[]>([]);
+
+  useEffect(() => {
+    getFacilities().then(setAllFacilities);
+  }, []);
 
   const meds = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -52,7 +59,7 @@ function ExploreContent() {
 
   const facilities = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return FACILITIES.filter((f) => {
+    return allFacilities.filter((f) => {
       if (tab !== "all" && tab !== "medication" && f.category !== tab)
         return false;
       if (tab === "medication") return false;
@@ -72,17 +79,9 @@ function ExploreContent() {
     <div className="min-h-[100svh] bg-background">
       <SiteNavbar />
 
-      {/* ambient */}
+      {/* ambient grid */}
       <div className="pointer-events-none fixed inset-0 -z-10">
         <div className="bg-grid absolute inset-0 opacity-[0.25] dark:opacity-[0.08]" />
-        <div
-          className="glow-orb animate-float-slow"
-          style={{ width: 460, height: 460, background: "var(--glow-1)", top: "8%", right: "-8%" }}
-        />
-        <div
-          className="glow-orb animate-float-slow"
-          style={{ width: 360, height: 360, background: "var(--glow-2)", bottom: "10%", left: "-6%", animationDelay: "-5s" }}
-        />
       </div>
 
       <main className="mx-auto max-w-6xl px-4 pb-20 pt-28 sm:px-6 sm:pt-32">
@@ -108,8 +107,8 @@ function ExploreContent() {
         </motion.div>
 
         {/* Search + tabs */}
-        <div className="glass-panel mb-6 p-4 sm:p-5">
-          <div className="input-premium flex h-12 items-center gap-2 px-4">
+        <div className="mb-6 rounded-2xl border border-border bg-card p-4 sm:p-5">
+          <div className="flex h-12 items-center gap-2 rounded-xl border border-border bg-background px-4">
             <Search className="h-5 w-5 text-muted-foreground" />
             <input
               value={query}
@@ -119,13 +118,15 @@ function ExploreContent() {
               autoFocus
             />
             {query && (
-              <button
+              <Button
+                variant="ghost"
+                size="icon"
                 onClick={() => setQuery("")}
-                className="btn-ghost grid h-6 w-6 place-items-center rounded-md"
+                className="h-6 w-6 rounded-md"
                 aria-label="Clear search"
               >
                 <X className="h-3.5 w-3.5" />
-              </button>
+              </Button>
             )}
           </div>
 
@@ -139,19 +140,20 @@ function ExploreContent() {
                 { id: "pharmacy", label: "Pharmacies", icon: Pill },
               ] as const
             ).map((t) => (
-              <button
+              <Button
                 key={t.id}
+                variant="outline"
                 onClick={() => setTab(t.id)}
                 className={cn(
-                  "flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all",
+                  "flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold",
                   tab === t.id
-                    ? "bg-medical text-white"
+                    ? "bg-medical text-white border-medical"
                     : "bg-card/60 text-muted-foreground hover:text-foreground"
                 )}
               >
                 <t.icon className="h-3.5 w-3.5" />
                 {t.label}
-              </button>
+              </Button>
             ))}
           </div>
         </div>
@@ -176,18 +178,20 @@ function ExploreContent() {
                       { id: "stock", label: "In stock" },
                     ] as const
                   ).map((s) => (
-                    <button
+                    <Button
                       key={s.id}
+                      variant="ghost"
+                      size="sm"
                       onClick={() => setSort(s.id)}
                       className={cn(
-                        "rounded-md px-2 py-1 font-semibold transition-colors",
+                        "rounded-md px-2 py-1 text-xs font-semibold",
                         sort === s.id
                           ? "bg-medical/12 text-medical"
                           : "text-muted-foreground hover:text-foreground"
                       )}
                     >
                       {s.label}
-                    </button>
+                    </Button>
                   ))}
                 </div>
               )}
@@ -210,7 +214,7 @@ function ExploreContent() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4, ease: EASE, delay: i * 0.04 }}
                       onClick={() => setSelectedMed(m)}
-                      className="glass-card group p-4 text-left transition-all hover:-translate-y-1 hover:border-medical/40"
+                      className="group rounded-2xl border border-border bg-card p-4 text-left transition-all hover:-translate-y-1 hover:border-medical/40"
                     >
                       <div className="flex items-start justify-between">
                         <span className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-medical/20 to-cyan-400/10 text-medical transition-transform group-hover:scale-110">
@@ -289,17 +293,17 @@ function ExploreContent() {
                       initial={{ opacity: 0, y: 16 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.4, ease: EASE, delay: i * 0.05 }}
-                      className="glass-card group p-4 transition-all hover:-translate-y-0.5 hover:border-medical/40"
+                      className="group rounded-2xl border border-border bg-card p-4 transition-all hover:-translate-y-0.5 hover:border-medical/40"
                     >
                       <div className="flex items-start gap-3">
                         <span
                           className={cn(
-                            "grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br text-white shadow-sm",
+                            "grid h-11 w-11 shrink-0 place-items-center rounded-xl text-white shadow-sm",
                             f.category === "hospital"
-                              ? "from-medical to-cyan-400"
+                              ? "bg-medical"
                               : f.category === "clinic"
-                                ? "from-cyan-400 to-medical"
-                                : "from-emerald-500 to-teal-400"
+                                ? "bg-cyan-500"
+                                : "bg-emerald-500"
                           )}
                         >
                           {f.category === "pharmacy" ? (
@@ -381,26 +385,25 @@ function ExploreContent() {
                 </div>
 
                 {/* Map */}
-                <div className="relative h-[400px] overflow-hidden rounded-2xl border border-border bg-card/40 lg:h-auto lg:min-h-[520px]">
-                  <div className="absolute inset-0 bg-gradient-to-br from-medical/[0.06] via-background to-cyan-400/[0.04]" />
+                <div className="relative h-[400px] overflow-hidden rounded-2xl border border-border bg-card lg:h-auto lg:min-h-[520px]">
                   <div className="bg-grid absolute inset-0 opacity-40 dark:opacity-20" />
                   <MapPins />
                   <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/5" />
                   <div className="absolute left-3 top-3 z-20">
-                    <span className="glass-card flex items-center gap-1.5 px-2.5 py-1 text-[0.7rem] font-semibold">
+                    <span className="flex items-center gap-1.5 rounded-xl border border-border bg-card px-2.5 py-1 text-[0.7rem] font-semibold">
                       <MapPin className="h-3 w-3 text-medical" />
                       Gauteng · Johannesburg
                     </span>
                   </div>
                   <div className="absolute right-3 top-3 z-20">
-                    <span className="glass-card flex items-center gap-1.5 px-2.5 py-1 text-[0.7rem] font-semibold text-muted-foreground">
+                    <span className="flex items-center gap-1.5 rounded-xl border border-border bg-card px-2.5 py-1 text-[0.7rem] font-semibold text-muted-foreground">
                       <Navigation className="h-3 w-3" />
                       SA network
                     </span>
                   </div>
                   <div className="absolute bottom-3 left-3 z-20">
-                    <span className="glass-card flex items-center gap-1.5 px-2.5 py-1 text-[0.7rem] font-semibold text-emerald-500">
-                      <span className="status-dot bg-emerald-500" />
+                    <span className="flex items-center gap-1.5 rounded-xl border border-border bg-card px-2.5 py-1 text-[0.7rem] font-semibold text-emerald-500">
+                      <span className="inline-block h-2 w-2 rounded-full bg-emerald-500" />
                       {facilities.length} nearby
                     </span>
                   </div>
@@ -431,7 +434,7 @@ function ExploreContent() {
             initial={{ opacity: 0, y: 20, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             onClick={(e) => e.stopPropagation()}
-            className="glass-strong relative z-10 max-h-[85vh] w-full max-w-2xl overflow-y-auto rounded-2xl p-6 sm:p-8"
+            className="relative z-10 max-h-[85vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-border bg-card p-6 sm:p-8"
           >
             <div className="flex items-start justify-between">
               <div>
@@ -443,13 +446,15 @@ function ExploreContent() {
                   {selectedMed.pack}
                 </p>
               </div>
-              <button
+              <Button
+                variant="ghost"
+                size="icon"
                 onClick={() => setSelectedMed(null)}
-                className="btn-ghost grid h-8 w-8 place-items-center rounded-lg"
+                className="h-8 w-8 rounded-lg"
                 aria-label="Close"
               >
                 <X className="h-4 w-4" />
-              </button>
+              </Button>
             </div>
 
             <div className="mt-3 flex flex-wrap gap-2">
@@ -471,15 +476,15 @@ function ExploreContent() {
             <h3 className="mt-6 font-display text-base font-semibold">
               Compare prices across pharmacies
             </h3>
-            <div className="mt-3 overflow-hidden rounded-xl border border-border">
-              <table className="w-full text-sm">
+            <div className="mt-3 overflow-x-auto rounded-xl border border-border">
+              <table className="w-full min-w-[480px] text-sm">
                 <thead className="bg-card/60 text-[0.7rem] uppercase tracking-wider text-muted-foreground">
                   <tr>
                     <th className="px-4 py-2.5 text-left">Pharmacy</th>
                     <th className="px-4 py-2.5 text-right">Price</th>
                     <th className="px-4 py-2.5 text-center">Stock</th>
-                    <th className="px-4 py-2.5 text-center">Delivery</th>
-                    <th className="px-4 py-2.5 text-right">Distance</th>
+                    <th className="hidden sm:table-cell px-4 py-2.5 text-center">Delivery</th>
+                    <th className="hidden sm:table-cell px-4 py-2.5 text-right">Distance</th>
                     <th className="px-4 py-2.5 text-right"></th>
                   </tr>
                 </thead>
@@ -516,7 +521,7 @@ function ExploreContent() {
                             <X className="mx-auto h-4 w-4 text-rose-500" />
                           )}
                         </td>
-                        <td className="px-4 py-3 text-center">
+                        <td className="hidden sm:table-cell px-4 py-3 text-center">
                           {p.delivery ? (
                             <Truck className="mx-auto h-4 w-4 text-medical" />
                           ) : (
@@ -525,11 +530,11 @@ function ExploreContent() {
                             </span>
                           )}
                         </td>
-                        <td className="px-4 py-3 text-right tabular-nums text-muted-foreground">
+                        <td className="hidden sm:table-cell px-4 py-3 text-right tabular-nums text-muted-foreground">
                           {p.distanceKm} km
                         </td>
                         <td className="px-4 py-3 text-right">
-                          <button
+                          <Button
                             disabled={!p.inStock}
                             onClick={() => {
                               toast.success(
@@ -537,15 +542,14 @@ function ExploreContent() {
                               );
                               setSelectedMed(null);
                             }}
+                            variant={p.inStock ? "default" : "outline"}
                             className={cn(
                               "rounded-lg px-3 py-1.5 text-xs font-semibold transition-all",
-                              p.inStock
-                                ? "btn-primary"
-                                : "cursor-not-allowed bg-muted text-muted-foreground"
+                              !p.inStock && "cursor-not-allowed bg-muted text-muted-foreground"
                             )}
                           >
                             {p.inStock ? "Order" : "Out"}
-                          </button>
+                          </Button>
                         </td>
                       </tr>
                     ))}
@@ -560,13 +564,12 @@ function ExploreContent() {
               e-prescriptions are sent automatically.
             </div>
 
-            <Link
-              href="/sign-up?role=patient"
-              className="btn-secondary mt-4 flex w-full items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-semibold"
-            >
-              Sign up to order & track deliveries
-              <ArrowRight className="h-4 w-4" />
-            </Link>
+            <Button variant="secondary" asChild className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl py-2.5 font-semibold">
+              <Link href="/sign-up?role=patient">
+                Sign up to order & track deliveries
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
           </motion.div>
         </div>
       )}
@@ -610,7 +613,7 @@ function MapPins() {
               className="absolute inline-flex h-full w-full animate-ping rounded-full bg-medical opacity-40"
               style={{ animationDelay: p.delay }}
             />
-            <span className="relative inline-flex h-3 w-3 rounded-full bg-medical ring-2 ring-background shadow-[0_0_12px_var(--glow-1)]" />
+              <span className="relative inline-flex h-3 w-3 rounded-full bg-medical ring-2 ring-background" />
           </span>
         </div>
       ))}

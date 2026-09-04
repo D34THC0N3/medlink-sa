@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import {
-  Activity,
   Mail,
   Lock,
   Eye,
@@ -14,7 +13,10 @@ import {
   AlertCircle,
   ShieldCheck,
 } from "lucide-react";
-import { useAuth, ROLE_DASHBOARDS, type UserRole } from "@/lib/auth-context";
+import { signIn as nextAuthSignIn } from "next-auth/react";
+import { ROLE_DASHBOARDS, type UserRole } from "@/lib/auth-context";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 
 const TEST_ACCOUNTS = [
   { email: "admin@gmail.com", label: "Admin" },
@@ -27,7 +29,6 @@ const TEST_ACCOUNTS = [
 function SignInForm() {
   const router = useRouter();
   const params = useSearchParams();
-  const { signIn } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPwd, setShowPwd] = useState(false);
@@ -36,21 +37,34 @@ function SignInForm() {
 
   const redirect = params.get("redirect");
 
-  const submit = (e: React.FormEvent) => {
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
-    setTimeout(() => {
-      const res = signIn(email, password);
-      setLoading(false);
-      if (!res.ok || !res.user) {
-        setError(res.error ?? "Sign in failed.");
+
+    try {
+      const res = await nextAuthSignIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+
+      if (!res?.ok) {
+        setError("Invalid email or password.");
         return;
       }
-      // Use hard navigation for reliability + redirect by ACTUAL role (not guessed)
-      const dest = redirect ?? ROLE_DASHBOARDS[res.user.role];
+
+      // After successful sign-in, fetch session to get role, then redirect
+      const sessionRes = await fetch("/api/auth/session");
+      const session = await sessionRes.json();
+      const role = session?.user?.role as UserRole | undefined;
+      const dest = redirect ?? (role ? ROLE_DASHBOARDS[role] : "/dashboard/patient");
       window.location.href = dest;
-    }, 350);
+    } catch {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const quickFill = (em: string) => {
@@ -70,8 +84,10 @@ function SignInForm() {
           className="w-full max-w-md"
         >
           <Link href="/" className="mb-8 flex items-center gap-2.5">
-            <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-medical to-cyan-400 shadow-[0_4px_16px_var(--glow-1)]">
-              <Activity className="h-5 w-5 text-white" strokeWidth={2.5} />
+            <span className="grid h-9 w-9 place-items-center rounded-xl bg-foreground">
+              <svg className="h-5 w-5 text-background" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 4v16M4 12h16" />
+              </svg>
             </span>
             <span className="font-display text-[0.95rem] font-semibold tracking-tight">
               MedLink<span className="text-medical"> SA</span>
@@ -97,7 +113,7 @@ function SignInForm() {
               <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 Email
               </label>
-              <div className="input-premium flex h-11 items-center gap-2 px-3.5">
+              <div className="flex h-11 items-center gap-2 rounded-xl border border-border bg-background px-3.5">
                 <Mail className="h-4 w-4 text-muted-foreground" />
                 <input
                   type="email"
@@ -115,14 +131,16 @@ function SignInForm() {
                 <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   Password
                 </label>
-                <button
+                <Button
+                  variant="link"
                   type="button"
-                  className="text-xs font-medium text-medical hover:underline"
+                  onClick={() => toast("Password reset is coming soon!")}
+                  className="h-auto p-0 text-xs font-medium text-medical hover:underline"
                 >
                   Forgot?
-                </button>
+                </Button>
               </div>
-              <div className="input-premium flex h-11 items-center gap-2 px-3.5">
+              <div className="flex h-11 items-center gap-2 rounded-xl border border-border bg-background px-3.5">
                 <Lock className="h-4 w-4 text-muted-foreground" />
                 <input
                   type={showPwd ? "text" : "password"}
@@ -132,10 +150,12 @@ function SignInForm() {
                   placeholder="••••••••"
                   className="h-full w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
                 />
-                <button
+                <Button
+                  variant="ghost"
+                  size="icon"
                   type="button"
                   onClick={() => setShowPwd((v) => !v)}
-                  className="text-muted-foreground hover:text-foreground"
+                  className="h-8 w-8 text-muted-foreground hover:text-foreground"
                   aria-label={showPwd ? "Hide password" : "Show password"}
                 >
                   {showPwd ? (
@@ -143,18 +163,19 @@ function SignInForm() {
                   ) : (
                     <Eye className="h-4 w-4" />
                   )}
-                </button>
+                </Button>
               </div>
             </div>
 
-            <button
+            <Button
               type="submit"
               disabled={loading}
-              className="btn-primary flex h-11 w-full items-center justify-center gap-2 rounded-xl text-sm font-semibold disabled:opacity-60"
+              variant="default"
+              className="flex h-11 w-full items-center justify-center gap-2 rounded-xl font-semibold disabled:opacity-60"
             >
               {loading ? "Signing in…" : "Sign in"}
               {!loading && <ArrowRight className="h-4 w-4" />}
-            </button>
+            </Button>
           </form>
 
           {/* Quick test accounts */}
@@ -166,13 +187,15 @@ function SignInForm() {
             </div>
             <div className="flex flex-wrap gap-2">
               {TEST_ACCOUNTS.map((a) => (
-                <button
+                <Button
                   key={a.email}
+                  variant="outline"
+                  size="sm"
                   onClick={() => quickFill(a.email)}
-                  className="chip cursor-pointer transition-colors hover:border-medical/40 hover:text-medical"
+                  className="rounded-full px-3 py-1.5 text-xs font-semibold cursor-pointer transition-colors hover:border-medical/40 hover:text-medical"
                 >
                   {a.label}
-                </button>
+                </Button>
               ))}
             </div>
           </div>
@@ -190,29 +213,8 @@ function SignInForm() {
       </div>
 
       {/* Right: brand panel */}
-      <div className="relative hidden overflow-hidden bg-gradient-to-br from-medical/15 via-background to-cyan-400/10 lg:block">
+      <div className="relative hidden overflow-hidden bg-muted/30 lg:block">
         <div className="absolute inset-0">
-          <div
-            className="glow-orb animate-float-slow"
-            style={{
-              width: 400,
-              height: 400,
-              background: "var(--glow-1)",
-              top: "10%",
-              right: "-10%",
-            }}
-          />
-          <div
-            className="glow-orb animate-float-slow"
-            style={{
-              width: 320,
-              height: 320,
-              background: "var(--glow-2)",
-              bottom: "10%",
-              left: "-8%",
-              animationDelay: "-4s",
-            }}
-          />
           <div className="bg-grid absolute inset-0 opacity-30 dark:opacity-15" />
         </div>
         <div className="relative flex h-full flex-col justify-center p-12">
@@ -223,7 +225,7 @@ function SignInForm() {
             className="max-w-md"
           >
             <span className="chip mb-6">
-              <span className="status-dot bg-emerald-500" />
+              <span className="inline-block h-2 w-2 rounded-full bg-emerald-500" />
               Live across 9 provinces
             </span>
             <h2 className="font-display text-4xl font-semibold leading-tight tracking-tight">
@@ -242,14 +244,6 @@ function SignInForm() {
       </div>
     </div>
   );
-}
-
-function guessRole(email: string): UserRole {
-  if (email.includes("doctor")) return "doctor";
-  if (email.includes("hospital")) return "hospital";
-  if (email.includes("pharmacy")) return "pharmacy";
-  if (email.includes("admin")) return "admin";
-  return "patient";
 }
 
 export default function SignInPage() {

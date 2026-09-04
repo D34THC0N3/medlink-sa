@@ -1,0 +1,20 @@
+# MedLink SA
+
+MedLink SA is a South African healthcare platform connecting patients with pharmacies and medical facilities nationwide. It provides real-time queue management, medication searches across verified pharmacies, and comprehensive appointment scheduling.
+
+## Core Features
+
+- **Facility Explorer**: Search and discover pharmacies, clinics, and hospitals by province and specialty across South Africa.
+- **Queue Management**: Virtual queue system with real-time wait times, ticket tracking, and notifications.
+- **Medication Search**: Look up medications, check availability, compare prices, and locate nearby pharmacies.
+- **Appointment Booking**: Schedule, reschedule, and manage healthcare appointments.
+- **Multi-Role Dashboards**: Tailored interfaces for patients, doctors, pharmacists, hospital admins, and platform admins.
+- **Privacy-First**: End-to-end encryption, anonymised data processing, and full POPIA compliance.
+
+## Tech Stack
+
+- Next.js, React, Tailwind CSS, Prisma ORM, PostgreSQL.
+
+## Contact
+
+For questions about this platform, contact the development team at MedLink SA.

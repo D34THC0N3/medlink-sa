@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import {
-  Activity,
   Github,
   Twitter,
   Linkedin,
@@ -13,6 +12,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
 
 const COLUMNS = [
   {
@@ -49,29 +49,15 @@ const COLUMNS = [
 
 export default function SiteFooter() {
   return (
-    <footer className="relative mt-auto overflow-hidden border-t border-border bg-background-elev/30">
-      {/* ambient top glow */}
-      <div className="pointer-events-none absolute inset-x-0 -top-32 h-32">
-        <div
-          className="glow-orb mx-auto"
-          style={{
-            width: 600,
-            height: 200,
-            background: "var(--glow-1)",
-            left: "50%",
-            transform: "translateX(-50%)",
-          }}
-        />
-      </div>
-
-      <div className="relative mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-20">
+    <footer className="relative mt-auto border-t border-border bg-background">
+      <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-20">
         {/* Top: brand + CTA banner */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="glass-strong mb-14 flex flex-col items-start justify-between gap-6 rounded-3xl p-6 sm:p-8 lg:flex-row lg:items-center"
+          className="mb-14 flex flex-col items-start justify-between gap-6 rounded-2xl border border-border bg-background p-6 sm:p-8 lg:flex-row lg:items-center"
         >
           <div>
             <h3 className="font-display text-xl font-semibold tracking-tight sm:text-2xl">
@@ -83,19 +69,17 @@ export default function SiteFooter() {
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <Link
-              href="/sign-up"
-              className="btn-primary inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold"
-            >
-              Create account
-              <ArrowUpRight className="h-4 w-4" />
-            </Link>
-            <Link
-              href="/sign-in"
-              className="btn-secondary inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold"
-            >
-              Sign in
-            </Link>
+            <Button variant="default" asChild className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 font-semibold">
+              <Link href="/sign-up">
+                Create account
+                <ArrowUpRight className="h-4 w-4" />
+              </Link>
+            </Button>
+            <Button variant="secondary" asChild className="inline-flex items-center gap-2 rounded-xl px-5 py-2.5 font-semibold">
+              <Link href="/sign-in">
+                Sign in
+              </Link>
+            </Button>
           </div>
         </motion.div>
 
@@ -104,8 +88,10 @@ export default function SiteFooter() {
           {/* brand */}
           <div className="max-w-sm">
             <Link href="/" className="flex items-center gap-2.5" aria-label="MedLink SA">
-              <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-medical to-cyan-400 shadow-[0_4px_16px_var(--glow-1)]">
-                <Activity className="h-5 w-5 text-white" strokeWidth={2.5} />
+              <span className="grid h-9 w-9 place-items-center rounded-xl bg-foreground text-background">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
+                  <path d="M12 2v20M2 12h20" />
+                </svg>
               </span>
               <div className="flex flex-col leading-none">
                 <span className="font-display text-[0.95rem] font-semibold tracking-tight">
@@ -145,7 +131,7 @@ export default function SiteFooter() {
                   key={label}
                   href="/"
                   aria-label={label}
-                  className="glass grid h-9 w-9 place-items-center rounded-lg transition-transform hover:-translate-y-0.5"
+                  className="grid h-9 w-9 place-items-center rounded-lg border border-border bg-background transition-transform hover:-translate-y-0.5"
                 >
                   <Icon className="h-4 w-4" />
                 </Link>
@@ -229,7 +215,7 @@ export default function SiteFooter() {
               POPIA compliant
             </span>
             <span className="flex items-center gap-1.5">
-              <span className="status-dot bg-emerald-500" />
+              <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-500" />
               All systems operational
             </span>
           </div>

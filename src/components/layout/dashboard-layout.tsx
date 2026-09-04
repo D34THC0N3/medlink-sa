@@ -16,13 +16,12 @@ import {
   Command,
   Plus,
   ChevronDown,
-  Languages,
-  Check,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import { useAuth, ROLE_LABELS, type UserRole } from "@/lib/auth-context";
-import { useLang, LANGUAGES, type LangCode } from "@/lib/lang-context";
+import { LanguageSwitcher } from "@/components/ui/language-switcher";
 
 type NavItem = {
   label: string;
@@ -112,14 +111,12 @@ export default function DashboardLayout({
   role: UserRole;
 }) {
   const { user, loading, signOut } = useAuth();
-  const { lang, setLang } = useLang();
   const router = useRouter();
   const pathname = usePathname();
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [mobileNav, setMobileNav] = useState(false);
   const [cmdOpen, setCmdOpen] = useState(false);
-  const [langOpen, setLangOpen] = useState(false);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -131,7 +128,7 @@ export default function DashboardLayout({
     if (!loading && (!user || user.role !== role)) {
       router.replace("/sign-in?redirect=" + encodeURIComponent("/dashboard/" + role));
     }
-  }, [user, loading, role]);
+  }, [user, loading, role, router]);
 
   // Cmd+K
   useEffect(() => {
@@ -157,35 +154,30 @@ export default function DashboardLayout({
   }
 
   const items = NAV_BY_ROLE[role];
-  const activeHref = pathname + (typeof window !== "undefined" ? window.location.search : "");
+  const [searchParams, setSearchParams] = useState("");
+  useEffect(() => {
+    setSearchParams(window.location.search);
+  }, [pathname]);
+  const activeHref = pathname + searchParams;
 
   return (
     <div className="min-h-[100svh] bg-background">
-      {/* ambient bg */}
+      {/* ambient bg grid */}
       <div className="pointer-events-none fixed inset-0 -z-10">
         <div className="bg-grid absolute inset-0 opacity-[0.25] dark:opacity-[0.08]" />
-        <div
-          className="glow-orb"
-          style={{
-            width: 500,
-            height: 500,
-            background: "var(--glow-1)",
-            top: "-15%",
-            right: "-10%",
-            opacity: 0.4,
-          }}
-        />
       </div>
 
       {/* Desktop sidebar */}
-      <aside className="glass-sidebar fixed inset-y-0 left-0 z-40 hidden w-64 flex-col lg:flex">
-        <div className="flex h-16 items-center gap-2.5 border-b border-border/50 px-5">
-          <Link href="/" className="flex items-center gap-2.5">
-            <span className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-medical to-cyan-400 shadow-[0_4px_16px_var(--glow-1)]">
-              <Activity className="h-4 w-4 text-white" strokeWidth={2.5} />
+      <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 flex-col border-r border-border bg-background lg:flex">
+        <div className="flex h-14 items-center gap-2.5 border-b border-border px-5">
+          <Link href="/" className="flex items-center gap-2">
+            <span className="grid h-7 w-7 place-items-center rounded-lg bg-foreground text-background">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+                <path d="M12 2v20M2 12h20" />
+              </svg>
             </span>
-            <span className="font-display text-sm font-semibold tracking-tight">
-              MedLink<span className="text-medical"> SA</span>
+            <span className="font-display text-[0.8rem] font-semibold tracking-tight">
+              MEDLINK-SA
             </span>
           </Link>
         </div>
@@ -216,7 +208,7 @@ export default function DashboardLayout({
 
         <div className="border-t border-border/50 p-3">
           <div className="flex items-center gap-2.5 rounded-lg px-2 py-2">
-            <span className="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-medical to-cyan-400 text-[0.65rem] font-bold text-white">
+            <span className="grid h-7 w-7 place-items-center rounded-full bg-foreground text-background text-[0.6rem] font-bold">
               {user.name
                 .split(" ")
                 .map((n) => n[0])
@@ -229,16 +221,18 @@ export default function DashboardLayout({
                 {user.email}
               </div>
             </div>
-            <button
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={() => {
                 signOut();
                 router.push("/");
               }}
-              className="btn-ghost grid h-7 w-7 place-items-center rounded-md"
+              className="h-7 w-7 rounded-md"
               aria-label="Sign out"
             >
               <LogOut className="h-3.5 w-3.5" />
-            </button>
+            </Button>
           </div>
         </div>
       </aside>
@@ -259,24 +253,28 @@ export default function DashboardLayout({
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "spring", damping: 28, stiffness: 280 }}
-              className="glass-sidebar fixed inset-y-0 left-0 z-50 flex w-72 flex-col lg:hidden"
+              className="fixed inset-y-0 left-0 z-50 flex w-72 flex-col border-r border-border bg-background lg:hidden"
             >
-              <div className="flex h-16 items-center justify-between border-b border-border/50 px-5">
-                <Link href="/" className="flex items-center gap-2.5">
-                  <span className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-medical to-cyan-400">
-                    <Activity className="h-4 w-4 text-white" strokeWidth={2.5} />
+              <div className="flex h-14 items-center justify-between border-b border-border px-5">
+                <Link href="/" className="flex items-center gap-2">
+                  <span className="grid h-7 w-7 place-items-center rounded-lg bg-foreground text-background">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+                      <path d="M12 2v20M2 12h20" />
+                    </svg>
                   </span>
-                  <span className="font-display text-sm font-semibold">
-                    MedLink<span className="text-medical"> SA</span>
+                  <span className="font-display text-[0.8rem] font-semibold">
+                    MEDLINK-SA
                   </span>
                 </Link>
-                <button
+                <Button
+                  variant="ghost"
+                  size="icon"
                   onClick={() => setMobileNav(false)}
-                  className="btn-ghost grid h-8 w-8 place-items-center rounded-md"
+                  className="h-8 w-8 rounded-md"
                   aria-label="Close menu"
                 >
                   <X className="h-4 w-4" />
-                </button>
+                </Button>
               </div>
               <nav className="flex-1 space-y-0.5 overflow-y-auto p-3">
                 {items.map((item) => (
@@ -300,16 +298,17 @@ export default function DashboardLayout({
                 ))}
               </nav>
               <div className="border-t border-border/50 p-3">
-                <button
+                <Button
+                  variant="ghost"
                   onClick={() => {
                     signOut();
                     router.push("/");
                   }}
-                  className="flex w-full items-center gap-2.5 rounded-lg px-2 py-2.5 text-sm text-rose-500 hover:bg-rose-500/10"
+                  className="w-full justify-start gap-2.5 px-2 py-2.5 text-sm text-rose-500 hover:bg-rose-500/10"
                 >
                   <LogOut className="h-4 w-4" />
                   Sign out
-                </button>
+                </Button>
               </div>
             </motion.aside>
           </>
@@ -319,79 +318,47 @@ export default function DashboardLayout({
       {/* Main content */}
       <div className="lg:pl-64">
         {/* Topbar */}
-        <header className="glass-strong sticky top-0 z-30 flex h-16 items-center gap-3 border-b border-border/50 px-4 sm:px-6">
-          <button
+        <header className="sticky top-0 z-30 flex h-14 items-center gap-3 border-b border-border bg-background/90 backdrop-blur-md px-4 sm:px-6">
+          <Button
+            variant="ghost"
+            size="icon"
             onClick={() => setMobileNav(true)}
-            className="btn-ghost grid h-9 w-9 place-items-center rounded-lg lg:hidden"
+            className="rounded-lg lg:hidden"
             aria-label="Open menu"
           >
             <Menu className="h-4 w-4" />
-          </button>
+          </Button>
 
-          <button
+          <Button
+            variant="outline"
+            size="sm"
             onClick={() => setCmdOpen(true)}
-            className="input-premium hidden h-9 max-w-xs flex-1 items-center gap-2 px-3 text-sm text-muted-foreground sm:flex"
+            className="hidden h-9 max-w-xs flex-1 items-center gap-2 rounded-xl border border-border bg-background px-3 text-sm text-muted-foreground sm:flex"
           >
             <Search className="h-3.5 w-3.5" />
             <span>Search…</span>
             <kbd className="ml-auto rounded bg-foreground/10 px-1.5 py-0.5 font-mono text-[0.6rem] font-semibold">
               ⌘K
             </kbd>
-          </button>
+          </Button>
 
           <div className="ml-auto flex items-center gap-1.5">
             <Link
               href="/service"
-              className="emergency-fab grid h-9 w-9 place-items-center rounded-full sm:hidden"
+              className="grid h-9 w-9 place-items-center rounded-full bg-rose-500 text-white sm:hidden"
               aria-label="Emergency"
             >
               <Plus className="h-5 w-5" strokeWidth={3} />
             </Link>
             {/* Language switcher */}
-            <div className="relative">
-              <button
-                onClick={() => setLangOpen((v) => !v)}
-                className="btn-ghost flex h-9 items-center gap-1 rounded-lg px-2"
-                aria-label="Change language"
-                aria-expanded={langOpen}
-              >
-                <Languages className="h-4 w-4" />
-                <span className="hidden text-[0.65rem] font-bold uppercase sm:inline">{lang}</span>
-              </button>
-              <AnimatePresence>
-                {langOpen && (
-                  <>
-                    <div className="fixed inset-0 z-40" onClick={() => setLangOpen(false)} />
-                    <motion.div
-                      initial={{ opacity: 0, y: 8, scale: 0.96 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 8, scale: 0.96 }}
-                      transition={{ duration: 0.18 }}
-                      className="absolute right-0 top-11 z-50 w-44 overflow-hidden rounded-xl border border-border bg-card p-1 shadow-2xl"
-                    >
-                      {LANGUAGES.map((l) => (
-                        <button
-                          key={l.code}
-                          onClick={() => { setLang(l.code as LangCode); setLangOpen(false); }}
-                          className={cn(
-                            "flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm transition-colors hover:bg-foreground/5",
-                            lang === l.code && "bg-foreground/5"
-                          )}
-                        >
-                          <span className="font-medium">{l.native}</span>
-                          {lang === l.code && <Check className="h-3.5 w-3.5 text-medical" />}
-                        </button>
-                      ))}
-                    </motion.div>
-                  </>
-                )}
-              </AnimatePresence>
-            </div>
+            <LanguageSwitcher />
 
             {/* Theme toggle */}
-            <button
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="btn-ghost grid h-9 w-9 place-items-center rounded-lg"
+              className="rounded-lg"
               aria-label="Toggle theme"
             >
               {mounted && theme === "dark" ? (
@@ -399,16 +366,18 @@ export default function DashboardLayout({
               ) : (
                 <Moon className="h-4 w-4" />
               )}
-            </button>
-            <button
-              className="btn-ghost relative grid h-9 w-9 place-items-center rounded-lg"
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="relative rounded-lg"
               aria-label="Notifications"
             >
               <Bell className="h-4 w-4" />
               <span className="absolute right-1.5 top-1.5 h-1.5 w-1.5 rounded-full bg-rose-500" />
-            </button>
+            </Button>
             <div className="flex items-center gap-2 rounded-lg px-2 py-1">
-              <span className="grid h-7 w-7 place-items-center rounded-full bg-gradient-to-br from-medical to-cyan-400 text-[0.6rem] font-bold text-white">
+              <span className="grid h-7 w-7 place-items-center rounded-full bg-foreground text-background text-[0.6rem] font-bold">
                 {user.name
                   .split(" ")
                   .map((n) => n[0])
@@ -481,7 +450,7 @@ function DashboardCommandMenu({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.97 }}
             transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-            className="glass-strong relative w-full max-w-lg overflow-hidden rounded-2xl p-0 shadow-2xl"
+            className="relative w-full max-w-lg overflow-hidden rounded-2xl border border-border bg-background p-0 shadow-2xl"
           >
             <div className="flex items-center gap-3 border-b border-border px-4 py-3.5">
               <Search className="h-4 w-4 shrink-0 text-muted-foreground" />
