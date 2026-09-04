@@ -121,12 +121,24 @@ export const MEDICINES: Medicine[] = [
 ];
 
 /* ---------- Facilities ---------- */
-type Facility = {
+export type FacilityType =
+  | "central hospital"
+  | "tertiary hospital"
+  | "regional hospital"
+  | "district hospital"
+  | "community health centre"
+  | "primary health care"
+  | "pharmacy";
+
+export type Facility = {
   id: string;
+  uid: string; // MHFL unique identifier (8-digit)
   name: string;
   category: "hospital" | "clinic" | "pharmacy";
+  facilityType: FacilityType;
   location: string;
   province: string;
+  provinceCode: string; // 2-letter province code (e.g. GP, WC, EC)
   distanceKm: number;
   rating: number;
   open: boolean;
