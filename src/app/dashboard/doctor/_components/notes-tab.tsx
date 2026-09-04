@@ -71,18 +71,18 @@ export function NotesTab() {
     <motion.div variants={fadeUp} initial="hidden" animate="show" className="space-y-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h2 className="text-xl font-bold text-slate-900">Clinical Notes</h2>
-        <div className="flex gap-2">
-          <div className="relative">
+        <div className="flex flex-wrap gap-2">
+          <div className="relative w-full sm:w-auto">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
             <Input
               placeholder="Search notes..."
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="pl-9 h-8 text-sm w-[180px]"
+              className="pl-9 h-8 text-sm w-full sm:w-[180px]"
             />
           </div>
           <Select value={typeFilter} onValueChange={setTypeFilter}>
-            <SelectTrigger className="w-[130px] h-8 text-xs"><SelectValue placeholder="Type" /></SelectTrigger>
+            <SelectTrigger className="w-full sm:w-[130px] h-8 text-xs"><SelectValue placeholder="Type" /></SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All Types</SelectItem>
               <SelectItem value="consultation">Consultation</SelectItem>

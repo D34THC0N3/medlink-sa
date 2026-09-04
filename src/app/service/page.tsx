@@ -102,17 +102,6 @@ function ServiceContent() {
       {/* ambient */}
       <div className="pointer-events-none fixed inset-0 -z-10">
         <div className="bg-grid absolute inset-0 opacity-[0.25] dark:opacity-[0.08]" />
-        <div
-          className="glow-orb animate-float-slow"
-          style={{
-            width: 480,
-            height: 480,
-            background:
-              view === "emergency" ? "rgba(239,68,68,0.18)" : "var(--glow-1)",
-            top: "10%",
-            right: "-8%",
-          }}
-        />
       </div>
 
       <main className="mx-auto max-w-5xl px-4 pb-20 pt-28 sm:px-6 sm:pt-32">
@@ -123,9 +112,9 @@ function ServiceContent() {
           transition={{ duration: 0.6, ease: EASE }}
           className="mb-10 text-center"
         >
-          <span className="chip mb-4">
-            <span className="status-dot bg-medical" />
-            Service & queue
+          <span className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1 text-xs font-semibold">
+            <span className="inline-block h-2 w-2 rounded-full bg-medical" />
+            Service &amp; queue
           </span>
           <h1 className="font-display text-4xl font-semibold tracking-tight sm:text-5xl">
             {view === "emergency"
@@ -145,7 +134,7 @@ function ServiceContent() {
 
         {/* Mode switcher */}
         <div className="mb-8 flex justify-center">
-          <div className="glass-strong inline-flex gap-1 rounded-2xl p-1.5">
+          <div className="inline-flex gap-1 rounded-2xl border border-border bg-card/80 p-1.5">
             <Button
               variant={view === "home" ? "default" : "ghost"}
               onClick={() => setView("home")}
@@ -162,7 +151,7 @@ function ServiceContent() {
               }}
               className={cn(
                 "rounded-xl px-4 py-2 font-semibold",
-                view === "emergency" && "bg-gradient-to-r from-rose-500 to-red-600 text-white hover:bg-gradient-to-r hover:from-rose-500 hover:to-red-600"
+                view === "emergency" && "bg-rose-500 text-white hover:bg-rose-600"
               )}
             >
               <Plus className="h-4 w-4" strokeWidth={3} />
@@ -182,7 +171,7 @@ function ServiceContent() {
               className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]"
             >
               {/* Left: get a ticket */}
-              <div className="glass-panel p-6 sm:p-8">
+              <div className="rounded-2xl border border-border bg-card p-6 sm:p-8">
                 <h2 className="font-display text-xl font-semibold">
                   Get a queue ticket
                 </h2>
@@ -272,7 +261,7 @@ function ServiceContent() {
 
               {/* Right: how it works */}
               <div className="space-y-4">
-                <div className="glass-panel p-6">
+                <div className="rounded-2xl border border-border bg-card p-6">
                   <h3 className="font-display text-base font-semibold">
                     How the queue works
                   </h3>
@@ -316,7 +305,7 @@ function ServiceContent() {
                   </ol>
                 </div>
 
-                <div className="glass-panel border-amber-500/20 p-5">
+                <div className="rounded-2xl border border-amber-500/20 bg-card p-5">
                   <div className="flex gap-3">
                     <AlertTriangle className="h-5 w-5 shrink-0 text-amber-500" />
                     <div>
@@ -345,19 +334,7 @@ function ServiceContent() {
               transition={{ duration: 0.4, ease: EASE }}
               className="mx-auto max-w-2xl"
             >
-              <div className="glass-panel relative overflow-hidden p-6 sm:p-10">
-                <div className="pointer-events-none absolute inset-0 -z-10">
-                  <div
-                    className="glow-orb"
-                    style={{
-                      width: 300,
-                      height: 300,
-                      background: "var(--glow-1)",
-                      top: "-20%",
-                      right: "-10%",
-                    }}
-                  />
-                </div>
+              <div className="relative overflow-hidden rounded-2xl border border-border bg-card p-6 sm:p-10">
 
                 {/* QR + number */}
                 <div className="flex flex-col items-center text-center">
@@ -393,7 +370,7 @@ function ServiceContent() {
                 </div>
 
                 {/* stats */}
-                <div className="mt-8 grid grid-cols-3 gap-3">
+                <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3">
                   <Stat
                     icon={Users}
                     label="Ahead of you"
@@ -417,7 +394,7 @@ function ServiceContent() {
                 {/* live status */}
                 <div className="mt-6 flex items-center justify-between rounded-xl border border-border bg-card/40 p-4">
                   <div className="flex items-center gap-2.5">
-                    <span className="status-dot bg-emerald-500" />
+                    <span className="inline-block h-2 w-2 rounded-full bg-emerald-500" />
                     <span className="text-sm font-medium">
                       Live · updated {QUEUE_STATE.lastUpdated}
                     </span>
@@ -469,23 +446,10 @@ function ServiceContent() {
               transition={{ duration: 0.4, ease: EASE }}
               className="mx-auto max-w-2xl"
             >
-              <div className="glass-panel relative overflow-hidden border-rose-500/30 p-6 sm:p-10">
-                <div className="pointer-events-none absolute inset-0 -z-10">
-                  <div
-                    className="glow-orb"
-                    style={{
-                      width: 360,
-                      height: 360,
-                      background: "rgba(239,68,68,0.18)",
-                      top: "-15%",
-                      left: "50%",
-                      transform: "translateX(-50%)",
-                    }}
-                  />
-                </div>
+              <div className="relative overflow-hidden rounded-2xl border border-rose-500/30 bg-card p-6 sm:p-10">
 
                 <div className="flex flex-col items-center text-center">
-                  <div className="emergency-fab grid h-20 w-20 place-items-center rounded-full">
+                  <div className="grid h-20 w-20 place-items-center rounded-full bg-rose-500 text-white">
                     <Plus className="h-10 w-10" strokeWidth={3} />
                   </div>
 
@@ -520,7 +484,7 @@ function ServiceContent() {
 
                       <Button
                         onClick={callEmergency}
-                        className="mt-6 flex h-14 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-rose-500 to-red-600 text-base font-bold text-white shadow-[0_8px_30px_rgba(239,68,68,0.5)] transition-transform hover:scale-[1.02]"
+                        className="mt-6 flex h-14 w-full items-center justify-center gap-2 rounded-xl bg-rose-500 text-base font-bold text-white shadow-lg transition-transform hover:bg-rose-600 hover:scale-[1.02]"
                       >
                         <Phone className="h-5 w-5" />
                         Dispatch ambulance now
@@ -546,7 +510,7 @@ function ServiceContent() {
                         the way. Stay where you are.
                       </p>
 
-                      <div className="mt-8 grid w-full grid-cols-3 gap-3">
+                      <div className="mt-8 grid w-full grid-cols-1 sm:grid-cols-3 gap-3">
                         <Stat icon={Clock} label="ETA" value={`${eta} min`} />
                         <Stat
                           icon={Navigation}
@@ -558,7 +522,7 @@ function ServiceContent() {
 
                       <div className="mt-6 w-full rounded-xl border border-emerald-500/30 bg-emerald-500/8 p-4 text-left">
                         <div className="flex items-center gap-2 text-sm font-semibold text-emerald-500">
-                          <span className="status-dot bg-emerald-500" />
+                          <span className="inline-block h-2 w-2 rounded-full bg-emerald-500" />
                           Live tracking
                         </div>
                         <div className="mt-2 text-xs text-muted-foreground">
@@ -601,7 +565,7 @@ function ServiceContent() {
             </h3>
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {FACILITIES.slice(0, 6).map((f) => (
-                <div key={f.id} className="glass-card p-4">
+                <div key={f.id} className="rounded-xl border border-border bg-card p-4">
                   <div className="flex items-start justify-between">
                     <span
                       className={cn(
@@ -621,7 +585,7 @@ function ServiceContent() {
                     </span>
                     <span
                       className={cn(
-                        "chip py-0 text-[0.6rem]",
+                        "rounded-full border px-2 py-0 text-[0.6rem] font-semibold",
                         f.open
                           ? "border-emerald-500/30 text-emerald-500"
                           : "border-rose-500/30 text-rose-500"
