@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
@@ -23,7 +23,8 @@ import {
 } from "lucide-react";
 import SiteNavbar from "@/components/layout/site-navbar";
 import SiteFooter from "@/components/layout/site-footer";
-import { MEDICINES, FACILITIES, type Medicine } from "@/lib/data";
+import { MEDICINES, type Medicine, type Facility } from "@/lib/data";
+import { getFacilities } from "@/lib/actions/facility";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -39,6 +40,11 @@ function ExploreContent() {
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<"price" | "distance" | "stock">("price");
   const [selectedMed, setSelectedMed] = useState<Medicine | null>(null);
+  const [allFacilities, setAllFacilities] = useState<Facility[]>([]);
+
+  useEffect(() => {
+    getFacilities().then(setAllFacilities);
+  }, []);
 
   const meds = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -53,7 +59,7 @@ function ExploreContent() {
 
   const facilities = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return FACILITIES.filter((f) => {
+    return allFacilities.filter((f) => {
       if (tab !== "all" && tab !== "medication" && f.category !== tab)
         return false;
       if (tab === "medication") return false;

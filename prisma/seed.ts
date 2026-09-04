@@ -1,4 +1,4 @@
-import { PrismaClient, UserRole, AppointmentStatus, OrderStatus, EquipmentStatus } from "@prisma/client";
+import { PrismaClient, UserRole, AppointmentStatus, OrderStatus, EquipmentStatus, FacilityType } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
@@ -593,6 +593,92 @@ await prisma.order.createMany({
 
 console.log("Seeded 4 orders");
 
+// ─── Facilities (MHFL NHSSA data) ─────────────────────────
+const facilities = [
+  {
+    uid: "80100001",
+    name: "Chris Hani Baragwanath Academic Hospital",
+    facilityType: FacilityType.tertiary_hospital,
+    location: "Soweto, Johannesburg",
+    province: "Gauteng",
+    provinceCode: "GP",
+    lat: -26.2731,
+    lng: 27.9495,
+    phone: "+27 11 933 0000",
+    rating: 4.4,
+  },
+  {
+    uid: "80100002",
+    name: "Charlotte Maxeke Johannesburg Academic Hospital",
+    facilityType: FacilityType.tertiary_hospital,
+    location: "Parktown, Johannesburg",
+    province: "Gauteng",
+    provinceCode: "GP",
+    lat: -26.1715,
+    lng: 28.0419,
+    phone: "+27 11 488 0000",
+    rating: 4.2,
+  },
+  {
+    uid: "80100003",
+    name: "Rosebank Clinic",
+    facilityType: FacilityType.primary_health_care,
+    location: "Rosebank, Johannesburg",
+    province: "Gauteng",
+    provinceCode: "GP",
+    lat: -26.1436,
+    lng: 28.0396,
+    phone: "+27 11 447 0000",
+    rating: 4.6,
+  },
+  {
+    uid: "80100004",
+    name: "Clicks Pharmacy Rosebank",
+    facilityType: FacilityType.pharmacy,
+    location: "Rosebank, Johannesburg",
+    province: "Gauteng",
+    provinceCode: "GP",
+    lat: -26.1438,
+    lng: 28.0401,
+    phone: "+27 11 447 1234",
+    rating: 4.6,
+  },
+  {
+    uid: "80100005",
+    name: "Dis-Chem Pharmacy Sandton",
+    facilityType: FacilityType.pharmacy,
+    location: "Sandton, Johannesburg",
+    province: "Gauteng",
+    provinceCode: "GP",
+    lat: -26.1076,
+    lng: 28.0567,
+    phone: "+27 11 217 0000",
+    rating: 4.8,
+  },
+  {
+    uid: "31000001",
+    name: "Groote Schuur Hospital",
+    facilityType: FacilityType.tertiary_hospital,
+    location: "Observatory, Cape Town",
+    province: "Western Cape",
+    provinceCode: "WC",
+    lat: -33.9407,
+    lng: 18.4612,
+    phone: "+27 21 404 9111",
+    rating: 4.3,
+  },
+];
+
+for (const f of facilities) {
+  await prisma.facility.upsert({
+    where: { uid: f.uid },
+    update: f,
+    create: f,
+  });
+}
+
+console.log("Seeded 6 facilities (MHFL)");
+
 // ─── Summary ─────────────────────────────────────────────
 console.log("\n✅ Seed complete:");
 console.log("   15 users (5 auth test accounts + 10 additional)");
@@ -602,6 +688,7 @@ console.log("   3 pharmacist profiles");
 console.log("   6 medicines, 18 price records");
 console.log("   7 appointments, 3 prescriptions");
 console.log("   4 health records, 4 orders");
+console.log("   6 facilities (MHFL)");
 console.log("\n📋 Auth test accounts (all password: 12345678):");
 console.log("   admin@gmail.com      — Admin");
 console.log("   adminpatient@gmail.com — Patient");

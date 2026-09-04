@@ -40,6 +40,16 @@ enum OrderStatus {
   cancelled
 }
 
+enum FacilityType {
+  central_hospital
+  tertiary_hospital
+  regional_hospital
+  district_hospital
+  community_health_centre
+  primary_health_care
+  pharmacy
+}
+
 // ─── Core ─────────────────────────────────────────────────
 
 model User {
@@ -53,11 +63,11 @@ model User {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  doctorProfile   DoctorProfile?
-  patientProfile  PatientProfile?
-  hospitalAdmin   HospitalAdmin?
-  staffMember     StaffMember?
-  pharmacist      Pharmacist?
+  doctorProfile  DoctorProfile?
+  patientProfile PatientProfile?
+  hospitalAdmin  HospitalAdmin?
+  staffMember    StaffMember?
+  pharmacist     Pharmacist?
 
   // Relations as patient
   patientAppointments  Appointment[]  @relation("PatientAppointments")
@@ -89,12 +99,12 @@ model DoctorProfile {
 // ─── Patient ──────────────────────────────────────────────
 
 model PatientProfile {
-  id              String  @id @default(cuid())
-  userId          String  @unique
-  dateOfBirth     DateTime?
-  gender          String?
-  idNumber        String? @unique
-  medicalAid      String?
+  id               String    @id @default(cuid())
+  userId           String    @unique
+  dateOfBirth      DateTime?
+  gender           String?
+  idNumber         String?   @unique
+  medicalAid       String?
   emergencyContact String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -116,10 +126,10 @@ model Hospital {
   verified  Boolean  @default(false)
   createdAt DateTime @default(now())
 
-  admins     HospitalAdmin[]
-  wards      Ward[]
-  staff      StaffMember[]
-  equipment  Equipment[]
+  admins       HospitalAdmin[]
+  wards        Ward[]
+  staff        StaffMember[]
+  equipment    Equipment[]
   appointments Appointment[]
 }
 
@@ -134,7 +144,7 @@ model HospitalAdmin {
 }
 
 model Ward {
-  id         String @id @default(cuid())
+  id         String  @id @default(cuid())
   hospitalId String
   name       String
   capacity   Int?
@@ -169,41 +179,60 @@ model Equipment {
   hospital Hospital @relation(fields: [hospitalId], references: [id], onDelete: Cascade)
 }
 
+// ─── Facility (NHSSA public lookup) ───────────────────────
+
+model Facility {
+  id           String       @id @default(cuid())
+  uid          String       @unique // 8-digit MHFL code
+  name         String
+  facilityType FacilityType
+  location     String
+  province     String
+  provinceCode String
+  lat          Float?
+  lng          Float?
+  phone        String?
+  rating       Float?
+  tags         Json?
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+}
+
 // ─── Pharmacy ─────────────────────────────────────────────
 
 model Pharmacist {
-  id           String  @id @default(cuid())
-  userId       String  @unique
-  licenseNumber String @unique
-  pharmacyName String?
-  address      String?
-  phone        String?
+  id            String  @id @default(cuid())
+  userId        String  @unique
+  licenseNumber String  @unique
+  pharmacyName  String?
+  address       String?
+  phone         String?
 
-  user   User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user   User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   prices MedicinePrice[]
   orders Order[]
 }
 
 model Medicine {
-  id                    String @id @default(cuid())
-  name                  String
-  generic               String?
-  form                  String?
-  strength              String?
-  pack                  String?
-  schedule              String?
+  id                   String  @id @default(cuid())
+  name                 String
+  generic              String?
+  form                 String?
+  strength             String?
+  pack                 String?
+  schedule             String?
   requiresPrescription Boolean @default(false)
-  category              String?
+  category             String?
 
   prices MedicinePrice[]
 }
 
 model MedicinePrice {
-  id             String  @id @default(cuid())
-  medicineId     String
-  pharmacistId   String
-  price          Decimal @db.Decimal(10, 2)
-  inStock        Boolean @default(true)
+  id                String  @id @default(cuid())
+  medicineId        String
+  pharmacistId      String
+  price             Decimal @db.Decimal(10, 2)
+  inStock           Boolean @default(true)
   deliveryAvailable Boolean @default(false)
 
   medicine   Medicine   @relation(fields: [medicineId], references: [id], onDelete: Cascade)
@@ -215,14 +244,14 @@ model MedicinePrice {
 // ─── Appointments ─────────────────────────────────────────
 
 model Appointment {
-  id          String            @id @default(cuid())
-  patientId   String
-  doctorId    String
-  hospitalId  String?
-  datetime    DateTime
-  status      AppointmentStatus @default(scheduled)
-  notes       String?
-  type        String?
+  id         String            @id @default(cuid())
+  patientId  String
+  doctorId   String
+  hospitalId String?
+  datetime   DateTime
+  status     AppointmentStatus @default(scheduled)
+  notes      String?
+  type       String?
 
   patient      User          @relation("PatientAppointments", fields: [patientId], references: [id], onDelete: Cascade)
   doctor       User          @relation("DoctorAppointments", fields: [doctorId], references: [id], onDelete: Cascade)
@@ -263,8 +292,8 @@ model HealthRecord {
   attachments Json?
   createdAt   DateTime @default(now())
 
-  patient User?  @relation("PatientHealthRecords", fields: [patientId], references: [id], onDelete: Cascade)
-  doctor  User?  @relation("DoctorHealthRecords", fields: [doctorId], references: [id], onDelete: SetNull)
+  patient User? @relation("PatientHealthRecords", fields: [patientId], references: [id], onDelete: Cascade)
+  doctor  User? @relation("DoctorHealthRecords", fields: [doctorId], references: [id], onDelete: SetNull)
 
   @@index([patientId])
 }

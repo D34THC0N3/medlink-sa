@@ -25,7 +25,8 @@ import {
 import SiteNavbar from "@/components/layout/site-navbar";
 import SiteFooter from "@/components/layout/site-footer";
 import { useAuth } from "@/lib/auth-context";
-import { FACILITIES, CURRENT_TICKET, QUEUE_STATE } from "@/lib/data";
+import { CURRENT_TICKET, QUEUE_STATE, type Facility } from "@/lib/data";
+import { getFacilities } from "@/lib/actions/facility";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -49,6 +50,11 @@ function ServiceContent() {
     "confirm"
   );
   const [eta, setEta] = useState(8);
+  const [allFacilities, setAllFacilities] = useState<Facility[]>([]);
+
+  useEffect(() => {
+    getFacilities().then(setAllFacilities);
+  }, []);
 
   // live now-serving counter
   useEffect(() => {
@@ -62,7 +68,7 @@ function ServiceContent() {
     return () => clearInterval(id);
   }, [view, ticket]);
 
-  const facilities = FACILITIES.filter(
+  const facilities = allFacilities.filter(
     (f) => f.category === "hospital" || f.category === "clinic"
   );
 
@@ -564,7 +570,7 @@ function ServiceContent() {
               Facilities near you
             </h3>
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {FACILITIES.slice(0, 6).map((f) => (
+              {allFacilities.slice(0, 6).map((f) => (
                 <div key={f.id} className="rounded-xl border border-border bg-card p-4">
                   <div className="flex items-start justify-between">
                     <span
