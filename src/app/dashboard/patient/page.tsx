@@ -9,8 +9,7 @@ import { Toaster as SonnerToaster } from "sonner";
 import DashboardLayout from "@/components/layout/dashboard-layout";
 import { useAuth } from "@/lib/auth-context";
 
-import { OverviewView } from "./_components/overview-view";
-
+const OverviewView = dynamic(() => import("./_components/overview-view").then(m => m.OverviewView), { ssr: false });
 const AppointmentsView = dynamic(() => import("./_components/appointments-view").then(m => m.AppointmentsView), { ssr: false });
 const MedicineView = dynamic(() => import("./_components/medicine-view").then(m => m.MedicineView), { ssr: false });
 const MessagesView = dynamic(() => import("./_components/messages-view").then(m => m.MessagesView), { ssr: false });
